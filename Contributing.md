@@ -26,4 +26,8 @@ remote: https://github.com/zeyad-kay/school-system/pull/branchName/branchName
         ...
         ...
 ```
+4. After your changes had been successfully merged into the master branch, your branch will be deleted at the origin but not locally, so make sure you clean up your local.
+```sh
+> git branch -D branchName
+```
 Useful commit messages that describe what you have been working on are greatly appreciated, [here](https://www.conventionalcommits.org/en/v1.0.0/#summary) is a really great guide for writting a helpful commit message.
