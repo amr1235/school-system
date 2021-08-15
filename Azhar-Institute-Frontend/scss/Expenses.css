@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  scroll-behavior: smooth;
+}
+
+.sidebar-nav {
+  width: 280px !important;
+  background-color: #161925;
+}
+
+.navbar {
+  background-color: #161925 !important;
+}
+
+.navbar .navbar-brand {
+  color: #fcf7f8;
+}
+
+.navbar .navbar-brand:hover {
+  color: #f1d302;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+  -webkit-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+  -moz-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+  -ms-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+  -o-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s;
+}
+
+.accordion-body {
+  color: #4e8098;
+  font-weight: 600;
+}
+
+.nav-link {
+  color: #fcf7f8;
+}
+
+.nav-link:hover {
+  color: #f1d302;
+}
+
+main h1 {
+  color: #a31621;
+}
+
+a:hover {
+  color: #a31621;
+}
+
+@media screen and (min-width: 992px) {
+  body {
+    overflow: auto !important;
+  }
+  main {
+    margin-left: 280px;
+  }
+  .sidebar-nav {
+    overflow: auto;
+    transform: none;
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    visibility: visible !important;
+    position: fixed;
+    top: 56px;
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+a:hover {
+  color: #a31621;
+}
+
+.exp-label {
+  border: #4e8098 3px solid;
+  border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+}
+/*# sourceMappingURL=Expenses.css.map */

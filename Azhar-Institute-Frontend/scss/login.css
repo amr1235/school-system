@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: #161925;
+}
+
+body .brand {
+  color: #fcf7f8;
+}
+
+body .login {
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
+  background-color: #fcf7f8;
+}
+
+label, option {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.form-control:focus {
+  border: #a31621 3px solid;
+}
+/*# sourceMappingURL=login.css.map */

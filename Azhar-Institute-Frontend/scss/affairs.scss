@@ -1,0 +1,71 @@
+$yellow: #f1d302;
+$ruby_red: #a31621;
+$snow: #fcf7f8;
+$teal_blue: #4e8098;
+$rich_black: #161925;
+$sansserif: sans-serif;
+$topNavbarHeight: 56px;
+$offcanvasWidth:280px;
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    scroll-behavior: smooth;
+}
+
+.sidebar-nav{
+    width: $offcanvasWidth !important;
+    background-color: $rich_black;
+}
+.navbar{
+    background-color: $rich_black !important;
+    .navbar-brand{
+        color: $snow;
+        &:hover{
+            color: $yellow;
+            transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s ;
+            -webkit-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s ;
+            -moz-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s ;
+            -ms-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s ;
+            -o-transition: cubic-bezier(0.075, 0.82, 0.165, 1) 3s ;
+        }
+    }
+}
+.accordion-body{
+    color: $teal_blue;
+    font-weight: 600;
+}
+.nav-link{
+    color: $snow;
+    &:hover{
+        color: $yellow;
+    }
+}
+main{
+    h1{
+        color: $ruby_red;
+    }
+}
+a:hover{
+    color: $ruby_red;
+}
+@media screen and (min-width:992px) {
+    body{
+        overflow: auto !important;
+    }
+    main{
+        margin-left: $offcanvasWidth;
+    }
+    .sidebar-nav{
+        overflow: auto;
+        transform: none;
+        -webkit-transform: none;
+        -moz-transform: none;
+        -ms-transform: none;
+        -o-transform: none;
+        visibility: visible !important;
+        position: fixed;
+        top: $topNavbarHeight;
+        
+    }
+}
