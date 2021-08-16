@@ -1,0 +1,15 @@
+@import './affairs.scss';
+$yellow: #f1d302;
+$ruby_red: #a31621;
+$snow: #fcf7f8;
+$teal_blue: #4e8098;
+$rich_black: #161925;
+$sansserif: sans-serif;
+*{
+    margin: 0;
+    padding: 0;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+a:hover{
+    color: $ruby_red;
+}
