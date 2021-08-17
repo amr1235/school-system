@@ -1,20 +1,23 @@
-const { app, BrowserWindow } = require("electron");
+const { app, BrowserWindow, ipcMain } = require("electron");
 const path = require("path");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
   app.quit();
 }
-
+let mainWindow;
 const createWindow = () => {
   // Create the browser window.
-  const mainWindow = new BrowserWindow({
+  mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, "views/js/preload.js")
+    }
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  mainWindow.loadFile(path.join(__dirname, "views/login.html"));
 
   // Open the DevTools.
   mainWindow.webContents.openDevTools();
@@ -44,3 +47,19 @@ app.on("activate", () => {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+
+ipcMain.on("login", function(event, args) {
+  console.log(args);
+  switch (args[0]) {
+  case "1":
+    if (args[1] === "1234"){
+      mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+    }
+    break;
+  case "2":
+    if (args[1] === "2468"){
+      mainWindow.loadFile(path.join(__dirname, "views/student-affairs.html"));
+    } else 
+      break;  
+  }
+});

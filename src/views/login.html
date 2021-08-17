@@ -1,0 +1,81 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./scss/login.css" />
+    <title dir="rtl">تسجيل الدخول</title>
+  </head>
+  <body>
+    <main class="container-fluid">
+      <section class="row brand text-center py-5">
+        <div class="col-12">
+          <h1 class="name-en">Al Waffa Al Azhary Private Institutes</h1>
+          <h1 class="name-ar">معهد الوفاء الازهري الخاص</h1>
+        </div>
+      </section>
+      <section class="login" dir="rtl">
+        <div class="row p-5 justify-content-center">
+          <label
+            for="choose"
+            class="col-12 w-auto mx-5 mb-0 pt-2 col-md-6 mb-4"
+          >
+            اختر القسم:</label
+          >
+          <select
+            id="dep"
+            class="
+              form-select
+              text-center
+              w-auto
+              h-auto
+              col-12 col-md-6
+              border-4
+              rounded-pill
+              border-warning
+              mx-2
+            "
+            aria-label="Default select example"
+          >
+            <option value="1">التحصيل</option>
+            <option value="2">شؤون الطلاب</option>
+            <option value="3">القسم التالت</option>
+          </select>
+        </div>
+        <div class="row p-5 justify-content-center">
+          <label for="password" class="col-12 col-md-6 w-auto mx-5 pt-2 mb-4"
+            >رمز المرور:</label
+          >
+          <input
+            id="password"
+            type="password"
+            class="
+              form-control
+              col-12 col-md-6
+              w-auto
+              border-4
+              rounded-pill
+              border-danger
+            "
+          />
+        </div>
+        <div class="row justify-content-center py-5">
+          <button
+            id="login"
+            type="submit"
+            class="btn btn-danger rounded-pill w-auto p-3"
+          >
+            تسجيل الدخول
+          </button>
+        </div>
+      </section>
+    </main>
+    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./js/login.js"></script>
+  </body>
+</html>
