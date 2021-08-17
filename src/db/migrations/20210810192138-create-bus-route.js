@@ -1,8 +1,6 @@
-'use strict';
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('BusRoute', {
+    await queryInterface.createTable("BusRoute", {
       BusRouteId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
@@ -19,8 +17,8 @@ module.exports = {
       }
     });
   },
-
+  // eslint-disable-next-line no-unused-vars
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('BusRoute');
+    await queryInterface.dropTable("BusRoute");
   }
 };

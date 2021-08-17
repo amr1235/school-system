@@ -1,0 +1,18 @@
+[
+  {
+    "StudentNationalId":"12121212121212",
+    "DiscountId":4
+  },
+  {
+    "StudentNationalId":"21212121212121",
+    "DiscountId":1
+  },
+  {
+    "StudentNationalId":"08462745362894",
+    "DiscountId":1
+  },
+  {
+    "StudentNationalId":"90361807547380",
+    "DiscountId":3
+  }
+]

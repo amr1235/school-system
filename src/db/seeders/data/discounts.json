@@ -1,0 +1,18 @@
+[
+  {
+    "DiscountName": "Employee",
+    "DiscountCost": 500
+  },
+  {
+    "DiscountName": "Hafez Quran",
+    "DiscountCost": 600
+  },
+  {
+    "DiscountName": "ORPHAN",
+    "DiscountCost": 600
+  },
+  {
+    "DiscountName": "DECEASED PARENT",
+    "DiscountCost": 600
+  }
+]

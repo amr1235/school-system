@@ -1,41 +1,52 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class BusRoute extends Model {
+  class StudentWarning extends Model {
     /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
     static associate(models) {
-      BusRoute.hasMany(models["Student"], {
-        foreignKey: "BusRouteId"
+      StudentWarning.belongsTo(models["Student"], {
+        foreignKey: "StudentNationalId"
       });
     }
   }
-  BusRoute.init({
-    BusRouteId: {
+  StudentWarning.init({
+    StudentWarningId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    BusRouteName: {
+    StudentNationalId: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
       validate: {
-        isAlphanumeric: true
+        isNumeric: true,
+        len: [14, 14]
       }
     },
-    BusRouteCost: {
-      type: DataTypes.FLOAT,
+    WarningDate: {
+      type: DataTypes.DATEONLY,
+      allowNull: false
+    },
+    IsRecieved: {
+      type: DataTypes.BOOLEAN,
       allowNull: false,
+      defaultValue: false
     }
   }, {
     sequelize,
     updatedAt: false,
     createdAt: false,
-    modelName: "BusRoute",
+    modelName: "StudentWarning",
     freezeTableName: true,
+    indexes: [
+      {
+        unique: true,
+        fields: ["StudentNationalId", "WarningDate"]
+      }
+    ]
   });
-  return BusRoute;
+  return StudentWarning;
 };

@@ -1,38 +1,38 @@
-const { Model } = require('sequelize');
+const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-    class Job extends Model {
-        /**
+  class Job extends Model {
+    /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
-        static associate(models) {
-            // define association here
-            Job.hasMany(models["Father"],{
-                foreignKey: "FatherJobId"
-            })
-            Job.hasMany(models["Mother"],{
-                foreignKey: "MotherJobId"
-            })
-        }
-    };
-    Job.init({
-        JobId: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        JobName: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
-        }
-    }, {
-        sequelize,
-        updatedAt: false,
-        createdAt: false,
-        modelName: 'Job',
-        freezeTableName: true,
-    });
-    return Job
+    static associate(models) {
+      // define association here
+      Job.hasMany(models["FatherJob"],{
+        foreignKey: "FatherJobId"
+      });
+      Job.hasMany(models["MotherJob"],{
+        foreignKey: "MotherJobId"
+      });
+    }
+  }
+  Job.init({
+    JobId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
+    },
+    JobName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    }
+  }, {
+    sequelize,
+    updatedAt: false,
+    createdAt: false,
+    modelName: "Job",
+    freezeTableName: true,
+  });
+  return Job;
 };

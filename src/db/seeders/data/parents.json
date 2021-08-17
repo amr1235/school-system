@@ -1,0 +1,81 @@
+[
+
+  {
+    "ParentNationalId": "11111111111111",
+    "ParentName": "Ahmed",
+    "ParentAddress": "Address 1",
+    "ParentAcademicDegree": "BACHELOR"
+  },
+  {
+    "ParentNationalId": "22222222222222",
+    "ParentName": "Sahar",
+    "ParentAddress": "Address 2",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "33333333333333",
+    "ParentName": "Amr",
+    "ParentAddress": "Address 3",
+    "ParentAcademicDegree": "SECONDARY"
+  },
+  {
+    "ParentNationalId": "44444444444444",
+    "ParentName": "Omar",
+    "ParentAddress": "Address 4",
+    "ParentAcademicDegree": "PHD"
+  },
+  {
+    "ParentNationalId": "55555555555555",
+    "ParentName": "Ramadan",
+    "ParentAddress": "Address 5",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "66666666666666",
+    "ParentName": "Zee",
+    "ParentAddress": "Address 6",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "77777777777777",
+    "ParentName": "Mona",
+    "ParentAddress": "Address 7",
+    "ParentAcademicDegree": "BACHELOR"
+  },
+  {
+    "ParentNationalId": "88888888888888",
+    "ParentName": "Maha",
+    "ParentAddress": "Address 8",
+    "ParentAcademicDegree": "PHD"
+  },
+  {
+    "ParentNationalId": "99999999999999",
+    "ParentName": "Rania",
+    "ParentAddress": "Address 9",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "00980034303544",
+    "ParentName": "Sally",
+    "ParentAddress": "Address 9",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "12980034303544",
+    "ParentName": "Samy",
+    "ParentAddress": "Address 9",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "98402749174839",
+    "ParentName": "Raouf",
+    "ParentAddress": "Address 9",
+    "ParentAcademicDegree": "MASTERS"
+  },
+  {
+    "ParentNationalId": "00980034300034",
+    "ParentName": "Mohammed",
+    "ParentAddress": "Address 9",
+    "ParentAcademicDegree": "MASTERS"
+  }
+]

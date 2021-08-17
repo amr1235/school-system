@@ -1,0 +1,66 @@
+[
+  {
+    "StageName": "NURSERY",
+    "GradeNumber": 1
+  },
+  {
+    "StageName": "KG",
+    "GradeNumber": 1
+  },
+  {
+    "StageName": "KG",
+    "GradeNumber": 2
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 1
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 2
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 3
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 4
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 4
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 5
+  },
+  {
+    "StageName": "PRIMARY",
+    "GradeNumber": 6
+  },
+  {
+    "StageName": "PREP",
+    "GradeNumber": 1
+  },
+  {
+    "StageName": "PREP",
+    "GradeNumber": 1
+  },
+  {
+    "StageName": "PREP",
+    "GradeNumber": 2
+  },
+  {
+    "StageName": "PREP",
+    "GradeNumber": 2
+  },
+  {
+    "StageName": "PREP",
+    "GradeNumber": 3
+  },
+  {
+    "StageName": "SECONDARY",
+    "GradeNumber": 1
+  }
+]

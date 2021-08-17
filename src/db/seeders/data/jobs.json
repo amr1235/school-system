@@ -1,0 +1,29 @@
+[
+  {
+    "JobName": "Doctor"
+  },
+  {
+    "JobName": "Dentist"
+  },
+  {
+    "JobName": "Teacher"
+  },
+  {
+    "JobName": "Engineer"
+  },
+  {
+    "JobName": "Lawyer"
+  },
+  {
+    "JobName": "Manager"
+  },
+  {
+    "JobName": "Policeman"
+  },
+  {
+    "JobName": "Worker"
+  },
+  {
+    "JobName": "Employee"
+  }
+]

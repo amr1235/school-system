@@ -1,16 +1,11 @@
 module.exports = {
+  // eslint-disable-next-line no-unused-vars
   up: async (queryInterface, Sequelize) => {
-    let records = [];
-    for (let i = 1; i < 30; i++) {
-      records.push({
-        JobId: i,
-        JobName: `Job ${i}`,
-      })
-    }
-    await queryInterface.bulkInsert('Job', records, {});
+    let records = require("./data/jobs.json");
+    await queryInterface.bulkInsert("Job", records, {});
   },
-
+  // eslint-disable-next-line no-unused-vars
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.bulkDelete('Job', null, {});
+    await queryInterface.bulkDelete("Job", null, {});
   }
 };

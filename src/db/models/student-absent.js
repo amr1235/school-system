@@ -1,6 +1,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Class extends Model {
+  class StudentAbsent extends Model {
     /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -8,41 +8,48 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       // define association here
-      Class.hasOne(models["Student"], {
-        foreignKey: "StudentClassId"
+      StudentAbsent.belongsTo(models["Student"], {
+        foreignKey: "StudentNationalId"
+      });
+      StudentAbsent.belongsTo(models["AbsentReason"], {
+        foreignKey: "AbsentReasonId"
       });
     }
   }
-  Class.init({
-    ClassId: {
+  StudentAbsent.init({
+    StudentAbsentId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    GradeNumber: {
-      type: DataTypes.INTEGER,
+    StudentNationalId: {
+      type: DataTypes.STRING,
+      allowNull: false,
       validate: {
-        min: 1,
-        max: 6
-      },
+        isNumeric: true,
+        len: [14, 14]
+      }
+    },
+    AbsentReasonId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    StageName: {
-      type: DataTypes.ENUM,
-      values: ["NURSERY","KG","PRIMARY","PREP","SECONDARY"],
+    AbsentDate: {
+      type: DataTypes.DATEONLY,
       allowNull: false
     }
   }, {
     sequelize,
     updatedAt: false,
     createdAt: false,
-    modelName: "Class",
+    modelName: "Absent",
     freezeTableName: true,
     indexes: [
       {
-        fields: ["StageName","GradeNumber"]
+        unique: true,
+        fields: ["StudentNationalId","Date"]
       }
     ]
   });
-  return Class;
+  return StudentAbsent;
 };

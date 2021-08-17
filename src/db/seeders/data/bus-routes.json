@@ -1,0 +1,18 @@
+[
+  {
+    "BusRouteName": "Helwan-Maadi",
+    "BusRouteCost": 1000
+  },
+  {
+    "BusRouteName": "Helwan-Mokattam",
+    "BusRouteCost": 1500
+  },
+  {
+    "BusRouteName": "Helwan-Giza",
+    "BusRouteCost": 3000
+  },
+  {
+    "BusRouteName": "Helwan-Salam",
+    "BusRouteCost": 500
+  }
+]

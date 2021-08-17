@@ -1,0 +1,14 @@
+[
+  {
+    "DepartmentName": "Affairs",
+    "DepartmentPassword": "password123"
+  },
+  {
+    "DepartmentName": "Finance",
+    "DepartmentPassword": "password456"
+  },
+  {
+    "DepartmentName": "Control",
+    "DepartmentPassword": "password789"
+  }
+]

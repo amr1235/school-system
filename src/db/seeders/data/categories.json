@@ -1,0 +1,26 @@
+[
+  {
+    "CategoryName": "Presents",
+    "CategoryCost": 1000
+  },
+  {
+    "CategoryName": "Insurance",
+    "CategoryCost": 1500
+  },
+  {
+    "CategoryName": "Books",
+    "CategoryCost": 3000
+  },
+  {
+    "CategoryName": "Primary 1",
+    "CategoryCost": 500
+  },
+  {
+    "CategoryName": "Primary 2",
+    "CategoryCost": 500
+  },
+  {
+    "CategoryName": "KG 2",
+    "CategoryCost": 500
+  }
+]

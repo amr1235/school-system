@@ -1,6 +1,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Class extends Model {
+  class ParentJob extends Model {
     /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
@@ -8,41 +8,45 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       // define association here
-      Class.hasOne(models["Student"], {
-        foreignKey: "StudentClassId"
+      ParentJob.belongsTo(models["Parent"], {
+        foreignKey: "ParentNationalId"
+      });
+      ParentJob.belongsTo(models["Job"], {
+        foreignKey: "ParentJobId",
       });
     }
   }
-  Class.init({
-    ClassId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    GradeNumber: {
-      type: DataTypes.INTEGER,
+  ParentJob.init({
+    ParentNationalId: {
+      type: DataTypes.STRING,
       validate: {
-        min: 1,
-        max: 6
-      },
+        isNumeric: true,
+        len:[14,14]
+      }
+    },
+    ParentJobId: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    StageName: {
-      type: DataTypes.ENUM,
-      values: ["NURSERY","KG","PRIMARY","PREP","SECONDARY"],
+    ParentJobAddress: {
+      type: DataTypes.STRING,
       allowNull: false
-    }
+    },
   }, {
     sequelize,
     updatedAt: false,
     createdAt: false,
-    modelName: "Class",
+    modelName: "ParentJob",
     freezeTableName: true,
     indexes: [
       {
-        fields: ["StageName","GradeNumber"]
+        unique: true,
+        fields: ["ParentNationalId","ParentJobId"]
+      },
+      {
+        fields: ["ParentJobId"]
       }
     ]
   });
-  return Class;
+  return ParentJob;
 };
