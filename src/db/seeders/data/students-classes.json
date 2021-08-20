@@ -1,0 +1,30 @@
+[
+    {
+        "StudentNationalId": "12121212121212",
+        "ClassId": 2
+    },
+    {
+        "StudentNationalId": "21212121212121",
+        "ClassId": 3
+    },
+    {
+        "StudentNationalId": "12312312312312",
+        "ClassId": 1
+    },
+    {
+        "StudentNationalId": "90879264518369",
+        "ClassId": 1
+    },
+    {
+        "StudentNationalId": "56781946372892",
+        "ClassId": 8
+    },
+    {
+        "StudentNationalId": "90361807547380",
+        "ClassId": 7
+    },
+    {
+        "StudentNationalId": "08462745362894",
+        "ClassId": 1
+    }
+]

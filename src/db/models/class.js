@@ -8,8 +8,8 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       // define association here
-      Class.hasOne(models["Student"], {
-        foreignKey: "StudentClassId"
+      Class.hasMany(models["StudentClass"], {
+        foreignKey: "ClassId"
       });
     }
   }

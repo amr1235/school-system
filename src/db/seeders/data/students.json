@@ -14,9 +14,6 @@
         "StudentFatherNationalId":"11111111111111",
         "StudentResponsibleRelation":"FATHER",
         "StudentFamilyStatus":"DEAD MOTHER",
-        "StudentClassId":2,
-        "StudentBusRouteId":1,
-        "IsFullBusRoute":true,
         "IsRegistered":true
     },
     {
@@ -34,9 +31,6 @@
         "StudentMotherNationalId":"22222222222222",
         "StudentResponsibleRelation":"MOTHER",
         "StudentFamilyStatus":"DEAD FATHER",
-        "StudentClassId":3,
-        "StudentBusRouteId":1,
-        "IsFullBusRoute":true,
         "IsRegistered":true
     },
     {
@@ -55,9 +49,6 @@
         "StudentMotherNationalId":"77777777777777",
         "StudentResponsibleRelation":"FATHER",
         "StudentFamilyStatus":"DIVORCED",
-        "StudentClassId":1,
-        "StudentBusRouteId":4,
-        "IsFullBusRoute":false,
         "IsRegistered":true
     },
     {
@@ -76,9 +67,6 @@
         "StudentMotherNationalId":"88888888888888",
         "StudentResponsibleRelation":"FATHER",
         "StudentFamilyStatus":"MARRIED",
-        "StudentClassId":1,
-        "StudentBusRouteId":4,
-        "IsFullBusRoute":false,
         "IsRegistered":true
     },
     {
@@ -96,9 +84,6 @@
         "StudentMotherNationalId":"00980034303544",
         "StudentFamilyStatus":"DEAD FATHER",
         "StudentResponsibleRelation":"MOTHER",
-        "StudentClassId":8,
-        "StudentBusRouteId":1,
-        "IsFullBusRoute":false,
         "IsRegistered":true
     },
     {
@@ -115,9 +100,6 @@
         "StudentResponsibleNationalId":"00980034300034",
         "StudentResponsibleRelation":"BROTHER",
         "StudentFamilyStatus":"ORPHAN",
-        "StudentClassId":7,
-        "StudentBusRouteId":3,
-        "IsFullBusRoute":false,
         "IsRegistered":true
     },
     {
@@ -134,7 +116,6 @@
         "StudentResponsibleNationalId":"98402749174839",
         "StudentResponsibleRelation":"UNCLE",
         "StudentFamilyStatus":"ORPHAN",
-        "StudentClassId":1,
         "IsRegistered":false
     }
 ]

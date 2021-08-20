@@ -110,14 +110,6 @@ module.exports = {
           allowNull: false,
           values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
         },
-        StudentClassId: {
-          type: Sequelize.INTEGER,
-          references: {
-            model: "Class",
-            key: "ClassId"
-          },
-          allowNull: false
-        },
         StudentBusRouteId: Sequelize.INTEGER,
         IsFullBusRoute: Sequelize.BOOLEAN,
         IsRegistered: {
@@ -126,10 +118,8 @@ module.exports = {
           defaultValue: true
         },
       }, { transaction: t });
-      await queryInterface.addIndex("Student", ["StudentNationalId", "IsRegistered"], { transaction: t });
-      await queryInterface.addIndex("Student", ["StudentName", "IsRegistered"], { transaction: t });
-      await queryInterface.addIndex("Student", ["StudentClassId"], { transaction: t });
-      await queryInterface.addIndex("Student", ["StudentBusRouteId","StudentNationalId"], { transaction: t });
+      await queryInterface.addIndex("Student", ["IsRegistered","StudentNationalId"], { transaction: t });
+      await queryInterface.addIndex("Student", ["IsRegistered","StudentName"], { transaction: t });
     });
   },
   // eslint-disable-next-line no-unused-vars

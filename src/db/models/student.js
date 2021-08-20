@@ -14,17 +14,17 @@ module.exports = (sequelize, DataTypes) => {
       Student.belongsTo(models["Parent"], {
         foreignKey: "StudentFatherNationalId"
       });
-      Student.belongsTo(models["BusRoute"], {
-        foreignKey: "StudentBusRouteId"
-      });
-      Student.belongsTo(models["Class"], {
-        foreignKey: "StudentClassId"
-      });
       Student.belongsTo(models["Governorate"], {
         foreignKey: "StudentBirthGovernorateId"
       });
       Student.belongsTo(models["District"], {
         foreignKey: "StudentBirthDistrictId"
+      });
+      Student.hasOne(models["StudentBusRoute"], {
+        foreignKey: "StudentNationalId"
+      });
+      Student.hasOne(models["StudentClass"], {
+        foreignKey: "StudentNationalId"
       });
       Student.hasMany(models["StudentAbsent"], {
         foreignKey: "StudentNationalId"
@@ -126,10 +126,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
     },
-    StudentClassId: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
     StudentBusRouteId: DataTypes.INTEGER,
     IsFullBusRoute: DataTypes.BOOLEAN,
     IsRegistered: {
@@ -168,9 +164,6 @@ module.exports = (sequelize, DataTypes) => {
       },
       {
         fields: ["StudentBusRouteId", "StudentNationalId"]
-      },
-      {
-        fields: ["StudentClassId"]
       }
     ]
   });
