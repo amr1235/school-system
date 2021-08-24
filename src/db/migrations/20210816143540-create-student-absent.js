@@ -17,7 +17,11 @@ module.exports = {
         },
         AbsentReasonId: {
           type: Sequelize.INTEGER,
-          allowNull: false
+          allowNull: false,
+          references: {
+            model: "AbsentReason",
+            key: "AbsentReasonId"
+          }
         },
         AbsentDate: {
           type: Sequelize.DATEONLY,

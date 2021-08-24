@@ -8,11 +8,8 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       // define association here
-      Job.hasMany(models["FatherJob"],{
-        foreignKey: "FatherJobId"
-      });
-      Job.hasMany(models["MotherJob"],{
-        foreignKey: "MotherJobId"
+      Job.hasMany(models["ParentJob"],{
+        foreignKey: "ParentJobId"
       });
     }
   }

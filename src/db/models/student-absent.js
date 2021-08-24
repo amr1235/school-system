@@ -42,7 +42,7 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     updatedAt: false,
     createdAt: false,
-    modelName: "Absent",
+    modelName: "StudentAbsent",
     freezeTableName: true,
     indexes: [
       {
