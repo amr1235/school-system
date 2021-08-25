@@ -85,6 +85,9 @@ module.exports = {
           allowNull: false,
           values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
         },
+        StudentHealth: {
+          type: Sequelize.STRING
+        }
       }, { transaction: t });
       await queryInterface.addIndex("Student", ["StudentName"], { transaction: t });
       await queryInterface.addIndex("Student", ["StudentNationalityId", "StudentPassportId"], {

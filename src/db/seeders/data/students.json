@@ -13,7 +13,8 @@
         "StudentResponsibleId":1,
         "StudentFatherId":1,
         "StudentResponsibleRelation":"FATHER",
-        "StudentFamilyStatus":"DEAD MOTHER"
+        "StudentFamilyStatus":"DEAD MOTHER",
+        "StudentHealth": "Diabetes"
     },
     {
         "StudentNationalId":"21212121212121",
@@ -29,7 +30,8 @@
         "StudentResponsibleId":2,
         "StudentMotherId":2,
         "StudentResponsibleRelation":"MOTHER",
-        "StudentFamilyStatus":"DEAD FATHER"
+        "StudentFamilyStatus":"DEAD FATHER",
+        "StudentHealth": "Blood Pressure"
     },
     {
         "StudentPassportId":"JIO1233POI12",

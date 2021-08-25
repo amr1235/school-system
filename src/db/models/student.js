@@ -121,6 +121,9 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
     },
+    StudentHealth: {
+      type: DataTypes.STRING
+    }
   }, {
     sequelize,
     updatedAt: false,
