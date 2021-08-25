@@ -1,56 +1,56 @@
 [
   {
-    "StudentNationalId":"12121212121212",
+    "StudentId":1,
     "AbsentReasonId":1,
     "AbsentDate":"3-4-2010"
   },
   {
-    "StudentNationalId":"21212121212121",
+    "StudentId":2,
     "AbsentReasonId":2,
     "AbsentDate":"11-1-2011"
   },
   {
-    "StudentNationalId":"12121212121212",
+    "StudentId":1,
     "AbsentReasonId":2,
     "AbsentDate":"1-12-2011"
   },
   {
-    "StudentNationalId":"12121212121212",
+    "StudentId":1,
     "AbsentReasonId":2,
     "AbsentDate":"1-12-2010"
   },
   {
-    "StudentNationalId":"12121212121212",
+    "StudentId":1,
     "AbsentReasonId":2,
     "AbsentDate":"1-2-2011"
   },
   {
-    "StudentNationalId":"12121212121212",
+    "StudentId":1,
     "AbsentReasonId":2,
     "AbsentDate":"4-2-2011"
   },
   {
-    "StudentNationalId":"12121212121212",
+    "StudentId":1,
     "AbsentReasonId":2,
     "AbsentDate":"12-2-2011"
   },
   {
-    "StudentNationalId":"08462745362894",
+    "StudentId":3,
     "AbsentReasonId":1,
     "AbsentDate":"9-7-2009"
   },
   {
-    "StudentNationalId":"08462745362894",
+    "StudentId":4,
     "AbsentReasonId":4,
     "AbsentDate":"9-7-2010"
   },
   {
-    "StudentNationalId":"08462745362894",
+    "StudentId":6,
     "AbsentReasonId":3,
     "AbsentDate":"11-1-2011"
   },
   {
-    "StudentNationalId":"90361807547380",
+    "StudentId":7,
     "AbsentReasonId":3,
     "AbsentDate":"11-1-2010"
   }

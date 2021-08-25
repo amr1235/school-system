@@ -8,31 +8,44 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       // define association here
-      Parent.hasMany(models["Student"], {
-        foreignKey: "StudentMotherNationalId"
+      Parent.belongsTo(models["Nationality"], {
+        foreignKey: "ParentNationalityId"
       });
       Parent.hasMany(models["Student"], {
-        foreignKey: "StudentFatherNationalId"
+        foreignKey: "StudentMotherId"
       });
       Parent.hasMany(models["Student"], {
-        foreignKey: "StudentResponsibleNationalId"
+        foreignKey: "StudentFatherId"
+      });
+      Parent.hasMany(models["Student"], {
+        foreignKey: "StudentResponsibleId"
       });
       Parent.hasMany(models["ParentJob"], {
-        foreignKey: "ParentNationalId"
+        foreignKey: "ParentId"
       });
       Parent.hasMany(models["ParentPhone"], {
-        foreignKey: "ParentNationalId"
+        foreignKey: "ParentId"
       });
     }
   }
   Parent.init({
+    ParentId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
     ParentNationalId: {
       type: DataTypes.STRING,
-      primaryKey: true,
+      unique: true,
+      allowNull: true,
       validate: {
         isNumeric: true,
         len: [14, 14]
       }
+    },
+    ParentPassportId: {
+      type: DataTypes.STRING,
+      isAlphanumeric: true,
+      allowNull: true
     },
     ParentName: {
       type: DataTypes.STRING,
@@ -48,6 +61,10 @@ module.exports = (sequelize, DataTypes) => {
         isAlphanumeric: true
       }
     },
+    ParentNationalityId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     ParentAcademicDegree: {
       type: DataTypes.ENUM,
       allowNull: false,
@@ -59,9 +76,20 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: false,
     modelName: "Parent",
     freezeTableName: true,
+    validate: {
+      checkIds() {
+        if (!this.ParentNationalId && !this.ParentPassportId) {
+          throw new Error("Must specify a National Id or a Passport Id");
+        }
+      }
+    },
     indexes: [
       {
         fields: ["ParentName"]
+      },
+      {
+        unique: true,
+        fields: ["ParentNationalityId", "ParentPassportId"]
       }
     ]
   });

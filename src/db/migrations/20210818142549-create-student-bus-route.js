@@ -2,16 +2,9 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
       await queryInterface.createTable("StudentBusRoute", {
-        StudentNationalId: {
-          type: Sequelize.STRING,
-          references: {
-            model: "Student",
-            key: "StudentNationalId"
-          },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
+        StudentId: {
+          type: Sequelize.INTEGER,
+          primaryKey: true
         },
         BusRouteId: {
           type: Sequelize.INTEGER,
@@ -19,7 +12,7 @@ module.exports = {
             model: "BusRoute",
             key: "BusRouteId"
           },
-          allowNull: false
+          primaryKey: true
         },
         IsFullRoute: {
           type: Sequelize.BOOLEAN,
@@ -27,8 +20,7 @@ module.exports = {
           defaultValue: true
         }
       }, { transaction: t });
-      await queryInterface.addIndex("StudentBusRoute", ["BusRouteId", "StudentNationalId"], { transaction: t });
-      await queryInterface.addIndex("StudentBusRoute", ["StudentNationalId", "BusRouteId"], {
+      await queryInterface.addIndex("StudentBusRoute", ["BusRouteId", "StudentId"], {
         unique: true,
         transaction: t
       });

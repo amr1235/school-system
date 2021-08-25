@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       ParentJob.belongsTo(models["Parent"], {
-        foreignKey: "ParentNationalId"
+        foreignKey: "ParentId"
       });
       ParentJob.belongsTo(models["Job"], {
         foreignKey: "ParentJobId",
@@ -17,16 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   ParentJob.init({
-    ParentNationalId: {
-      type: DataTypes.STRING,
-      validate: {
-        isNumeric: true,
-        len:[14,14]
-      }
+    ParentId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
     },
     ParentJobId: {
       type: DataTypes.INTEGER,
-      allowNull: false
+      primaryKey: true
     },
     ParentJobAddress: {
       type: DataTypes.STRING,
@@ -41,11 +38,8 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ["ParentNationalId","ParentJobId"]
+        fields: ["ParentJobId","ParentId"]
       },
-      {
-        fields: ["ParentJobId"]
-      }
     ]
   });
   return ParentJob;

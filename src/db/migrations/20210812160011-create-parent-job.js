@@ -2,16 +2,13 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
       await queryInterface.createTable("ParentJob", {
-        ParentNationalId: {
-          type: Sequelize.STRING,
+        ParentId: {
+          type: Sequelize.INTEGER,
           references: {
             model: "Parent",
-            key: "ParentNationalId"
+            key: "ParentId"
           },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
+          primaryKey: true
         },
         ParentJobId: {
           type: Sequelize.INTEGER,
@@ -19,15 +16,14 @@ module.exports = {
             model: "Job",
             key: "JobId"
           },
-          allowNull: false
+          primaryKey: true
         },
         ParentJobAddress: {
           type: Sequelize.STRING,
           allowNull: false
         },
       }, { transaction: t });
-      await queryInterface.addIndex("ParentJob", ["ParentJobId"], { transaction: t });
-      await queryInterface.addIndex("ParentJob", ["ParentNationalId", "ParentJobId"], {
+      await queryInterface.addIndex("ParentJob", ["ParentJobId","ParentId"], {
         unique: true,
         transaction: t
       });

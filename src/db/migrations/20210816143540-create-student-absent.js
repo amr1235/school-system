@@ -2,17 +2,12 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
       await queryInterface.createTable("StudentAbsent", {
-        StudentAbsentId: {
+        StudentId: {
           type: Sequelize.INTEGER,
-          autoIncrement: true,
           primaryKey: true,
-        },
-        StudentNationalId: {
-          type: Sequelize.STRING,
-          allowNull: false,
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
+          references: {
+            model: "Student",
+            key: "StudentId"
           }
         },
         AbsentReasonId: {
@@ -25,10 +20,10 @@ module.exports = {
         },
         AbsentDate: {
           type: Sequelize.DATEONLY,
-          allowNull: false
+          primaryKey: true,
         }
       }, { transaction: t });
-      await queryInterface.addIndex("StudentAbsent", ["StudentNationalId","AbsentDate"], {
+      await queryInterface.addIndex("StudentAbsent", ["AbsentDate","StudentId"], {
         unique: true,
         transaction: t
       });

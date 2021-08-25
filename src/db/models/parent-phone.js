@@ -9,21 +9,18 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       ParentPhone.belongsTo(models["Parent"], {
-        foreignKey: "ParentNationalId"
+        foreignKey: "ParentId"
       });
     }
   }
   ParentPhone.init({
-    ParentNationalId: {
-      type: DataTypes.STRING,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+    ParentId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     ParentPhoneNumber: {
       type: DataTypes.STRING,
-      unique: true,
+      primaryKey: true,
       allowNull: false
     },
   }, {
@@ -34,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     indexes: [
       {
-        fields: ["ParentNationalId"]
+        fields: ["ParentId"]
       }
     ]
   });

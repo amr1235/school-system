@@ -1,23 +1,23 @@
 [
 
   {
-    "ParentNationalId": "11111111111111",
+    "ParentId": 1,
     "ParentPhoneNumber": "25093450"
   },
   {
-    "ParentNationalId": "44444444444444",
+    "ParentId": 2,
     "ParentPhoneNumber": "27993770"
   },
   {
-    "ParentNationalId": "11111111111111",
+    "ParentId": 1,
     "ParentPhoneNumber": "01009299392"
   },
   {
-    "ParentNationalId": "88888888888888",
+    "ParentId": 4,
     "ParentPhoneNumber": "01009299303"
   },
   {
-    "ParentNationalId": "99999999999999",
+    "ParentId": 3,
     "ParentPhoneNumber": "01139299303"
   }
 ]

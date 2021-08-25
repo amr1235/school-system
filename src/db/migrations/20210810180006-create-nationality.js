@@ -1,12 +1,12 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Governorate", {
-      GovernorateId: {
+    await queryInterface.createTable("Nationality", {
+      NationalityId: {
         type: Sequelize.INTEGER,
         autoIncrement: true,
         primaryKey: true,
       },
-      GovernorateName: {
+      NationalityName: {
         type: Sequelize.STRING,
         allowNull: false,
         unique: true,
@@ -18,6 +18,6 @@ module.exports = {
   },
   // eslint-disable-next-line no-unused-vars
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Governorate");
+    await queryInterface.dropTable("Nationality");
   }
 };

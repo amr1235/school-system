@@ -1,31 +1,31 @@
 [
     {
-        "StudentNationalId": "12121212121212",
+        "StudentId": 1,
         "BusRouteId": 1,
         "IsFullRoute": true
     },
     {
-        "StudentNationalId": "21212121212121",
+        "StudentId": 2,
         "BusRouteId": 1,
         "IsFullRoute": true
     },
     {
-        "StudentNationalId": "12312312312312",
+        "StudentId": 3,
         "BusRouteId": 4,
         "IsFullRoute": false
     },
     {
-        "StudentNationalId": "90879264518369",
+        "StudentId": 4,
         "BusRouteId": 4,
         "IsFullRoute": false
     },
     {
-        "StudentNationalId": "56781946372892",
+        "StudentId": 5,
         "BusRouteId": 1,
         "IsFullRoute": false
     },
     {
-        "StudentNationalId": "90361807547380",
+        "StudentId": 6,
         "BusRouteId": 3,
         "IsFullRoute": false
     }

@@ -1,18 +1,18 @@
 [
   {
-    "StudentNationalId":"12121212121212",
-    "SeatNumber":4
+    "StudentId": 1,
+    "SeatNumber": 4
   },
   {
-    "StudentNationalId":"21212121212121",
-    "SeatNumber":1
+    "StudentId": 2,
+    "SeatNumber": 1
   },
   {
-    "StudentNationalId":"08462745362894",
-    "SeatNumber":1
+    "StudentId": 3,
+    "SeatNumber": 1
   },
   {
-    "StudentNationalId":"90361807547380",
-    "SeatNumber":3
+    "StudentId": 4,
+    "SeatNumber": 3
   }
 ]

@@ -9,41 +9,54 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Student.belongsTo(models["Parent"], {
-        foreignKey: "StudentMotherNationalId"
+        foreignKey: "StudentResponsibleId"
       });
       Student.belongsTo(models["Parent"], {
-        foreignKey: "StudentFatherNationalId"
+        foreignKey: "StudentMotherId"
       });
-      Student.belongsTo(models["Governorate"], {
-        foreignKey: "StudentBirthGovernorateId"
+      Student.belongsTo(models["Parent"], {
+        foreignKey: "StudentFatherId"
       });
-      Student.belongsTo(models["District"], {
-        foreignKey: "StudentBirthDistrictId"
+      Student.belongsTo(models["Nationality"], {
+        foreignKey: "StudentNationalityId"
       });
       Student.hasOne(models["StudentBusRoute"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       Student.hasOne(models["StudentClass"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       Student.hasMany(models["StudentAbsent"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       Student.hasMany(models["StudentWarning"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       Student.hasMany(models["StudentDiscount"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
     }
   }
   Student.init({
+    StudentId: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true
+    },
     StudentNationalId: {
       type: DataTypes.STRING,
-      primaryKey: true,
+      allowNull: true,
+      unique: true,
       validate: {
         isNumeric: true,
         len: [14, 14]
+      }
+    },
+    StudentPassportId: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      validate: {
+        isAlphanumeric: true
       }
     },
     StudentName: {
@@ -54,12 +67,8 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
-    StudentBirthGovernorateId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-    StudentBirthDistrictId: {
-      type: DataTypes.INTEGER,
+    StudentBirthPlace: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
     StudentAddress: {
@@ -78,14 +87,10 @@ module.exports = (sequelize, DataTypes) => {
       defaultValue: "MUSLIM",
       allowNull: false
     },
-    // NOT IMPLEMENTED!!!
-    // StudentNationalityId: {
-    //     type: DataTypes.INTEGER,
-    //     allowNull: false,
-    //     references: {
-    //         model: "Nationality"
-    //     },
-    // },
+    StudentNationalityId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
     StudentRegisterDate: {
       type: DataTypes.DATEONLY,
       allowNull: false
@@ -95,43 +100,26 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
       defaultValue: 1
     },
-    StudentResponsibleNationalId: {
-      type: DataTypes.STRING,
+    StudentResponsibleId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
     },
     StudentResponsibleRelation: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    StudentFatherNationalId: {
-      type: DataTypes.STRING,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+    StudentFatherId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
-    StudentMotherNationalId: {
-      type: DataTypes.STRING,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+    StudentMotherId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     StudentFamilyStatus: {
       type: DataTypes.ENUM,
       allowNull: false,
       values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
-    },
-    StudentBusRouteId: DataTypes.INTEGER,
-    IsFullBusRoute: DataTypes.BOOLEAN,
-    IsRegistered: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: true
     },
   }, {
     sequelize,
@@ -141,29 +129,32 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     validate: {
       checkFamilyStatus() {
-        if (this.StudentFamilyStatus == "ORPHAN" && this.StudentMotherNationalId) {
-          throw new Error("Can't set a Mother National Id to a Student with a Dead Mother");
+        if (this.StudentFamilyStatus == "ORPHAN" && this.StudentMotherId) {
+          throw new Error("Can't set a Mother Id to a Student with a Dead Mother");
         }
-        else if (this.StudentFamilyStatus == "ORPHAN" && this.StudentFatherNationalId) {
-          throw new Error("Can't set a Father National Id to a Student with a Dead Father");
+        else if (this.StudentFamilyStatus == "ORPHAN" && this.StudentFatherId) {
+          throw new Error("Can't set a Father Id to a Student with a Dead Father");
         }
-        else if (this.StudentFamilyStatus == "DEAD MOTHER" && this.StudentMotherNationalId) {
-          throw new Error("Can't set a Mother National Id to a Student with a Dead Mother");
+        else if (this.StudentFamilyStatus == "DEAD MOTHER" && this.StudentMotherId) {
+          throw new Error("Can't set a Mother Id to a Student with a Dead Mother");
         }
-        else if (this.StudentFamilyStatus == "DEAD FATHER" && this.StudentFatherNationalId) {
-          throw new Error("Can't set a Father National Id to a Student with a Dead Father");
+        else if (this.StudentFamilyStatus == "DEAD FATHER" && this.StudentFatherId) {
+          throw new Error("Can't set a Father Id to a Student with a Dead Father");
+        }
+      },
+      checkIds() {
+        if (!this.StudentNationalId && !this.StudentPassportId) {
+          throw new Error("Must specify a National Id or a Passport Id");
         }
       }
     },
     indexes: [
       {
-        fields: ["StudentNationalId", "IsRegistered"]
+        fields: ["StudentName"]
       },
       {
-        fields: ["StudentName", "IsRegistered"]
-      },
-      {
-        fields: ["StudentBusRouteId", "StudentNationalId"]
+        unique: true,
+        fields: ["StudentNationalityId", "StudentPassportId"]
       }
     ]
   });

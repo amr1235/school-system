@@ -2,25 +2,17 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
       await queryInterface.createTable("StudentWarning", {
-        StudentNationalId: {
-          type: Sequelize.STRING,
+        StudentId: {
+          type: Sequelize.INTEGER,
           references: {
             model: "Student",
-            key: "StudentNationalId"
+            key: "StudentId"
           },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
-        },
-        StudentWarningId: {
-          type: Sequelize.INTEGER,
-          autoIncrement: true,
-          primaryKey: true,
+          primaryKey: true
         },
         WarningDate: {
           type: Sequelize.DATEONLY,
-          allowNull: false
+          primaryKey: true
         },
         IsRecieved: {
           type: Sequelize.BOOLEAN,
@@ -28,7 +20,7 @@ module.exports = {
           defaultValue: false
         }
       }, { transaction: t });
-      await queryInterface.addIndex("StudentWarning", ["StudentNationalId", "WarningDate"], {
+      await queryInterface.addIndex("StudentWarning", ["WarningDate","StudentId"], {
         unique: true,
         transaction: t
       });

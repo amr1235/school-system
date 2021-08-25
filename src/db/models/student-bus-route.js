@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       StudentBusRoute.belongsTo(models["Student"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       StudentBusRoute.belongsTo(models["BusRoute"], {
         foreignKey: "BusRouteId"
@@ -17,17 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   StudentBusRoute.init({
-    StudentNationalId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+    StudentId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
     },
     BusRouteId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true
     },
     IsFullRoute: {
       type: DataTypes.BOOLEAN,
@@ -43,10 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ["StudentNationalId", "BusRouteId"]
-      },
-      {
-        fields: ["BusRouteId", "StudentNationalId"]
+        fields: ["BusRouteId", "StudentId"]
       }
     ]
   });

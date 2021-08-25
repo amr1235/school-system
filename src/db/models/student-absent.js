@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       StudentAbsent.belongsTo(models["Student"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       StudentAbsent.belongsTo(models["AbsentReason"], {
         foreignKey: "AbsentReasonId"
@@ -17,18 +17,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   StudentAbsent.init({
-    StudentAbsentId: {
+    StudentId: {
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    StudentNationalId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+      primaryKey: true
     },
     AbsentReasonId: {
       type: DataTypes.INTEGER,
@@ -36,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     AbsentDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      primaryKey: true
     }
   }, {
     sequelize,
@@ -47,7 +38,7 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ["StudentNationalId","Date"]
+        fields: ["AbsentDate","StudentId"]
       }
     ]
   });

@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       Discount.hasMany(models["Student"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
     }
   }

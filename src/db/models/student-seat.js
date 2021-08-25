@@ -9,14 +9,14 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       StudentSeat.belongsTo(models["Student"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
     }
   }
   StudentSeat.init({
-    StudentNationalId: {
+    StudentId: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      primaryKey: true
     },
     SeatNumber: {
       type: DataTypes.INTEGER,

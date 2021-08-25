@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       StudentClass.belongsTo(models["Student"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
       StudentClass.belongsTo(models["Class"], {
         foreignKey: "ClassId"
@@ -17,17 +17,13 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   StudentClass.init({
-    StudentNationalId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+    StudentId: {
+      type: DataTypes.INTEGER,
+      primaryKey: true
     },
     ClassId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
+      primaryKey: true
     }
   }, {
     sequelize,
@@ -38,10 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ["StudentNationalId", "ClassId"]
-      },
-      {
-        fields: ["ClassId", "StudentNationalId"]
+        fields: ["ClassId", "StudentId"]
       }
     ]
   });

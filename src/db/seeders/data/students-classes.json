@@ -1,30 +1,30 @@
 [
     {
-        "StudentNationalId": "12121212121212",
+        "StudentId": 1,
         "ClassId": 2
     },
     {
-        "StudentNationalId": "21212121212121",
+        "StudentId": 2,
         "ClassId": 3
     },
     {
-        "StudentNationalId": "12312312312312",
+        "StudentId": 3,
         "ClassId": 1
     },
     {
-        "StudentNationalId": "90879264518369",
+        "StudentId": 4,
         "ClassId": 1
     },
     {
-        "StudentNationalId": "56781946372892",
+        "StudentId": 5,
         "ClassId": 8
     },
     {
-        "StudentNationalId": "90361807547380",
+        "StudentId": 6,
         "ClassId": 7
     },
     {
-        "StudentNationalId": "08462745362894",
+        "StudentId": 7,
         "ClassId": 1
     }
 ]

@@ -2,24 +2,20 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
       await queryInterface.createTable("ParentPhone", {
-        ParentNationalId: {
-          type: Sequelize.STRING,
+        ParentId: {
+          type: Sequelize.INTEGER,
           references: {
             model: "Parent",
-            key: "ParentNationalId"
+            key: "ParentId"
           },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
+          allowNull: false
         },
         ParentPhoneNumber: {
           type: Sequelize.STRING,
-          unique: true,
+          primaryKey: true,
           allowNull: false
         },
       }, { transaction: t });
-      await queryInterface.addIndex("ParentPhone", ["ParentNationalId"], { transaction: t });
     });
   },
   // eslint-disable-next-line no-unused-vars

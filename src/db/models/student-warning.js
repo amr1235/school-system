@@ -8,27 +8,18 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       StudentWarning.belongsTo(models["Student"], {
-        foreignKey: "StudentNationalId"
+        foreignKey: "StudentId"
       });
     }
   }
   StudentWarning.init({
-    StudentWarningId: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-    StudentNationalId: {
+    StudentId: {
       type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
+      primaryKey: true
     },
     WarningDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      primaryKey: true
     },
     IsRecieved: {
       type: DataTypes.BOOLEAN,
@@ -44,7 +35,7 @@ module.exports = (sequelize, DataTypes) => {
     indexes: [
       {
         unique: true,
-        fields: ["StudentNationalId", "WarningDate"]
+        fields: ["WarningDate","StudentId"]
       }
     ]
   });

@@ -2,12 +2,25 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
       await queryInterface.createTable("Student", {
+        StudentId: {
+          type: Sequelize.INTEGER,
+          autoIncrement: true,
+          primaryKey: true
+        },
         StudentNationalId: {
           type: Sequelize.STRING,
-          primaryKey: true,
+          allowNull: true,
+          unique: true,
           validate: {
             isNumeric: true,
             len: [14, 14]
+          }
+        },
+        StudentPassportId: {
+          type: Sequelize.STRING,
+          allowNull: true,
+          validate: {
+            isAlphanumeric: true
           }
         },
         StudentName: {
@@ -16,23 +29,11 @@ module.exports = {
         },
         StudentBirthDate: {
           type: Sequelize.DATEONLY,
-          allowNull: false,
+          allowNull: false
         },
-        StudentBirthGovernorateId: {
-          type: Sequelize.INTEGER,
+        StudentBirthPlace: {
+          type: Sequelize.STRING,
           allowNull: false,
-          references: {
-            model: "Governorate",
-            key: "GovernorateId"
-          }
-        },
-        StudentBirthDistrictId: {
-          type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: "District",
-            key: "DistrictId"
-          }
         },
         StudentAddress: {
           type: Sequelize.STRING,
@@ -50,14 +51,10 @@ module.exports = {
           defaultValue: "MUSLIM",
           allowNull: false
         },
-        // NOT IMPLEMENTED!!!
-        // StudentNationalityId: {
-        //     type: Sequelize.INTEGER,
-        //     allowNull: false,
-        //     references: {
-        //         model: "Nationality"
-        //     },
-        // },
+        StudentNationalityId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+        },
         StudentRegisterDate: {
           type: Sequelize.DATEONLY,
           allowNull: false
@@ -67,59 +64,33 @@ module.exports = {
           allowNull: false,
           defaultValue: 1
         },
-        StudentResponsibleNationalId: {
-          type: Sequelize.STRING,
+        StudentResponsibleId: {
+          type: Sequelize.INTEGER,
           allowNull: false,
-          references: {
-            model: "Parent",
-            key: "ParentNationalId"
-          },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
         },
         StudentResponsibleRelation: {
           type: Sequelize.STRING,
           allowNull: false
         },
-        StudentFatherNationalId: {
-          type: Sequelize.STRING,
-          references: {
-            model: "Parent",
-            key: "ParentNationalId"
-          },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
+        StudentFatherId: {
+          type: Sequelize.INTEGER,
+          allowNull: true
         },
-        StudentMotherNationalId: {
-          type: Sequelize.STRING,
-          references: {
-            model: "Parent",
-            key: "ParentNationalId"
-          },
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
+        StudentMotherId: {
+          type: Sequelize.INTEGER,
+          allowNull: true
         },
         StudentFamilyStatus: {
           type: Sequelize.ENUM,
           allowNull: false,
           values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
         },
-        StudentBusRouteId: Sequelize.INTEGER,
-        IsFullBusRoute: Sequelize.BOOLEAN,
-        IsRegistered: {
-          type: Sequelize.BOOLEAN,
-          allowNull: false,
-          defaultValue: true
-        },
       }, { transaction: t });
-      await queryInterface.addIndex("Student", ["IsRegistered","StudentNationalId"], { transaction: t });
-      await queryInterface.addIndex("Student", ["IsRegistered","StudentName"], { transaction: t });
+      await queryInterface.addIndex("Student", ["StudentName"], { transaction: t });
+      await queryInterface.addIndex("Student", ["StudentNationalityId", "StudentPassportId"], {
+        unique: true,
+        transaction: t
+      });
     });
   },
   // eslint-disable-next-line no-unused-vars
