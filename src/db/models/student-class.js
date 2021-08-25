@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   StudentClass.init({
     StudentId: {
       type: DataTypes.INTEGER,
+      unique: true,
       primaryKey: true
     },
     ClassId: {
