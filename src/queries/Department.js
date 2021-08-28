@@ -12,6 +12,14 @@ const getDepartmentByID = ID => {
   return db["Department"].findByPk(ID).then(dep => dep.toJSON());
 };
 // eslint-disable-next-line no-unused-vars
+const getDepartmentByName = depName => {
+  return db["Department"].findOne({
+    where: {
+      DepartmentName: depName
+    }
+  }).then(dep => dep.toJSON());
+};
+// eslint-disable-next-line no-unused-vars
 const updateDepartment = (depName, currentPassword, EditedPassword) => {
   db["Department"].findOne({
     where: {
