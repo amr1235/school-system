@@ -6,28 +6,58 @@ const mapToJSON = payload => {
 };
 // eslint-disable-next-line no-unused-vars
 const getAllStudents = () => {
-  return db["Student"].findAll().then(mapToJSON);
+  return new Promise((res,rej) => {
+    db["Student"].findAll().then(students => {
+      students = mapToJSON(students);
+      res(students);
+    }).catch(err => rej(err));
+  });
+  // return db["Student"].findAll().then(mapToJSON);
 };
 // eslint-disable-next-line no-unused-vars
 const getStudentsByColumnOneVal = (column, val) => {
-  return db["Student"].findAll({
-    where: {
-      [column]: {
-        [Op.like]: `%${val}%`,
+  return new Promise((res,rej) => {
+    db["Student"].findAll({
+      where: {
+        [column]: {
+          [Op.like]: `%${val}%`,
+        }
       }
-    }
-  }).then(mapToJSON);
+    }).then(stds => {
+      stds = mapToJSON(stds);
+      res(stds);
+    }).catch(err => rej(err));
+  });
+  // return db["Student"].findAll({
+  //   where: {
+  //     [column]: {
+  //       [Op.like]: `%${val}%`,
+  //     }
+  //   }
+  // }).then(mapToJSON);
 };
 // eslint-disable-next-line no-unused-vars
 const getStudentsByColumnMultipleVals = (column, vals) => {
-  // console.log(vals);
-  return db["Student"].findAll({
-    where: {
-      [column]: {
-        [Op.in]: vals,
+  return new Promise((res,rej) => {
+    db["Student"].findAll({
+      where: {
+        [column]: {
+          [Op.in]: vals,
+        }
       }
-    }
-  }).then(mapToJSON);
+    }).then(stds => {
+      stds = mapToJSON(stds);
+      res(stds);
+    }).catch(err => rej(err));
+  });
+  // console.log(vals);
+  // return db["Student"].findAll({
+  //   where: {
+  //     [column]: {
+  //       [Op.in]: vals,
+  //     }
+  //   }
+  // }).then(mapToJSON);
 };
 
 // eslint-disable-next-line no-unused-vars
@@ -40,23 +70,50 @@ const addNewStudent = (studentName, ssn = null, passport = null,
   //     GradeNumber: studentGrade,
   //   }
   // });
-  return db["Student"].create({
-    StudentNationalId: ssn,
-    StudentName: studentName,
-    StudentBirthDate: dob,
-    StudentBirthPlace: city,
-    StudentAddress: studentAddress,
-    StudentSex: studentGender,
-    StudentNationalityId: studentNationality,
-    StudentRegisterDate: "2021-08-26",
-    StudentSiblingOrder: studentOrder,
-    StudentResponsibleId: breadwinner,
-    StudentResponsibleRelation: "FATHER",
-    StudentFamilyStatus: familyStatus,
-    // StudentClass: studentClassId,
+  return new Promise((res,rej) => {
+    db["Student"].create({
+      StudentNationalId: ssn,
+      StudentName: studentName,
+      StudentBirthDate: dob,
+      StudentBirthPlace: city,
+      StudentAddress: studentAddress,
+      StudentSex: studentGender,
+      StudentNationalityId: studentNationality,
+      StudentRegisterDate: "2021-08-26",
+      StudentSiblingOrder: studentOrder,
+      StudentResponsibleId: breadwinner,
+      StudentResponsibleRelation: "FATHER",
+      StudentFamilyStatus: familyStatus,
+      // StudentClass: studentClassId,
+    }).then(std => res(std)).catch(err => rej(err));
   });
+  // return db["Student"].create({
+  //   StudentNationalId: ssn,
+  //   StudentName: studentName,
+  //   StudentBirthDate: dob,
+  //   StudentBirthPlace: city,
+  //   StudentAddress: studentAddress,
+  //   StudentSex: studentGender,
+  //   StudentNationalityId: studentNationality,
+  //   StudentRegisterDate: "2021-08-26",
+  //   StudentSiblingOrder: studentOrder,
+  //   StudentResponsibleId: breadwinner,
+  //   StudentResponsibleRelation: "FATHER",
+  //   StudentFamilyStatus: familyStatus,
+  //   // StudentClass: studentClassId,
+  // });
 };
 
+//update student by nationalId 
+// const updateStudentByNationalId = (nationalID,data) => {
+//   return new Promise((res,rej) => {
+//     db["Student"].update(data,{
+//       where : {
+//         StudentNationalId : nationalID
+//       }
+//     }).then(std => res(std)).catch(err => rej(err));
+//   });
+// }
 // This shoould be done in a different way
 // const addFatherInfo = (studentSSN, fatherName, ssn = null, passport = null, address, nationality, academicDegree, job, isAColleage, phones) => {
 //   db["Parent"].create({
