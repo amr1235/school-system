@@ -1,6 +1,6 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class StudentClass extends Model {
+  class Grade extends Model {
     /**
              * Helper method for defining associations.
              * This method is not a part of Sequelize lifecycle.
@@ -8,36 +8,39 @@ module.exports = (sequelize, DataTypes) => {
              */
     static associate(models) {
       // define association here
-      StudentClass.belongsTo(models["Student"], {
-        foreignKey: "StudentId"
+      Grade.belongsTo(models["Stage"], {
+        foreignKey: "StageId"
       });
-      StudentClass.belongsTo(models["Class"], {
-        foreignKey: "ClassId"
+      Grade.hasMany(models["Class"], {
+        foreignKey: "GradeId"
       });
     }
   }
-  StudentClass.init({
-    StudentId: {
+  Grade.init({
+    GradeId: {
       type: DataTypes.INTEGER,
-      unique: true,
-      primaryKey: true
+      autoIncrement: true,
+      primaryKey: true,
     },
-    ClassId: {
+    GradeName: {
+      type: DataTypes.STRING,
+      unique: true
+    },
+    StageId: {
       type: DataTypes.INTEGER,
-      primaryKey: true
+      allowNull: false,
     }
   }, {
     sequelize,
-    createdAt: false,
     updatedAt: false,
-    modelName: "StudentClass",
+    createdAt: false,
+    modelName: "Grade",
     freezeTableName: true,
     indexes: [
       {
-        unique: true,
-        fields: ["ClassId", "StudentId"]
+        fields: ["StageId"]
       }
     ]
   });
-  return StudentClass;
+  return Grade;
 };

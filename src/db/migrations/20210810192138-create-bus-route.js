@@ -11,6 +11,10 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      BusRouteDriverName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       BusRouteCost: {
         type: Sequelize.FLOAT,
         allowNull: false,

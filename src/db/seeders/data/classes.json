@@ -1,66 +1,50 @@
 [
   {
-    "StageName": "NURSERY",
-    "GradeNumber": 1
+    "GradeId": 1
   },
   {
-    "StageName": "KG",
-    "GradeNumber": 1
+    "GradeId": 1
   },
   {
-    "StageName": "KG",
-    "GradeNumber": 2
+    "GradeId": 2
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 1
+    "GradeId": 1
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 2
+    "GradeId": 2
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 3
+    "GradeId": 3
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 4
+    "GradeId": 4
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 4
+    "GradeId": 4
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 5
+    "GradeId": 5
   },
   {
-    "StageName": "PRIMARY",
-    "GradeNumber": 6
+    "GradeId": 6
   },
   {
-    "StageName": "PREP",
-    "GradeNumber": 1
+    "GradeId": 1
   },
   {
-    "StageName": "PREP",
-    "GradeNumber": 1
+    "GradeId": 1
   },
   {
-    "StageName": "PREP",
-    "GradeNumber": 2
+    "GradeId": 2
   },
   {
-    "StageName": "PREP",
-    "GradeNumber": 2
+    "GradeId": 2
   },
   {
-    "StageName": "PREP",
-    "GradeNumber": 3
+    "GradeId": 3
   },
   {
-    "StageName": "SECONDARY",
-    "GradeNumber": 1
+    "GradeId": 1
   }
 ]

@@ -4,6 +4,7 @@ module.exports = {
       await queryInterface.createTable("StudentBusRoute", {
         StudentId: {
           type: Sequelize.INTEGER,
+          unique: true,
           primaryKey: true
         },
         BusRouteId: {

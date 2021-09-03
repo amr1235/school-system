@@ -8,6 +8,9 @@ module.exports = (sequelize, DataTypes) => {
          */
     static associate(models) {
       // define association here
+      Class.belongsTo(models["Grade"], {
+        foreignKey: "GradeId"
+      });
       Class.hasMany(models["StudentClass"], {
         foreignKey: "ClassId"
       });
@@ -19,19 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
-    GradeNumber: {
+    GradeId: {
       type: DataTypes.INTEGER,
-      validate: {
-        min: 1,
-        max: 6
-      },
       allowNull: false
     },
-    StageName: {
-      type: DataTypes.ENUM,
-      values: ["NURSERY","KG","PRIMARY","PREP","SECONDARY"],
-      allowNull: false
-    }
   }, {
     sequelize,
     updatedAt: false,
@@ -40,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     freezeTableName: true,
     indexes: [
       {
-        fields: ["StageName","GradeNumber"]
+        fields: ["GradeId"]
       }
     ]
   });
