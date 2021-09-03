@@ -1,0 +1,30 @@
+[
+    {
+        "StageId":3,
+        "GradeName":"First Primary"
+    },
+    {
+        "StageId":3,
+        "GradeName":"Second Primary"
+    },
+    {
+        "StageId":3,
+        "GradeName":"Third Primary"
+    },
+    {
+        "StageId":3,
+        "GradeName":"Fourth Primary"
+    },
+    {
+        "StageId":3,
+        "GradeName":"Fifth Primary"
+    },
+    {
+        "StageId":3,
+        "GradeName":"Sixth Primary"
+    },
+    {
+        "StageId":4,
+        "GradeName":"First Preparatory"
+    }
+]

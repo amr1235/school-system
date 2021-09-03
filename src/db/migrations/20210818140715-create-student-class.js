@@ -5,6 +5,7 @@ module.exports = {
         StudentId: {
           type: Sequelize.INTEGER,
           primaryKey: true,
+          unique: true,
           references: {
             model: "Student",
             key: "StudentId"

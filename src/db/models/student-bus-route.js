@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   StudentBusRoute.init({
     StudentId: {
       type: DataTypes.INTEGER,
+      unique: true,
       primaryKey: true
     },
     BusRouteId: {

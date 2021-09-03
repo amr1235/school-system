@@ -26,6 +26,10 @@ module.exports = (sequelize, DataTypes) => {
         isAlphanumeric: true
       }
     },
+    BusRouteDriverName: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     BusRouteCost: {
       type: DataTypes.FLOAT,
       allowNull: false,
