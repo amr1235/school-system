@@ -6,102 +6,52 @@ const mapToJSON = payload => {
 };
 // eslint-disable-next-line no-unused-vars
 const getAllStudents = () => {
-  return new Promise((res,rej) => {
-    db["Student"].findAll().then(students => {
-      students = mapToJSON(students);
-      res(students);
-    }).catch(err => rej(err));
-  });
-  // return db["Student"].findAll().then(mapToJSON);
+  return db["Student"].findAll().then(mapToJSON);
 };
 // eslint-disable-next-line no-unused-vars
 const getStudentsByColumnOneVal = (column, val) => {
-  return new Promise((res,rej) => {
-    db["Student"].findAll({
-      where: {
-        [column]: {
-          [Op.like]: `%${val}%`,
-        }
+  return db["Student"].findAll({
+    where: {
+      [column]: {
+        [Op.like]: `%${val}%`,
       }
-    }).then(stds => {
-      stds = mapToJSON(stds);
-      res(stds);
-    }).catch(err => rej(err));
-  });
-  // return db["Student"].findAll({
-  //   where: {
-  //     [column]: {
-  //       [Op.like]: `%${val}%`,
-  //     }
-  //   }
-  // }).then(mapToJSON);
+    }
+  }).then(mapToJSON);
 };
 // eslint-disable-next-line no-unused-vars
 const getStudentsByColumnMultipleVals = (column, vals) => {
-  return new Promise((res,rej) => {
-    db["Student"].findAll({
-      where: {
-        [column]: {
-          [Op.in]: vals,
-        }
-      }
-    }).then(stds => {
-      stds = mapToJSON(stds);
-      res(stds);
-    }).catch(err => rej(err));
-  });
   // console.log(vals);
-  // return db["Student"].findAll({
-  //   where: {
-  //     [column]: {
-  //       [Op.in]: vals,
-  //     }
-  //   }
-  // }).then(mapToJSON);
+  return db["Student"].findAll({
+    where: {
+      [column]: {
+        [Op.in]: vals,
+      }
+    }
+  }).then(mapToJSON);
 };
+// add new parent function
 
 // eslint-disable-next-line no-unused-vars
 const addNewStudent = (studentName, ssn = null, passport = null,
   dob, city, studentAddress, studentGender, studentNationality,
   studentOrder, breadwinner, familyStatus) => {
-  // const studentClassId = db["Class"].findOne({
-  //   where: {
-  //     StageName: studentLevel,
-  //     GradeNumber: studentGrade,
-  //   }
-  // });
-  return new Promise((res,rej) => {
-    db["Student"].create({
-      StudentNationalId: ssn,
-      StudentName: studentName,
-      StudentBirthDate: dob,
-      StudentBirthPlace: city,
-      StudentAddress: studentAddress,
-      StudentSex: studentGender,
-      StudentNationalityId: studentNationality,
-      StudentRegisterDate: "2021-08-26",
-      StudentSiblingOrder: studentOrder,
-      StudentResponsibleId: breadwinner,
-      StudentResponsibleRelation: "FATHER",
-      StudentFamilyStatus: familyStatus,
-      // StudentClass: studentClassId,
-    }).then(std => res(std)).catch(err => rej(err));
+  // check national id
+
+  return db["Student"].create({
+    StudentNationalId: ssn,
+    StudentName: studentName,
+    StudentBirthDate: dob,
+    StudentBirthPlace: city,
+    StudentAddress: studentAddress,
+    StudentSex: studentGender,
+    StudentNationalityId: studentNationality,
+    StudentRegisterDate: "2021-08-26",
+    StudentSiblingOrder: studentOrder,
+    StudentResponsibleId: breadwinner,
+    StudentResponsibleRelation: "FATHER",
+    StudentFamilyStatus: familyStatus,
+    // StudentClass: studentClassId,
   });
-  // return db["Student"].create({
-  //   StudentNationalId: ssn,
-  //   StudentName: studentName,
-  //   StudentBirthDate: dob,
-  //   StudentBirthPlace: city,
-  //   StudentAddress: studentAddress,
-  //   StudentSex: studentGender,
-  //   StudentNationalityId: studentNationality,
-  //   StudentRegisterDate: "2021-08-26",
-  //   StudentSiblingOrder: studentOrder,
-  //   StudentResponsibleId: breadwinner,
-  //   StudentResponsibleRelation: "FATHER",
-  //   StudentFamilyStatus: familyStatus,
-  //   // StudentClass: studentClassId,
-  // });
 };
 
 //update student by nationalId 
