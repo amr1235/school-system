@@ -75,6 +75,7 @@ typings/
 
 # Serverless directories
 .serverless/
+test.js
 
 # FuseBox cache
 .fusebox/

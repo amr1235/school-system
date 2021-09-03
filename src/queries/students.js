@@ -29,17 +29,14 @@ const getStudentsByColumnMultipleVals = (column, vals) => {
     }
   }).then(mapToJSON);
 };
+// add new parent function
 
 // eslint-disable-next-line no-unused-vars
 const addNewStudent = (studentName, ssn = null, passport = null,
   dob, city, studentAddress, studentGender, studentNationality,
   studentOrder, breadwinner, familyStatus) => {
-  // const studentClassId = db["Class"].findOne({
-  //   where: {
-  //     StageName: studentLevel,
-  //     GradeNumber: studentGrade,
-  //   }
-  // });
+  // check national id
+
   return db["Student"].create({
     StudentNationalId: ssn,
     StudentName: studentName,
@@ -57,6 +54,16 @@ const addNewStudent = (studentName, ssn = null, passport = null,
   });
 };
 
+//update student by nationalId 
+// const updateStudentByNationalId = (nationalID,data) => {
+//   return new Promise((res,rej) => {
+//     db["Student"].update(data,{
+//       where : {
+//         StudentNationalId : nationalID
+//       }
+//     }).then(std => res(std)).catch(err => rej(err));
+//   });
+// }
 // This shoould be done in a different way
 // const addFatherInfo = (studentSSN, fatherName, ssn = null, passport = null, address, nationality, academicDegree, job, isAColleage, phones) => {
 //   db["Parent"].create({
