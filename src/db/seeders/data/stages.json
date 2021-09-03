@@ -1,0 +1,17 @@
+[
+    {
+        "StageName": "Nursery"
+    },
+    {
+        "StageName": "Kg"
+    },
+    {
+        "StageName": "Primary"
+    },
+    {
+        "StageName": "Preparatory"
+    },
+    {
+        "StageName": "Secondary"
+    }
+]

@@ -95,6 +95,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATEONLY,
       allowNull: false
     },
+    StudentExitDate: {
+      type: DataTypes.DATEONLY,
+    },
     StudentSiblingOrder: {
       type: DataTypes.INTEGER,
       allowNull: false,
