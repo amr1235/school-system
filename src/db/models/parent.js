@@ -31,7 +31,8 @@ module.exports = (sequelize, DataTypes) => {
   Parent.init({
     ParentId: {
       type: DataTypes.INTEGER,
-      primaryKey: true,
+      autoIncrement : true,
+      primaryKey: true
     },
     ParentNationalId: {
       type: DataTypes.STRING,

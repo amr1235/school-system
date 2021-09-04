@@ -1,6 +1,6 @@
 const { Op } = require("sequelize");
 const db = require("../db/models/index");
-
+// const parent = require("./parent");
 const mapToJSON = payload => {
   return payload.map(item => item.toJSON());
 };
@@ -29,30 +29,34 @@ const getStudentsByColumnMultipleVals = (column, vals) => {
     }
   }).then(mapToJSON);
 };
-// add new parent function
 
 // eslint-disable-next-line no-unused-vars
-const addNewStudent = (studentName, ssn = null, passport = null,
-  dob, city, studentAddress, studentGender, studentNationality,
-  studentOrder, breadwinner, familyStatus) => {
-  // check national id
+// const addNewStudent = async (fatherData, motherData, responsibleParentData) => {
+//   // responsibleParentData cannot be null
+//   // return new Promise(async (res,rej) => {
+//   //   try {
 
-  return db["Student"].create({
-    StudentNationalId: ssn,
-    StudentName: studentName,
-    StudentBirthDate: dob,
-    StudentBirthPlace: city,
-    StudentAddress: studentAddress,
-    StudentSex: studentGender,
-    StudentNationalityId: studentNationality,
-    StudentRegisterDate: "2021-08-26",
-    StudentSiblingOrder: studentOrder,
-    StudentResponsibleId: breadwinner,
-    StudentResponsibleRelation: "FATHER",
-    StudentFamilyStatus: familyStatus,
-    // StudentClass: studentClassId,
-  });
-};
+//   //   } catch (err) {
+//   //     rej(err);
+//   //   }
+//   // });
+//   // check national id
+//   return db["Student"].create({
+//     StudentNationalId: ssn,
+//     StudentName: studentName,
+//     StudentBirthDate: dob,
+//     StudentBirthPlace: city,
+//     StudentAddress: studentAddress,
+//     StudentSex: studentGender,
+//     StudentNationalityId: studentNationality,
+//     StudentRegisterDate: "2021-08-26",
+//     StudentSiblingOrder: studentOrder,
+//     StudentResponsibleId: breadwinner,
+//     StudentResponsibleRelation: "FATHER",
+//     StudentFamilyStatus: familyStatus,
+//     // StudentClass: studentClassId,
+//   });
+// };
 
 //update student by nationalId 
 // const updateStudentByNationalId = (nationalID,data) => {
@@ -73,7 +77,7 @@ const addNewStudent = (studentName, ssn = null, passport = null,
 //     ParentAddress: address,
 //     ParentNationalityId: nationality,
 //     ParentAcademicDegree: academicDegree,
-    
+
 //   })
 //     .then(father => father.toJSON())
 //     .then(father => {

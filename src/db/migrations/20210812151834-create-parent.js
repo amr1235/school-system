@@ -4,7 +4,8 @@ module.exports = {
       await queryInterface.createTable("Parent", {
         ParentId: {
           type: Sequelize.INTEGER,
-          primaryKey: true,
+          autoIncrement : true,
+          primaryKey: true
         },
         ParentNationalId: {
           type: Sequelize.STRING,
