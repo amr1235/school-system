@@ -1,7 +1,6 @@
 [
 
   {
-    "ParentId": 1,
     "ParentNationalId": "11111111111111",
     "ParentName": "Ahmed",
     "ParentAddress": "Address 1",
@@ -9,7 +8,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 2,
     "ParentNationalId": "22222222222222",
     "ParentName": "Sahar",
     "ParentAddress": "Address 2",
@@ -17,7 +15,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 3,
     "ParentNationalId": "33333333333333",
     "ParentName": "Amr",
     "ParentAddress": "Address 3",
@@ -25,7 +22,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 4,
     "ParentNationalId": "44444444444444",
     "ParentName": "Omar",
     "ParentAddress": "Address 4",
@@ -33,7 +29,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 5,
     "ParentNationalId": "55555555555555",
     "ParentName": "Ramadan",
     "ParentAddress": "Address 5",
@@ -41,7 +36,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 6,
     "ParentNationalId": "66666666666666",
     "ParentName": "Zee",
     "ParentAddress": "Address 6",
@@ -49,7 +43,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 7,
     "ParentNationalId": "77777777777777",
     "ParentName": "Mona",
     "ParentAddress": "Address 7",
@@ -57,7 +50,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 8,
     "ParentNationalId": "88888888888888",
     "ParentName": "Maha",
     "ParentAddress": "Address 8",
@@ -65,7 +57,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 9,
     "ParentNationalId": "99999999999999",
     "ParentName": "Rania",
     "ParentAddress": "Address 9",
@@ -73,7 +64,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 10,
     "ParentNationalId": "00980034303544",
     "ParentName": "Sally",
     "ParentAddress": "Address 9",
@@ -81,7 +71,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 11,
     "ParentNationalId": "12980034303544",
     "ParentName": "Samy",
     "ParentAddress": "Address 9",
@@ -89,7 +78,6 @@
     "ParentNationalityId": 1
   },
   {
-    "ParentId": 12,
     "ParentPassportId": "AI29402PLO",
     "ParentName": "Raouf",
     "ParentAddress": "Address 9",
@@ -97,7 +85,6 @@
     "ParentNationalityId": 3
   },
   {
-    "ParentId": 13,
     "ParentPassportId": "SS2802KYO",
     "ParentName": "Mohammed",
     "ParentAddress": "Address 9",
