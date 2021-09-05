@@ -31,9 +31,6 @@ module.exports = {
         ParentAddress: {
           type: Sequelize.STRING,
           allowNull: false,
-          validate: {
-            isAlphanumeric: true
-          }
         },
         ParentNationalityId: {
           type: Sequelize.INTEGER,

@@ -88,3 +88,6 @@ test.js
 
 # Electron-Forge
 out/
+
+# Editor
+.vscode

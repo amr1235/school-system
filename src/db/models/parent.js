@@ -12,12 +12,15 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "ParentNationalityId"
       });
       Parent.hasMany(models["Student"], {
+        as: "Mother",
         foreignKey: "StudentMotherId"
       });
       Parent.hasMany(models["Student"], {
+        as: "Father",
         foreignKey: "StudentFatherId"
       });
       Parent.hasMany(models["Student"], {
+        as: "Responsible",
         foreignKey: "StudentResponsibleId"
       });
       Parent.hasMany(models["ParentJob"], {
@@ -58,9 +61,6 @@ module.exports = (sequelize, DataTypes) => {
     ParentAddress: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isAlphanumeric: true
-      }
     },
     ParentNationalityId: {
       type: DataTypes.INTEGER,
