@@ -9,12 +9,15 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Student.belongsTo(models["Parent"], {
+        as: "Responsible",
         foreignKey: "StudentResponsibleId"
       });
       Student.belongsTo(models["Parent"], {
+        as: "Mother",
         foreignKey: "StudentMotherId"
       });
       Student.belongsTo(models["Parent"], {
+        as: "Father",
         foreignKey: "StudentFatherId"
       });
       Student.belongsTo(models["Nationality"], {
