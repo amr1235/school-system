@@ -2,7 +2,8 @@ const db = require("../db/models/index");
 const { Op } = require("sequelize");
 
 // add new parent function
-const addParent = async (parentData) => {
+const addParent = async (parentData,transaction) => {
+
   // check if the parent already exist
   let parentSSn = parentData.ParentNationalId ? parentData.ParentNationalId : parentData.ParentPassportId;
   let parent = await db["Parent"].findAll({
@@ -12,11 +13,11 @@ const addParent = async (parentData) => {
         { ParentPassportId: parentSSn }
       ]
     }
-  });
+  },{transaction});
   parent = parent[0];
   // !mother ? add new parent : return the existing parent
   if (!parent) {
-    parent = await db["Parent"].create(parentData);
+    parent = await db["Parent"].create(parentData,{transaction});
     // add prent phones
     let phones = parentData.phones;
     if (parentData.phones.length != 0) {
@@ -25,7 +26,7 @@ const addParent = async (parentData) => {
         await db["ParentPhone"].create({
           ParentId: parent.ParentId,
           ParentPhoneNumber: phone
-        });
+        },{transaction});
       }
     } else {
       throw Error("no phones !");
@@ -36,7 +37,7 @@ const addParent = async (parentData) => {
         ParentId: parent.ParentId,
         ParentJobId: parentData.ParentJobId,
         ParentJobAddress: parentData.ParentJobAddress
-      });
+      },{transaction});
     }
     else {
       throw Error("no jobs !");
