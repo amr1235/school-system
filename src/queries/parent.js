@@ -2,48 +2,50 @@ const db = require("../db/models/index");
 const { Op } = require("sequelize");
 
 // add new parent function
-const addParent = async (parentData,transaction) => {
+const addParent = async (parentData) => {
+  return db.sequelize.transaction(async (t) => {
 
-  // check if the parent already exist
-  let parentSSn = parentData.ParentNationalId ? parentData.ParentNationalId : parentData.ParentPassportId;
-  let parent = await db["Parent"].findOne({
-    where: {
-      [Op.or]: [
-        { ParentNationalId: parentSSn },
-        { ParentPassportId: parentSSn }
-      ]
-    }
-  },{transaction});
-  // !mother ? add new parent : return the existing parent
-  if (!parent) {
-    parent = await db["Parent"].create(parentData,{transaction});
-    // add prent phones
-    let phones = parentData.phones;
-    if (parentData.phones.length != 0) {
-      for (let i = 0; i < phones.length; i++) {
-        const phone = phones[i];
-        await db["ParentPhone"].create({
-          ParentId: parent.ParentId,
-          ParentPhoneNumber: phone
-        },{transaction});
+    // check if the parent already exists
+    let parentSSn = parentData.ParentNationalId ? parentData.ParentNationalId : parentData.ParentPassportId;
+    let parent = await db["Parent"].findOne({
+      where: {
+        [Op.or]: [
+          { ParentNationalId: parentSSn },
+          { ParentPassportId: parentSSn }
+        ]
+      }
+    });
+  
+    if (!parent) {
+      parent = await db["Parent"].create(parentData, { transaction: t });
+  
+      // add parent phones
+      if (parentData.phones.length != 0) {
+
+        // createParentPhone is automatically created by sequelize
+        // when we specify associations in the model
+        await Promise.all(parentData.phones.map(async (phone) => {
+          return parent.createParentPhone({
+            ParentPhoneNumber: phone
+          }, { transaction: t }).then(res=>res.toJSON().ParentPhoneNumber);
+        }));
+
+      } else {
+        throw new Error("Must specify at least one phone!");
+      }
+    
+      // add parent job
+      if (parentData.ParentJobId) {
+        parent.createParentJob({
+          ParentJobId: parentData.ParentJobId,
+          ParentJobAddress: parentData.ParentJobAddress
+        }, { transaction: t });
       }
     } else {
-      throw Error("no phones !");
+      throw new Error(`Parent with NationalId ${parent.toJSON().ParentNationalId} already exists!`);
     }
-    if (parentData.ParentJobId) {
-      // add parent job
-      await db["ParentJob"].create({
-        ParentId: parent.ParentId,
-        ParentJobId: parentData.ParentJobId,
-        ParentJobAddress: parentData.ParentJobAddress
-      },{transaction});
-    }
-    else {
-      throw Error("no jobs !");
-    }
-  }
-  parent = parent.dataValues;
-  return parent;
+    return parent;
+  });
 };
 
 module.exports = {
