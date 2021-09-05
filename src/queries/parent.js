@@ -6,7 +6,7 @@ const addParent = async (parentData,transaction) => {
 
   // check if the parent already exist
   let parentSSn = parentData.ParentNationalId ? parentData.ParentNationalId : parentData.ParentPassportId;
-  let parent = await db["Parent"].findAll({
+  let parent = await db["Parent"].findOne({
     where: {
       [Op.or]: [
         { ParentNationalId: parentSSn },
@@ -14,7 +14,6 @@ const addParent = async (parentData,transaction) => {
       ]
     }
   },{transaction});
-  parent = parent[0];
   // !mother ? add new parent : return the existing parent
   if (!parent) {
     parent = await db["Parent"].create(parentData,{transaction});

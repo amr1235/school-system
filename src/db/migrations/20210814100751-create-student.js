@@ -87,6 +87,9 @@ module.exports = {
         },
         StudentHealth: {
           type: Sequelize.STRING
+        },
+        StudentExitDate : {
+          type: Sequelize.DATEONLY
         }
       }, { transaction: t });
       await queryInterface.addIndex("Student", ["StudentName"], { transaction: t });

@@ -123,6 +123,9 @@ module.exports = (sequelize, DataTypes) => {
     },
     StudentHealth: {
       type: DataTypes.STRING
+    },
+    StudentExitDate : {
+      type: DataTypes.DATEONLY
     }
   }, {
     sequelize,
