@@ -41,12 +41,12 @@ const addNewStudent = async (fatherData, motherData, responsibleParentData, stud
     let StudentResponsibleRelation = "";
     // check if there is a father 
     if (fatherData) {
-      let father = await parent.addParent(fatherData,t);
+      let father = await parent.addParent(fatherData, t);
       StudentFatherId = father.ParentId;
     }
     // check if there is a father 
     if (motherData) {
-      let mother = await parent.addParent(motherData,t);
+      let mother = await parent.addParent(motherData, t);
       StudentMotherId = mother.ParentId;
     }
     if (responsibleParentData[0] == "father") {
@@ -57,7 +57,7 @@ const addNewStudent = async (fatherData, motherData, responsibleParentData, stud
       StudentResponsibleRelation = "mother";
     } else {
       // if the Responsible is not his mother or his father create another parent
-      let responsible = await parent.addParent(responsibleParentData[1],t);
+      let responsible = await parent.addParent(responsibleParentData[1], t);
       StudentResponsibleId = responsible.ParentId;
       StudentResponsibleRelation = responsibleParentData[0];
     }
@@ -71,28 +71,119 @@ const addNewStudent = async (fatherData, motherData, responsibleParentData, stud
     };
     console.log(studentData);
     // create student
-    let student = await db["Student"].create(studentData,{transaction:t});
+    let student = await db["Student"].create(studentData, { transaction: t });
     student = student.dataValues;
     let StudentId = student.StudentId;
     // add class info
     await db["StudentClass"].create({
       StudentId,
       ClassId
-    },{transaction:t});
+    }, { transaction: t });
     return student;
   });
 };
 
-//update student by nationalId 
-// const updateStudentByNationalId = (nationalID,data) => {
-//   return new Promise((res,rej) => {
-//     db["Student"].update(data,{
-//       where : {
-//         StudentNationalId : nationalID
-//       }
-//     }).then(std => res(std)).catch(err => rej(err));
-//   });
-// }
+//update student by studentId
+const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData, newResponsibleParentData, newStudentData, newClassId) => {
+  return await db.sequelize.transaction(async (t) => {
+    // get StudentFatherId , StudentMotherId , StudentResponsibleId
+    let { StudentFatherId, StudentMotherId, StudentResponsibleId } = await db["Student"].findOne({
+      attributes: ["StudentFatherId", "StudentMotherId", "StudentResponsibleId"],
+      where: {
+        StudentId: StudentId
+      }
+    }, { transaction: t });
+    // check if ther ia new father data if  so update it 
+    if (newFatherData) {
+      // check if the student has a father 
+      if (!StudentFatherId) {
+        // create new parent with the data 
+        let father = await parent.addParent(newFatherData, t);
+        StudentFatherId = father.toJSON().ParentId;
+      } else {
+        // update father with the new data 
+        await db["Parent"].update(newFatherData, {
+          where: {
+            ParentId: StudentFatherId
+          },
+          transaction: t
+        });
+      }
+    }
+    // check if ther ia new mother data if  so update it 
+    if (newMotherData) {
+      // check if the student has a mother
+      if (!StudentMotherId) {
+        // create new parent with the data 
+        let mother = await parent.addParent(newMotherData, t);
+        StudentMotherId = mother.toJSON().ParentId;
+        // update StudentFatherId
+        await db["Student"].update({
+          StudentMotherId
+        }, {
+          where: {
+            StudentId
+          },
+          transaction: t
+        });
+      } else {
+        // update mother with the new data 
+        await db["Parent"].update(newMotherData, {
+          where: {
+            ParentId: StudentMotherId
+          },
+          transaction: t
+        });
+      }
+    }
+    // check if ther ia new res data if  so update it 
+    let StudentResponsibleRelation = "";
+    if (newResponsibleParentData) {
+      if (newResponsibleParentData[0] == "father") {
+        StudentResponsibleId = StudentFatherId;
+        StudentResponsibleRelation = "father";
+      } else if (newResponsibleParentData[0] == "mother") {
+        StudentResponsibleId = StudentMotherId;
+        StudentResponsibleRelation = "mother";
+      } else {
+        // update Responsible Parent
+        await db["Parent"].update(newResponsibleParentData[1], {
+          where: {
+            ParentId: StudentResponsibleId
+          },
+          transaction: t
+        });
+        StudentResponsibleRelation = newResponsibleParentData[0];
+      }
+    }
+    // update new student data
+    newStudentData = {
+      ...newStudentData,
+      StudentFatherId,
+      StudentMotherId,
+      StudentResponsibleId,
+      StudentResponsibleRelation
+    };
+    let student = db["Student"].update(newStudentData, {
+      where: {
+        StudentId
+      },
+      transaction: t
+    });
+    // if there is new classId update it 
+    if (newClassId) {
+      await db["StudentClass"].update({
+        ClassId: newClassId
+      }, {
+        where: {
+          StudentId
+        },
+        transaction : t
+      });
+    }
+    return student.toJSON();
+  });
+};
 // This shoould be done in a different way
 // const addFatherInfo = (studentSSN, fatherName, ssn = null, passport = null, address, nationality, academicDegree, job, isAColleage, phones) => {
 //   db["Parent"].create({
@@ -115,5 +206,6 @@ const addNewStudent = async (fatherData, motherData, responsibleParentData, stud
 // getStudentByColumn("StudentName", "Ali").then(console.log).then(console.log);
 // getStudentsByColumnMultipleVals("StudentFamilyStatus", ["ORPHAN"]).then(console.log);
 module.exports = {
-  addNewStudent
+  addNewStudent,
+  updateStudentByStudentId
 };
