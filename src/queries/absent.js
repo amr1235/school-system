@@ -16,15 +16,15 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
     AbsentDate: AbsentDate
   };
   
-  const student1 = await db["Student"].findOne({
+  const student = await db["Student"].findOne({
     where: {
       StudentId
     }, 
     include: [db["StudentWarning"], db["StudentAbsent"]],
   });
   
-  const absenceDays = student1.dataValues.StudentAbsents.length;
-  const warnings = student1.dataValues.StudentWarnings.length;
+  const absenceDays = student.dataValues.StudentAbsents.length;
+  const warnings = student.dataValues.StudentWarnings.length;
   const perWarning = 10;
 
   if (absenceDays - warnings * perWarning >= perWarning) {
@@ -34,10 +34,10 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
         StudentId: StudentId,
         WarningDate: AbsentDate
       }, { transaction: t });
-      return [absent, newWarning];
+      return ([absent, newWarning]).map(data => data.toJSON());
     });
   } else {
-    return [db["StudentAbsent"].create(absenceData), {}];
+    return db["StudentAbsent"].create(absenceData).then(date => date.toJSON());
   }
 };
 
@@ -46,7 +46,7 @@ const getStudentAbsenceDays = async (StudentId) => {
     where: {
       StudentId
     }
-  });
+  }).then(dates => dates.map(date => date.toJSON()));
 };
 
 const getAbsenceBetween = async (StudentId, startingDate, endingDate) => {
@@ -57,7 +57,7 @@ const getAbsenceBetween = async (StudentId, startingDate, endingDate) => {
         [Op.between]: [startingDate, endingDate]
       }
     }
-  });
+  }).then(dates => dates.map(date => date.toJSON()));
 };
 
 const getAllWarnings = async (StudentId) => {
@@ -65,7 +65,7 @@ const getAllWarnings = async (StudentId) => {
     where: {
       StudentId
     }
-  });
+  }).then(warnings => warnings.map(warning => warning.toJSON()));
 };
 
 const sendWarning = async (StudentId, WarningDate) => {
@@ -85,7 +85,6 @@ const deleteWarning = async (StudentId, WarningDate) => {
     }
   });
 };
-
 
 module.exports = {
   addNewAbsenceDay,
