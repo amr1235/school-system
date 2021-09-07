@@ -15,10 +15,16 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
     StudentId: StudentId,
     AbsentDate: AbsentDate
   };
-
-  const student = await db["Student"].findByPk(StudentId);
-  const absenceDays = await student.countStudentAbsents();
-  const warnings = await student.countStudentWarnings();
+  
+  const student1 = await db["Student"].findOne({
+    where: {
+      StudentId
+    }, 
+    include: [db["StudentWarning"], db["StudentAbsent"]],
+  });
+  
+  const absenceDays = student1.dataValues.StudentAbsents.length;
+  const warnings = student1.dataValues.StudentWarnings.length;
   const perWarning = 10;
 
   if (absenceDays - warnings * perWarning >= perWarning) {
@@ -80,7 +86,6 @@ const deleteWarning = async (StudentId, WarningDate) => {
   });
 };
 
-sendWarning(1, "2012-01-09").then(console.log);
 
 module.exports = {
   addNewAbsenceDay,
