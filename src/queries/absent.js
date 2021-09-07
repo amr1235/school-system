@@ -1,4 +1,5 @@
 const db = require("../db/models/index");
+const { Op } = require("sequelize");
 
 const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
   const AbsentReason = await db["AbsentReason"].findOrCreate({
@@ -42,6 +43,17 @@ const getStudentAbsenceDays = async (StudentId) => {
   });
 };
 
+const getAbsenceBetween = async (StudentId, startingDate, endingDate) => {
+  return db["StudentAbsent"].findAll({
+    where: {
+      StudentId,
+      AbsentDate: {
+        [Op.between]: [startingDate, endingDate]
+      }
+    }
+  });
+};
+
 const getAllWarnings = async (StudentId) => {
   return db["StudentWarning"].findAll({
     where: {
@@ -50,17 +62,31 @@ const getAllWarnings = async (StudentId) => {
   });
 };
 
-const sendWarning = async (WarningDate) => {
+const sendWarning = async (StudentId, WarningDate) => {
   return db["StudentWarning"].update({ IsRecieved: true }, {
     where: {
+      StudentId,
       WarningDate: WarningDate
     }
   });
 };
 
+const deleteWarning = async (StudentId, WarningDate) => {
+  return db["StudentWarning"].destroy({
+    where: {
+      StudentId,
+      WarningDate: WarningDate
+    }
+  });
+};
+
+sendWarning(1, "2012-01-09").then(console.log);
+
 module.exports = {
   addNewAbsenceDay,
   getStudentAbsenceDays,
+  getAbsenceBetween,
   getAllWarnings,
-  sendWarning
+  sendWarning,
+  deleteWarning
 };
