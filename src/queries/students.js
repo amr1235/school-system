@@ -176,34 +176,65 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         where: {
           StudentId
         },
-        transaction : t
+        transaction: t
       });
     }
     return student.toJSON();
   });
 };
-// This shoould be done in a different way
-// const addFatherInfo = (studentSSN, fatherName, ssn = null, passport = null, address, nationality, academicDegree, job, isAColleage, phones) => {
-//   db["Parent"].create({
-//     ParentName: fatherName,
-//     ParentNationalId: ssn,
-//     ParentPassportId: passport,
-//     ParentAddress: address,
-//     ParentNationalityId: nationality,
-//     ParentAcademicDegree: academicDegree,
-
-//   })
-//     .then(father => father.toJSON())
-//     .then(father => {
-
-//     });
-// };
-
-// getAllStudents().then(console.log);
-// addNewStudent("Ramadan Ibrahem", "12651122334455", null, "1998-11-30", "Cairo", "30 Ahmed Dawood St., Cairo, Egypt", "MALE", 1, 2, 1, "MARRIED").then(console.log);
-// getStudentByColumn("StudentName", "Ali").then(console.log).then(console.log);
-// getStudentsByColumnMultipleVals("StudentFamilyStatus", ["ORPHAN"]).then(console.log);
+const upgradeStudentsToNextGrade = async () => {
+  return await db.sequelize.transaction(async (t) => {
+    let Stages = await db["Stage"].findAll({
+      attributes: ["StageId"],
+    });
+    Stages = Stages.map(s => s.dataValues.StageId).sort().reverse();
+    for (let i = 0; i < Stages.length; i++) {
+      const StageId = Stages[i];
+      let Grades = await db["Grade"].findAll({
+        attributes: ["GradeId"],
+        where: {
+          StageId
+        }
+      });
+      Grades = Grades.map(g => g.dataValues.GradeId).sort().reverse();
+      for (let j = 0; j < Grades.length; j++) {
+        const GradeId = Grades[j];
+        let nextGradeId = Grades[j - 1];
+        if (!nextGradeId) {
+          let nextStageId = Stages[i - 1];
+          if (!nextStageId) {
+            // graduate last classes 
+            await db["Class"].destroy({
+              where: {
+                GradeId
+              },
+              transaction: t
+            });
+            continue;
+          }
+          let GradesOfNextStage = await db["Grade"].findAll({
+            attributes: ["GradeId"],
+            where: {
+              StageId: nextStageId
+            }
+          });
+          nextGradeId = GradesOfNextStage.map(g => g.dataValues.GradeId).sort()[0];
+        }
+        // update all classes with new grade Id 
+        await db["Class"].update({
+          GradeId: nextGradeId
+        }, {
+          where: {
+            GradeId
+          },
+          transaction: t
+        });
+      }
+    }
+  });
+};
 module.exports = {
   addNewStudent,
-  updateStudentByStudentId
+  updateStudentByStudentId,
+  upgradeStudentsToNextGrade
 };
