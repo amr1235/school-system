@@ -2,9 +2,7 @@ const { Op } = require("sequelize");
 const db = require("../db/models/index");
 const parent = require("./parent");
 
-const mapToJSON = payload => {
-  return payload.map(item => item.toJSON());
-};
+const { mapToJSON } = require("./utlis");
 // eslint-disable-next-line no-unused-vars
 const getAllStudents = () => {
   return db["Student"].findAll().then(mapToJSON);
