@@ -22,10 +22,6 @@ module.exports = (sequelize, DataTypes) => {
     CategoryName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isAlphanumeric: true
-      }
     },
     CategoryCost: {
       type: DataTypes.FLOAT,

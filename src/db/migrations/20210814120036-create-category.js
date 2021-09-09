@@ -9,7 +9,6 @@ module.exports = {
       CategoryName: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
       },
       CategoryCost: {
         type: Sequelize.FLOAT,
