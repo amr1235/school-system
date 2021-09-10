@@ -38,6 +38,9 @@ module.exports = (sequelize, DataTypes) => {
       Student.hasMany(models["StudentDiscount"], {
         foreignKey: "StudentId"
       });
+      Student.hasMany(models["Payment"], {
+        foreignKey: "StudentId"
+      });
     }
   }
   Student.init({
