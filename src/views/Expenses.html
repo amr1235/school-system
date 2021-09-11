@@ -12,7 +12,7 @@
     <!--start of navbar-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
         <div class="container-fluid">
-          <a class="navbar-brand" href="#" >معهد الوفاء</a>
+          <a class="navbar-brand mx-5" href="#" >معهد الوفاء</a>
           <button class="navbar-toggler rounded-pill text-warning mx-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
             <i class="bi bi-arrow-right-circle"></i>
           </button>
@@ -20,14 +20,26 @@
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <form class="d-flex me-auto mt-3 mt-md-0 ">
+            <div class="dropdown mx-1" dir="rtl">
+              <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                اﻻعدادات
+              </button>
+              <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item"  href="#">اقساط</a></li>
+                <li><a class="dropdown-item"  href="#">خصومات </a></li>
+                <li><a class="dropdown-item"  href="#">بدء سنه جديده</a></li>
+                <li><a class="dropdown-item"  href="#"> خطوط الباص </a></li>
+              </ul>
+            </div>
+            <div class="mx-2">
+              <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
+            </div>
+            <form class="d-flex  me-auto  mt-3 mt-md-0 ">
               <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث" aria-label="Search">
               <button class="btn btn-outline-warning rounded-circle" type="submit"><i class="bi bi-search"></i></button>
             </form>
-            <div class="mx-5">
-              <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
-              <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="./student-affairs.html">شؤون الطﻻب</a></button>
-            </div>
+
+
           </div>
         </div>
     </nav>
@@ -61,7 +73,7 @@
                     <div id="prim-1" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
                       <div class="accordion-body text-center">
                         <ul class="list-group" id="stud-list">
-                          <li class=" list-group-item"><a href="#" class="text-decoration-none">احمد</a></li>
+                          <li class=" list-group-item"><a href="./stud-installment.html" class="text-decoration-none">احمد</a></li>
                           <li class=" list-group-item "><a href="#" class="text-decoration-none">lasdgjs</a></li>
                           <li class=" list-group-item "><a href="#" class="text-decoration-none">ahmed</a></li>
                         </ul>
@@ -418,8 +430,8 @@
 
 
 
-    <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>
