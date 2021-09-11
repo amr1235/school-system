@@ -99,17 +99,32 @@
       document.getElementById("delete-mum").remove();
     }
 
+
     function addExpenses(){
       let newExpenses = document.getElementById("newExpenses1");
       let New_div = document.createElement("div");
       New_div.setAttribute("class","row my-3");
       New_div.setAttribute("id","delete-Expenses1");
       New_div.setAttribute("dir","rtl");
-      New_div.innerHTML = '<div class="col-md-4 col-12"><div class="input-group mb-3"><select class="form-select rounded-pill" aria-label="Default select example"><option selected>نوع المصاريف</option><option value="1">رعايه</option><option value="2">ملازم</option><option value="3">مصاريف عاديه</option><option value="4">ثمن ملف </option><option value="5">اعفاءات </option><option value="6">السيارة</option><option value="7">ايصالات ملغيه</option><option value="8">مبالغ مسترده</option><option value="9">مصاريف تاسيس (للمحولين)</option></select></div></div><div class="col-md-4 col-12"><div class="input-group mb-3"><span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span><input type="number" class="form-control mx-1 rounded-pill" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default"></div></div><div class="col-md-4 col-12"><div class="input-group mb-3 justify-content-around justify-content-md-start"><button class="btn btn-primary mx-3 rounded-pill" onclick="addExpenses()">اضافه مصاريف</button><button class="btn btn-danger rounded-circle" onclick="removeExpenses()"><i class="bi bi-trash"></i></button></div></div>';
+      New_div.innerHTML = '                  <div class="col-md-3 col-12">                    <div class="input-group mb-3">                        <span class="input-group-text" id="inputGroup-sizing-default">  اسم القسط</span>                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                      </div>                  </div>                  <div class="col-md-3 col-12">                    <div class="input-group mb-3">                      <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">التكلفه </span>                      <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                    </div>                  </div>                  <div class="col-md-3 col-12">                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                      <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpenses()">اضافه مصاريف</button>                    </div>                  </div>                  <div class="col-md-3 col-12">                      <button class="btn btn-danger" onclick="removeExpenses()"> <i class="bi bi-x-octagon"></i> </button>                  </div>                </div>                <div id="newExpenses1">                      </div>';
+      newExpenses.appendChild(New_div);
+    }
+
+
+    function addExpensesModal(){
+      let newExpenses = document.getElementById("newExpenses2");
+      let New_div = document.createElement("div");
+      New_div.setAttribute("class","row my-3");
+      New_div.setAttribute("id","delete-Expenses2");
+      New_div.setAttribute("dir","rtl");
+      New_div.innerHTML = '                            <div class="row my-3">                                <div class="input-group mb-3">                                    <span class="input-group-text" id="inputGroup-sizing-default">  اسم القسط</span>                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                                  </div>                            </div>                            <div class="row my-3">                                <div class="input-group mb-3">                                    <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">التكلفه </span>                                    <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                                  </div>                            </div>                            <div class="row my-3">                                <div class="col-6">                                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                                        <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpensesModal()">اضافه مصاريف</button>                                    </div>                                </div>                                <div class="col-6">                                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                                        <button class="btn btn-danger mx-3 rounded-pill" onclick="removeExpensesModal()"> <i class="bi bi-x-octagon"></i></button>                                    </div>                                </div>                            </div>';
       newExpenses.appendChild(New_div);
     }
     function removeExpenses(){
       document.getElementById("delete-Expenses1").remove();
+    }
+    function removeExpensesModal(){
+      document.getElementById("delete-Expenses2").remove();
     }
 
     function remove_Dad_Phone(){
@@ -173,6 +188,23 @@
       let v4 = document.getElementById("value4");
       let v5 = document.getElementById("value5");
       let v6 = document.getElementById("value6");
+      if(element.value == 1){
+        v4.removeAttribute("hidden");
+        v5.removeAttribute("hidden");
+        v6.removeAttribute("hidden");
+      }
+      else{
+        v4.hidden = true;
+        v5.hidden = true;
+        v6.hidden = true;
+      }
+    }
+
+    
+    function showPrimary2(element){
+      let v4 = document.getElementById("value4_modal");
+      let v5 = document.getElementById("value5_modal");
+      let v6 = document.getElementById("value6_modal");
       if(element.value == 1){
         v4.removeAttribute("hidden");
         v5.removeAttribute("hidden");
