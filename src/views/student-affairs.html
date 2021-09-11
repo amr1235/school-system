@@ -25,16 +25,18 @@
             <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث" aria-label="Search">
             <button class="btn btn-outline-warning rounded-circle" type="submit"><i class="bi bi-search"></i></button>
           </form>
-          <div class="mx-5">
+          <div class="mx-5 nav">
             <button class="btn btn-warning mx-md-3 mx-4 my-2 d-inline-block rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
-            <button class="d-inline-block btn btn-warning rounded-pill mx-md-3"><a class="text-decoration-none text-dark" href="./Exams.html">ارقام الجلوس</a></button>
-            <button class="d-inline-block btn btn-warning rounded-pill mx-md-3"><a class="text-decoration-none text-dark" href="./Expenses.html"> المصروفات</a></button>
+            <button class="btn btn-warning mx-md-3 mx-4 my-2 d-inline-block rounded-pill"><a class="text-decoration-none text-dark" href="./Exams.html">ارقام الجلوس</a></button>
+            <button class="btn btn-warning mx-md-3 mx-4 my-2 d-inline-block rounded-pill"><a class="text-decoration-none text-dark" href="./Expenses.html"> المصروفات</a></button>
           </div>
         </div>
         
       </div>
     </nav>
     <!--end of navbar-->
+
+
     <!--start of side bar-->
     <aside>
       <div class="offcanvas offcanvas-start container sidebar-nav me-auto" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
@@ -42,7 +44,7 @@
           <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body justify-content-center" dir="rtl">
-        <button type="submit" class="d-block w-100 btn btn-success mb-3">تسجيل البيانات</button>
+
 
           <ul class="nav nav-pills" id="pills-tab" role="tablist">
             <li class="nav-item" role="presentation">
@@ -172,22 +174,38 @@
               <!--mid accordion-->
             </div>
           </div>
-          <div class="nav nav-pills me-3" dir="rtl" id="v-pills-tab" role="tablist" >
-            <button class="nav-link active btn btn-success text-center my-2" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#stud-data" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">تسجيل طالب جديد</button>
-            <button class="nav-link  btn btn-success text-center my-2" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#family" type="button" role="tab" aria-controls="v-pills-home" > بيانات العائله </button>
-
-            <button class="nav-link btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#absence" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"> الغياب </button>
-            <button class="nav-link btn btn-success text-center my-2" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#stud-installment" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">الاقساط الخاصه بالطالب</button>
-            <button class="nav-link btn btn-success text-center my-2" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#transfer" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">تحويل طالب</button>
-
-          </div>
         </div>
       </div>
     </aside>
     <!--end of side bar-->
+
+
     <!--register section-->
     <main class="mt-5 pt-3 tab-content" id="register">
-      <section id="stud-data" class="container tab-pane fade show active" role="tabpanel">
+
+      <ul class="nav nav-pills mb-3 bg-dark justify-content-center" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#dad" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"> بيانات اﻻب </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#mum" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"> بيانات اﻻم</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#caretaker" type="button" role="tab" aria-controls="pills-contact" aria-selected="false"> بيانات ولي الامر</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#stud-data" type="button" role="tab" aria-controls="pills-home" aria-selected="true">تسجيل طالب جديد</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#absence" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">الغياب</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#transfer" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">تحويل الطالب</button>
+        </li>
+      </ul>
+
+
+      <section id="stud-data" class="container tab-pane fade show active" role="tabpanel" aria-labelledby="v-pills-home-tab" dir="rtl" >
         <h1 class="text-center py-4">بيانات الطالب</h1>
         
         <div class="row my-3" dir="rtl">
@@ -212,43 +230,11 @@
         </div>
 
         <div class="row my-3" dir="rtl">
-          <div class="col-md-6 col-12">
+          <div class="col-12">
             <div class="input-group input-group mb-2 col">
               <span class="input-group-text" id="inputGroup-sizing">تاريخ الميلاد:</span>
               <input type="date" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
             </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>محافظه السكن</option>
-              <option value="1">القاهره</option>
-              <option value="2">الجيزه</option>
-              <option value="3">الدقهليه</option>
-              <option value="4">طنطا</option>
-              <option value="5">القليوبيه</option>
-              <option value="6">الإسماعيلية</option>
-              <option value="7">اسوان</option>
-              <option value="8">اسيوط</option>
-              <option value="9">الاقصر</option>
-              <option value="10">البحر الاحمر</option>
-              <option value="11">البحيره</option>
-              <option value="12">بني سويف</option>
-              <option value="13">بورسعيد</option>
-              <option value="14">جنوب سيناء</option>
-              <option value="15">شمال سيناء</option>
-              <option value="16">الفيوم</option>
-              <option value="17">دمياط</option>
-              <option value="18">سوهاج</option>
-              <option value="19">السويس</option>
-              <option value="20">الشرقيه</option>
-              <option value="21">الغربيه</option>
-              <option value="22">قنا</option>
-              <option value="23">كفر الشيخ</option>
-              <option value="24">مطروح</option>
-              <option value="25">المنوفيه</option>
-              <option value="26">المنيا</option>
-              <option value="27">الوادي الجديد</option>
-            </select>
           </div>
         </div>
 
@@ -351,38 +337,379 @@
             </select>
           </div>
         </div>
+
+
       </section>
 
 
+      <!--dad section-->
+      <section id="dad" class="container tab-pane fade show "  role="tabpanel" dir="rtl">
+        <h1 class="text-center py-4">  بيانات الاب</h1>
 
+        <div class="container row">
 
-      <!--installment table-->
-      <section id="stud-installment" class="container my-5 tab-pane fade">
-        <h1 class="text-center py-3">الاقساط</h1>
-        <table class="table table-hover table-borderless table-striped" dir="rtl">
-          <thead>
-            <tr>
-              <th scope="col">رقم القسط</th>
-              <th scope="col">تاريخ السداد</th>
-              <th scope="col">تاريخ سداد ولي الامر</th>
-              <th scope="col">المبلغ المستحق</th>
-              <th scope="col">ملاحظات</th>
+          <div class="form-check form-switch">
+            <input class="form-check-input "  onchange="hideDadData()" type="checkbox" id="flexSwitchCheckDefault">
+            <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفي</label>
+          </div>
+        </div>
 
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th scope="row">1</th>
-              <td>12/5/2019</td>
-              <td>1/6/2019</td>
-              <td>3000</td>
-              <td>ملتزم</td>
-            </tr>
-          </tbody>
-        </table>
+        <div id="dadData" >
+          <div class="row my-3" dir="rtl">
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2  col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+          </div>
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+              <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+          </div>
+  
+  
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
+              <input  type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+          </div>
+  
+          <div class="row my-3" dir="rtl">
+            <div class="col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected> شهاده الاب </option>
+                  <option value="1">بكالريوس</option>
+                  <option value="2">دكتوراه</option>
+                  <option value="3">ماجيستير</option>
+                  <option value="4">ثانويه</option>
+                </select>
+              </div>
+            </div>
+          </div>
+  
+          <div class="row my-3" dir="rtl">
+            <div class="col-12 col-md-4">
+              <select class="form-select" aria-label="Default select example">
+                <option selected> عمل الاب</option>
+                <option value="1">يعمل بالمدرسه</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="input-group input-group mb-2 col">
+                <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <button class="btn btn-primary" onclick="addWork()">اضافه عمل</button>
+            </div>
+          </div>
+          <div id="work">
+  
+          </div>
+          
+  
+          <div class="row my-3"  dir="rtl">
+            <div class="col-md-8 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing">رقم الهاتف  :</span>
+                <input type="number" id="phone" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+              
+            </div>
+            <div class="col-md-2 col-6">
+              <button  class="btn btn-primary" onclick="addPhone()">اضافه رقم اخر</button>
+            </div>
+          </div>
+  
+          <div id="dadphone" class="my-3">
+  
+          </div>
+        </div>
+
       </section>
-<!--الغياب-->
-      <section id="absence" class="container my-3 tab-pane fade" dir="rtl">
+
+
+      <!--mum section-->
+      <section id="mum"  class="container tab-pane fade show "  role="tabpanel" dir="rtl">
+              <h1 class="text-center py-4">بيانات الام</h1>
+
+              <div class="container row">
+
+                <div class="form-check form-switch">
+                  <input class="form-check-input "  onchange="hideMumData()" type="checkbox" id="flexSwitchCheckDefault">
+                  <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفيه</label>
+                </div>
+
+              </div>
+
+              <div id="mumData">
+                <div class="row my-3" dir="rtl">
+                  <div class="col-md-6 col-12">
+                    <div class="input-group input-group mb-2 col-md-6 col-12">
+                      <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </div>
+                  <div class="col-md-6 col-12">
+                    <div class="input-group input-group mb-2 col-md-6 col-12">
+                      <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+                      <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row my-3" dir="rtl">
+                  <div class="input-group input-group mb-2 col">
+                    <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+                    <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+  
+                <div class="row my-3" dir="rtl">
+                  <div class="input-group input-group mb-2 col">
+                    <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+  
+                <div class="row my-3" dir="rtl">
+                  <div class="col-12">
+                    <div class="input-group input-group mb-2  col-12">
+                      <select class="form-select" aria-label="Default select example">
+                        <option selected> شهاده الام </option>
+                        <option value="1">بكالريوس</option>
+                        <option value="2">دكتوراه</option>
+                        <option value="3">ماجيستير</option>
+                        <option value="4">ثانويه</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                
+                <div class="row my-3" dir="rtl">
+                  <div class="col-12 col-md-4">
+                    <select class="form-select" aria-label="Default select example">
+                      <option selected> عمل اﻻم</option>
+                      <option value="1">يعمل بالمدرسه</option>
+                      <option value="2">2</option>
+                      <option value="3">3</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <div class="input-group input-group mb-2 col">
+                      <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
+                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <button class="btn btn-primary" onclick="addWork2()">اضافه عمل</button>
+                  </div>
+                </div>
+                
+                <div id="work2">
+                  
+                </div>
+  
+                <div class="row my-3" id="num" dir="rtl">
+                  <div class="col-md-8 col-12">
+                    <div class="input-group input-group mb-2 col-md-6 col-12">
+                      <span class="input-group-text" id="inputGroup-sizing">رقم الهاتف  :</span>
+                      <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                    </div>
+                    
+                  </div>
+                  <div class="col-md-2 col-6">
+                    <button  class="btn btn-primary" onclick="add_mum_Phone()">اضافه رقم اخر</button>
+                  </div>
+                </div>
+                
+                <div id="mum-phone" class="my-3">
+  
+                </div>
+              </div>
+                
+              </div>
+
+      </section>
+
+      <!--siblings-->
+      <section id="sibling" class="container tab-pane fade show "  role="tabpanel" dir="rtl">
+              <h1 class="text-center py-4">بيانات الاخوه</h1>
+              <div class="row my-3" dir="rtl">
+                <div class="col-md-3 col-12">
+                  <div class="input-group input-group mb-2 col-md-6 col-12">
+                    <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <div class="input-group input-group mb-2 col-md-6 col-12">
+                    <span class="input-group-text" id="inputGroup-sizing">مدرسه الاخ  :</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+                <div class="col-md-3 col-12">
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected> النوع</option>
+                    <option value="1">ذكر</option>
+                    <option value="2">انثي</option>
+                  </select>
+                </div>
+                <div class="col-md-3 col-12 text-center">
+                  <button  class="btn btn-primary w-auto" onclick="addSibling()">اضافه اخ اخر </button>
+                </div>
+              </div>
+
+              <div id="goto" class="my-3">
+
+              </div>
+
+      </section>
+
+      <!--caretaker-->
+      <section id="caretaker" class="container tab-pane fade show "  role="tabpanel" dir="rtl">
+        <h1 class="text-center py-4">بيانات ولي اﻻمر</h1>
+        <div class="row">
+          <select class="form-select" aria-label="Default select example" onchange="showCareTaker('other',this)">
+            <option selected value="1">الاب </option>
+            <option value="2">اﻻم </option>
+            <option value="3">غير </option>
+          </select>
+        </div>
+
+        <div id="other" class="my-5" hidden>
+
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+              <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12">
+              <div class="input-group input-group mb-2  col-12">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected> شهاده ولي اﻻمر </option>
+                  <option value="1">بكالريوس</option>
+                  <option value="2">دكتوراه</option>
+                  <option value="3">ماجيستير</option>
+                  <option value="4">ثانويه</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12 col-md-4">
+              <select class="form-select" aria-label="Default select example">
+                <option selected> عمل ولي اﻻمر</option>
+                <option value="1">يعمل بالمدرسه</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="input-group input-group mb-2 col">
+                <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
+                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <button class="btn btn-primary w-75" onclick="addWork3()">اضافه عمل</button>
+            </div>
+
+          </div>
+          
+          <div id="work3">
+          </div>
+
+          <div class="row my-3" id="num" dir="rtl">
+              <div class="col-md-8 col-12">
+                <div class="input-group input-group mb-2 col-md-6 col-12">
+                  <span class="input-group-text" id="inputGroup-sizing">رقم الهاتف  :</span>
+                  <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                </div>
+                
+              </div>
+              <div class="col-md-2 col-6">
+                <button  class="btn btn-primary" onclick="add_CT_Phone()">اضافه رقم اخر</button>
+              </div>
+
+
+              <div id="CT-phone" class="my-3">
+
+              </div>
+          </div>
+
+
+
+        </div>
+      </section>
+
+            
+            
+      <!--التحويل-->
+      <section class="container tab-pane fade show " id="transfer" role="tabpanel" dir="rtl">
+              <h1 class=" border-3 border-bottom border-dark text-center py-3">تحويل الطلاب</h1>
+              <div class="row justify-content-center my-5">
+                <div class="input-group input-group mb-2 col-12">
+                  <h3 >اسم الطالب :</h3>
+                  <h3 class="mx-5 text-center"> asfa <!--add student name here--> </h3>
+                </div>
+              </div>
+              <div class="row justify-content-center my-5">
+                <div class="col-md-6 col-12">
+                  <div class="input-group input-group mb-2 ">
+                    <span class="input-group-text" id="inputGroup-sizing">اسم المدرسه :</span>
+                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="d-flex" dir="rtl">
+                <div class="col-12 my-3 text-center">
+                  <button type="submit" class="btn btn-primary w-50 rounded-pill">تحويل</button>
+                </div>
+              </div>
+
+      </section>
+
+
+      <!--الغياب-->
+      <section id="absence" class="container tab-pane fade show "  role="tabpanel" dir="rtl">
         <h1 class=" border-3 border-bottom border-dark text-center py-3">الغياب</h1>
         <div class="input-group input-group mb-2 col-12">
           <h3 >اسم الطالب :</h3>
@@ -407,7 +734,7 @@
             </div>
           </div>
           <div class="col-md-4 col-12">
-            <button class="btn btn-primary mx-2" onclick="addAbsence()">اضافه غياب </button>
+            <button class="btn btn-primary mx-2" >اضافه غياب </button>
           </div>
         </div>
         <div  id="newAbsence">
@@ -441,425 +768,12 @@
             </tbody>
           </table>
         </div>
-      </section> 
-      
-      
-      <!--التحويل-->
-      <section id="transfer" class="container my-3 tab-pane fade" dir="rtl">
-        <h1 class=" border-3 border-bottom border-dark text-center py-3">تحويل الطلاب</h1>
-        <div class="row justify-content-center my-5">
-          <div class="input-group input-group mb-2 col-12">
-            <h3 >اسم الطالب :</h3>
-            <h3 class="mx-5 text-center"> asfa <!--add student name here--> </h3>
-          </div>
-        </div>
-        <div class="row justify-content-center my-5">
-          <div class="col-md-6 col-12">
-            <div class="input-group input-group mb-2 ">
-              <span class="input-group-text" id="inputGroup-sizing">اسم المدرسه :</span>
-              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-          </div>
-          <div class="col-md-6 col-12">
-            <select class=" form-select w-100 rounded-pill" aria-label="Default select example">
-              <option selected>نوع المدرسه</option>
-              <option value="1">حكومه</option>
-              <option value="2">خاصه</option>
-            </select>
-          </div>
-        </div>
-
-
-        <div class="d-flex" dir="rtl">
-          <div class="col-12 my-3 text-center">
-            <button type="submit" class="btn btn-success w-50 rounded-pill">تحويل</button>
-          </div>
-        </div>
-
       </section>
 
-      <!--family-->
-      <section id="family" class="container py-5 tab-pane fade"  dir="rtl">
-        <ul class="nav justify-content-center justify-content-md-center bg-dark fixed-bottom w-auto">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#dad">بيانات اﻻب</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#mum">بيانات اﻻم</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#sibling">بيانات اﻻخوه</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#caretaker">بيانات ولي اﻻمر</a>
-          </li>
-        </ul>
-      <!--dad section-->
-        <section id="dad" class="container">
-          <h1 class="text-center py-4">بيانات الاب</h1>
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
-                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-          </div>
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
-              <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-          </div>
-
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
-              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected> شهاده الاب </option>
-                  <option value="1">بكالريوس</option>
-                  <option value="2">دكتوراه</option>
-                  <option value="3">ماجيستير</option>
-                  <option value="4">ثانويه</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-12 col-md-4">
-              <select class="form-select" aria-label="Default select example">
-                <option selected> عمل الاب</option>
-                <option value="1">يعمل بالمدرسه</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-            <div class="col-12 col-md-4">
-              <div class="input-group input-group mb-2 col">
-                <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-            <div class="col-12 col-md-4">
-              <button class="btn btn-primary" onclick="addWork()">اضافه عمل</button>
-            </div>
-          </div>
-
-          <!-- <div class="row my-3" dir="rtl">
-            <div class="col-md-6 col-12">
-              <select class="form-select" aria-label="Default select example">
-                <option selected> يعمل بالمدرسه</option>
-                <option value="1">نعم</option>
-                <option value="2">لا</option>
-              </select>
-            </div>
-          </div> -->
-
-          <div id="work">
-
-          </div>
-          
-
-          <div class="row my-3"  dir="rtl">
-            <div class="col-md-8 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing">رقم الهاتف  :</span>
-                <input type="number" id="phone" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-              
-            </div>
-            <div class="col-md-2 col-6">
-              <button  class="btn btn-primary" onclick="addPhone()">اضافه رقم اخر</button>
-            </div>
-          </div>
-
-          <div id="dadphone" class="my-3">
-
-          </div>
-
-        </section>
-
-
-      <!--mum section-->
-        <section id="mum" class="container my-5 py-5">
-          <h1 class="text-center py-4">بيانات الام</h1>
-
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
-                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
-              <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
-              <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-12">
-              <div class="input-group input-group mb-2  col-12">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected> شهاده الام </option>
-                  <option value="1">بكالريوس</option>
-                  <option value="2">دكتوراه</option>
-                  <option value="3">ماجيستير</option>
-                  <option value="4">ثانويه</option>
-                </select>
-              </div>
-            </div>
-            <!-- <div class="col-md-6 col-12">
-              <select class="form-select" aria-label="Default select example">
-                <option selected> عمل الام</option>
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div> -->
-          </div>
-
-          <!-- <div class="row my-3" dir="rtl">
-            <div class="col-md-6 col-12">
-              <select class="form-select" aria-label="Default select example">
-                <option selected> يعمل بالمدرسه</option>
-                <option value="1">نعم</option>
-                <option value="2">لا</option>
-              </select>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col">
-                <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-          </div> -->
-
-          
-          <div class="row my-3" dir="rtl">
-            <div class="col-12 col-md-4">
-              <select class="form-select" aria-label="Default select example">
-                <option selected> عمل اﻻم</option>
-                <option value="1">يعمل بالمدرسه</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-              </select>
-            </div>
-            <div class="col-12 col-md-4">
-              <div class="input-group input-group mb-2 col">
-                <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
-                <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-            <div class="col-12 col-md-4">
-              <button class="btn btn-primary" onclick="addWork2()">اضافه عمل</button>
-            </div>
-          </div>
-          
-          <div id="work2">
-            
-          </div>
-
-          <div class="row my-3" id="num" dir="rtl">
-            <div class="col-md-8 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing">رقم الهاتف  :</span>
-                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-              
-            </div>
-            <div class="col-md-2 col-6">
-              <button  class="btn btn-primary" onclick="add_mum_Phone()">اضافه رقم اخر</button>
-            </div>
-          </div>
-          
-          <div id="mum-phone" class="my-3">
-
-          </div>
-        </div>
-
-        </section>
-
-      <!--sibling section-->
-        <section id="sibling" class="container my-5 py-5">
-                <h1 class="text-center py-4">بيانات الاخوه</h1>
-                <div class="row my-3" dir="rtl">
-                  <div class="col-md-3 col-12">
-                    <div class="input-group input-group mb-2 col-md-6 col-12">
-                      <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
-                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-12">
-                    <div class="input-group input-group mb-2 col-md-6 col-12">
-                      <span class="input-group-text" id="inputGroup-sizing">مدرسه الاخ  :</span>
-                      <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                    </div>
-                  </div>
-                  <div class="col-md-3 col-12">
-                    <select class="form-select" aria-label="Default select example">
-                      <option selected> النوع</option>
-                      <option value="1">ذكر</option>
-                      <option value="2">انثي</option>
-                    </select>
-                  </div>
-                  <div class="col-md-3 col-12 text-center">
-                    <button  class="btn btn-primary w-auto" onclick="addSibling()">اضافه اخ اخر </button>
-                  </div>
-                </div>
-
-                <div id="goto" class="my-3">
-
-                </div>
-
-        </section>
-
-
-
-        <section id="caretaker" class="container my-5 py-5" dir="rtl">
-          <h1 class="text-center py-4">بيانات ولي اﻻمر</h1>
-          <div class="row">
-            <select class="form-select" aria-label="Default select example" onchange="showCareTaker('other',this)">
-              <option selected value="1">ولي اﻻمر</option>
-              <option value="2">الاب </option>
-              <option value="3">اﻻم </option>
-              <option value="4"  >غير </option>
-            </select>
-          </div>
-  
-          <div id="other" class="my-5">
-
-
-            <div class="row my-3" dir="rtl">
-              <div class="col-md-6 col-12">
-                <div class="input-group input-group mb-2 col-md-6 col-12">
-                  <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
-                  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-              </div>
-              <div class="col-md-6 col-12">
-                <div class="input-group input-group mb-2 col-md-6 col-12">
-                  <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
-                  <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-              </div>
-            </div>
-
-            <div class="row my-3" dir="rtl">
-              <div class="input-group input-group mb-2 col">
-                <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
-                <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-              </div>
-            </div>
-
-            <div class="row my-3" dir="rtl">
-              <div class="col-12">
-                <div class="input-group input-group mb-2  col-12">
-                  <select class="form-select" aria-label="Default select example">
-                    <option selected> شهاده ولي اﻻمر </option>
-                    <option value="1">بكالريوس</option>
-                    <option value="2">دكتوراه</option>
-                    <option value="3">ماجيستير</option>
-                    <option value="4">ثانويه</option>
-                  </select>
-                </div>
-              </div>
-              <!-- <div class="col-md-6 col-12">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected> عمل الام</option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
-              </div> -->
-            </div>
-            
-
-            <div class="row my-3" dir="rtl">
-              <div class="col-12 col-md-4">
-                <select class="form-select" aria-label="Default select example">
-                  <option selected> عمل ولي اﻻمر</option>
-                  <option value="1">يعمل بالمدرسه</option>
-                  <option value="2">2</option>
-                  <option value="3">3</option>
-                </select>
-              </div>
-              <div class="col-12 col-md-4">
-                <div class="input-group input-group mb-2 col">
-                  <span class="input-group-text" id="inputGroup-sizing">عنوان العمل :</span>
-                  <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                </div>
-              </div>
-              <div class="col-12 col-md-4">
-                <button class="btn btn-primary w-75" onclick="addWork3()">اضافه عمل</button>
-              </div>
-
-            </div>
-            
-            <div id="work3">
-            </div>
-
-            <div class="row my-3" id="num" dir="rtl">
-                <div class="col-md-8 col-12">
-                  <div class="input-group input-group mb-2 col-md-6 col-12">
-                    <span class="input-group-text" id="inputGroup-sizing">رقم الهاتف  :</span>
-                    <input type="number" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
-                  </div>
-                  
-                </div>
-                <div class="col-md-2 col-6">
-                  <button  class="btn btn-primary" onclick="add_CT_Phone()">اضافه رقم اخر</button>
-                </div>
-
-
-                <div id="CT-phone" class="my-3">
-
-                </div>
-            </div>
-
-
-
-          </div>
-        </section>
-
-      </section>
-
-
-
-
+      <!--submit btn DONT Change-->
+      <div class="container me-5">
+        <button type="submit" class="d-block w-75  text-center rounded-pill btn btn-success my-5">تسجيل البيانات</button>
+      </div>
     </main>
     
 

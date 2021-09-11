@@ -4,6 +4,10 @@ const Sequelize = require("sequelize");
 const db = require("./config/db");
 const sequelize = new Sequelize(db["development"]);
 const Student = require("./db/models/student")(sequelize, Sequelize.DataTypes);
+const electron = require('electron');
+
+// Enable live reload for Electron too
+require('electron-reload')(__dirname);
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require

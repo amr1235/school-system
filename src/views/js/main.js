@@ -111,6 +111,12 @@
     function removeExpenses(){
       document.getElementById("delete-Expenses1").remove();
     }
+
+    function remove_Dad_Phone(){
+      document.getElementById("delete1").remove();
+    }
+
+
     function addExpensesI(){
       let newExpenses = document.getElementById("newExpenses2");
       let New_div = document.createElement("div");
@@ -177,4 +183,19 @@
         v5.hidden = true;
         v6.hidden = true;
       }
+    }
+
+    function hideDadData(){
+      const dadData = document.getElementById('dadData');
+      dadData.hidden = !dadData.hidden;
+    }
+
+    function hideMumData(){
+      const mumData = document.getElementById('mumData');
+      mumData.hidden = !mumData.hidden;
+    }
+
+    function showCareTaker(divId,element){
+      let caretaker = document.getElementById(divId);
+      caretaker.hidden = element.value ==3 ? false : true;
     }
