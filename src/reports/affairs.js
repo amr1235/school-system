@@ -28,8 +28,31 @@ const getCapacityStats = async () => {
   return stats;
 };
 
+const studentsOfColleagues = async () => {
+  return db["Student"].findAll({
+    required: true,
+    include: {
+      model: db["Parent"],
+      required: true,
+      as: "Responsible",
+      include: {
+        required: true,
+        model: db["ParentJob"],
+        include: {
+          required: true,
+          model: db["Job"],
+          where: {
+            JobName: "Employee"
+          },
+        }
+      },
+    },
+  }).then(students => students.map(student => student.toJSON()));
+};
+
 
 module.exports = {
   getSeatsData,
   getCapacityStats,
+  studentsOfColleagues
 };
