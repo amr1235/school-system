@@ -19,20 +19,38 @@
           <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <div class="collapse navbar-collapse mx-2" id="navbarSupportedContent">
             <div class="dropdown mx-1" dir="rtl">
               <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                 اﻻعدادات
               </button>
               <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item"  href="#">اقساط</a></li>
+                <li><a class="dropdown-item"  href="./installments.html">اقساط</a></li>
                 <li><a class="dropdown-item"  href="#">خصومات </a></li>
                 <li><a class="dropdown-item"  href="#">بدء سنه جديده</a></li>
                 <li><a class="dropdown-item"  href="#"> خطوط الباص </a></li>
               </ul>
             </div>
-            <div class="mx-2">
+            <!-- <div class="mx-2">
               <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
+            </div> -->
+            <div class="dropdown">
+              <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                التقارير
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item" target="_blank" href="./Reports/daily-income.html">التوريد اليومى</a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/monthly-income.html">التوريد الشهرى</a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/siblings-expenses.html"> الأشقاء وموقفهم من المصروفات </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/installments-residue.html"> الباقى على الطلبة قسط اول وقسط ثانى </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/paid-the-installments.html"> المسددين من القسط الأول بالكامل وكذلك القسط الثانى </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/payments.html"> دفتر التسديدات </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/car-payments.html"> المسددين سيارة </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/car-payments-residue.html"> الباقى عليهم سيارة </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/collected-extra-payments.html"> المحصل من الملازم والرعاية والملف والهدايا    </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/extra-payments-overdue.html"> تقرير لغير المسددين ملازم ورعاية وملف وهدايا وتاسيس </a></li>
+                <li><a class="dropdown-item" target="_blank" href="./Reports/delayed-payments.html"> تقرير المسددين مرحل والباقى عليهم مرحل </a></li>
+              </ul>
             </div>
             <form class="d-flex  me-auto  mt-3 mt-md-0 ">
               <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث" aria-label="Search">

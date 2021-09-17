@@ -50,9 +50,12 @@
   "dependencies": {
     "bootstrap": "^5.1.0",
     "bootstrap-icons": "^1.5.0",
+    "datatables.net": "^1.11.2",
+    "datatables.net-dt": "^1.11.2",
     "dotenv": "^10.0.0",
     "electron-reload": "^2.0.0-alpha.1",
     "electron-squirrel-startup": "^1.0.0",
+    "jquery": "^3.6.0",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5"
   },

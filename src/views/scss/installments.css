@@ -1,4 +1,4 @@
-@import url(/home/omar/Desktop/school-system/src/views/scss/Expenses.css);
+@import url(/home/omar/school-system/src/views/scss/Expenses.css);
 * {
   margin: 0;
   padding: 0;
@@ -67,6 +67,26 @@ a:hover {
     position: fixed;
     top: 56px;
   }
+}
+
+.dropdown-menu li {
+  position: relative;
+}
+
+.dropdown-menu .dropdown-submenu {
+  display: none;
+  position: absolute;
+  left: 100%;
+  top: -7px;
+}
+
+.dropdown-menu .dropdown-submenu-left {
+  right: 100%;
+  left: auto;
+}
+
+.dropdown-menu > li:hover > .dropdown-submenu {
+  display: block;
 }
 
 #family ul {

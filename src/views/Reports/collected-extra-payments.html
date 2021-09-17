@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../scss/Reports/Reports.css">
+    <link rel="stylesheet" href="../../../node_modules/datatables.net-dt/css/jquery.dataTables.css">
+    <title> المحصل من الملازم والرعاية والملف والهدايا </title>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg fixed-top" dir="rtl">
+        <div class="container-fluid">
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <div class="dropdown mx-2" dir="rtl">
+              <button class="btn  btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                 الصف الدراسي
+              </button>
+              <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
+                <li><a class="dropdown-item"  href="#">ابتدائى &raquo;</a>
+                  <ul class="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a class="dropdown-item" href="#"> الصف الاول الابتدائي </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"> الصف الثانى الابتدائي</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"> الصف الثالث الابتدائي</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"> الصف الرابع الابتدائي</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"> الصف الخامس الابتدائي</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#"> الصف السادس الابتدائي</a>
+                    </li>
+                  </ul>
+                </li>
+                <li><a class="dropdown-item"  href="#">اعدادي &raquo; </a>
+                  <ul class="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a class="dropdown-item" href="#">  الصف الاول الاعدادي </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">الصف الثانى الاعدادي</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">الصف الثالث الاعدادي</a>
+                    </li>
+                  </ul>
+                </li>
+                <li><a class="dropdown-item"  href="#">ثانوي &raquo;</a>
+                  <ul class="dropdown-menu dropdown-submenu">
+                    <li>
+                      <a class="dropdown-item" href="#">  الصف الاول الثانوي </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">الصف الثانى الثانوي</a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="#">الصف الثالث الثانوي</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div class="input-group mb-3 mt-3" dir="rtl">
+              <span class="input-group-text" id="basic-addon1"> الي </span>
+              <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+            <div class="input-group mb-3 mt-3" dir="rtl">
+              <span class="input-group-text" id="basic-addon1"> الي </span>
+              <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+    
+          </div>
+          
+        </div>
+      </nav>
+      <!--end of navbar-->
+    
+        <main dir="rtl" class="mx-5 mt-2 mb-5" id="Expenses-general">
+          <section class="my-5 py-3">
+            <h1 class="text-center py-2 border-bottom border-3 mb-5 border-dark"> الباقى عليهم سيارة </h1>
+            <table id="mytable" class="display table-striped">
+              <thead>
+                  <tr>
+                      <th>Column 1</th>
+                      <th>Column 2</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td>Row 1 Data 1</td>
+                      <td>Row 1 Data 2</td>
+                  </tr>
+                  <tr>
+                      <td>Row 2 Data 1</td>
+                      <td>Row 2 Data 2</td>
+                  </tr>
+              </tbody>
+          </table>
+          </section>
+    
+        <div class="row mt-5">
+            <button type="submit" class="btn btn-success text-center rounded-pill"> تحويل لملف اكسيل </button>
+        </div>
+        </main>
+
+
+        <script src="../../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+        <script src="../../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../../../node_modules/datatables.net/js/jquery.dataTables.js"></script>
+        <script src="../js/main.js"></script>
+        <script>
+            $(document).ready( function () {
+                $('#mytable').DataTable({
+                    searching: true,
+                    ordering:  true,
+                });
+            } );
+        </script>
+</body>
+</html>

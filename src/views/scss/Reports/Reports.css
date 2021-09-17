@@ -1,4 +1,4 @@
-@import url(/home/omar/school-system/src/views/scss/Expenses.css);
+@import url(/home/omar/Desktop/school-system/src/views/scss/Expenses.css);
 * {
   margin: 0;
   padding: 0;
@@ -6,17 +6,24 @@
   scroll-behavior: smooth;
 }
 
-.sidebar-nav {
-  width: 280px !important;
-  background-color: #161925;
+.dropdown-menu li {
+  position: relative;
 }
 
-.navbar {
-  background-color: #161925 !important;
+.dropdown-menu .dropdown-submenu {
+  display: none;
+  position: absolute;
+  right: 100%;
+  top: -7px;
 }
 
-.navbar .navbar-brand {
-  color: #fcf7f8;
+.dropdown-menu .dropdown-submenu-left {
+  right: 100%;
+  left: auto;
+}
+
+.dropdown-menu > li:hover > .dropdown-submenu {
+  display: block;
 }
 
 .navbar .navbar-brand:hover {
@@ -69,26 +76,6 @@ a:hover {
   }
 }
 
-.dropdown-menu li {
-  position: relative;
-}
-
-.dropdown-menu .dropdown-submenu {
-  display: none;
-  position: absolute;
-  left: 100%;
-  top: -7px;
-}
-
-.dropdown-menu .dropdown-submenu-left {
-  right: 100%;
-  left: auto;
-}
-
-.dropdown-menu > li:hover > .dropdown-submenu {
-  display: block;
-}
-
 #family ul {
   width: 100%;
 }
@@ -102,4 +89,4 @@ a:hover {
 a:hover {
   color: #a31621;
 }
-/*# sourceMappingURL=stud-installment.css.map */
+/*# sourceMappingURL=Reports.css.map */
