@@ -1,0 +1,105 @@
+[
+    {
+        "StageId": 1,
+        "StageName": "Nursery",
+        "Grades": [
+            {
+                "GradeId": 1,
+                "GradeName": "First Primary",
+                "Classes": [
+                    {
+                        "ClassId": 2,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 1,
+                                "Student": {
+                                    "StudentName": "Ali"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "ClassId": 1,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 3,
+                                "Student": {
+                                    "StudentName": "Ahmed"
+                                }
+                            },
+                            {
+                                "StudentId": 4,
+                                "Student": {
+                                    "StudentName": "Mohammed"
+                                }
+                            },
+                            {
+                                "StudentId": 7,
+                                "Student": {
+                                    "StudentName": "Ramy"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "StageId": 2,
+        "StageName": "Kg",
+        "Grades": [
+            {
+                "GradeId": 2,
+                "GradeName": "Second Primary",
+                "Classes": [
+                    {
+                        "ClassId": 3,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 2,
+                                "Student": {
+                                    "StudentName": "Omar"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "StageId": 4,
+        "StageName": "Preparatory",
+        "Grades": [
+            {
+                "GradeId": 4,
+                "GradeName": "Fourth Primary",
+                "Classes": [
+                    {
+                        "ClassId": 8,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 5,
+                                "Student": {
+                                    "StudentName": "Sara"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "ClassId": 7,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 6,
+                                "Student": {
+                                    "StudentName": "Ola"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

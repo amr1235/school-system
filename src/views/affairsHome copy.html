@@ -1,0 +1,1359 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./scss/affairs.css" />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <title>شؤون الطلاب</title>
+  </head>
+  <body>
+    <!--start of navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">معهد الوفاء</a>
+        <button
+          class="navbar-toggler rounded-pill text-warning me-auto"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebar"
+          aria-controls="sidebar"
+        >
+          <i class="bi bi-arrow-right-circle"></i>
+        </button>
+        <button
+          class="navbar-toggler me-auto"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <form class="d-flex me-auto mt-3 mt-md-0">
+            <input
+              class="text-center form-control mx-3 rounded-pill"
+              type="search"
+              placeholder="ابحث"
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-outline-warning rounded-circle"
+              type="submit"
+            >
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
+          <div class="mx-5 nav">
+            <button
+              class="
+                btn btn-warning
+                mx-md-3 mx-4
+                my-2
+                d-inline-block
+                rounded-pill
+              "
+            >
+              <a class="text-decoration-none text-dark" href="#">التقارير</a>
+            </button>
+            <button
+              class="
+                btn btn-warning
+                mx-md-3 mx-4
+                my-2
+                d-inline-block
+                rounded-pill
+              "
+            >
+              <a class="text-decoration-none text-dark" href="./Exams.html"
+                >ارقام الجلوس</a
+              >
+            </button>
+            <!-- <button class="btn btn-warning mx-md-3 mx-4 my-2 d-inline-block rounded-pill"><a class="text-decoration-none text-dark" href="./Expenses.html"> المصروفات</a></button> -->
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!--end of navbar-->
+
+    <!--start of side bar-->
+    <aside>
+      <div
+        class="offcanvas offcanvas-start container sidebar-nav me-auto"
+        data-bs-scroll="true"
+        data-bs-backdrop="false"
+        tabindex="-1"
+        id="sidebar"
+        aria-labelledby="sidebarLabel"
+      >
+        <div class="offcanvas-header justify-content-center">
+          <button
+            type="button"
+            class="btn-close btn-close-white d-md-none me-auto text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="offcanvas-body justify-content-center" dir="rtl">
+          <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link active"
+                id="pills-home-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#prim"
+                type="button"
+                role="tab"
+                aria-controls="pills-home"
+                aria-selected="true"
+              >
+                ابتدائى
+              </button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button
+                class="nav-link"
+                id="pills-profile-tab"
+                data-bs-toggle="pill"
+                data-bs-target="#pills-profile"
+                type="button"
+                role="tab"
+                aria-controls="pills-profile"
+                aria-selected="false"
+              >
+                اعدادي
+              </button>
+            </li>
+          </ul>
+          <div class="tab-content mt-2" id="pills-tabContent">
+            <div
+              class="tab-pane fade show active text-warning"
+              id="prim"
+              role="tabpanel"
+              aria-labelledby="pills-home-tab"
+            >
+              <!--prim accordion starts here-->
+              <div class="accordion accordion-flush" id="accordionFlushmid">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingOne">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#prim-1"
+                      aria-expanded="false"
+                      aria-controls="flush-collapseOne"
+                    >
+                      الصف الاول الابتدائي
+                    </button>
+                  </h2>
+                  <div
+                    id="prim-1"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      <ul class="list-group" id="stud-list">
+                        <li class="list-group-item">
+                          <a href="#" class="text-decoration-none"
+                            >احمد عطيه سليمان الهادي</a
+                          >
+                        </li>
+                        <li class="list-group-item">
+                          <a href="#" class="text-decoration-none">lasdgjs</a>
+                        </li>
+                        <li class="list-group-item">
+                          <a href="#" class="text-decoration-none">ahmed</a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingTwo">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#prim-2"
+                      aria-expanded="false"
+                      aria-controls="flush-collapseTwo"
+                    >
+                      الصف الثانى الابتدائي
+                    </button>
+                  </h2>
+                  <div
+                    id="prim-2"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingTwo"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingThree">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#prim-3"
+                      aria-expanded="false"
+                      aria-controls="flush-collapseThree"
+                    >
+                      الصف الثالث الابتدائي
+                    </button>
+                  </h2>
+                  <div
+                    id="prim-3"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingThree"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingfour">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#prim-4"
+                      aria-expanded="false"
+                      aria-controls="flush-collapsefour"
+                    >
+                      الصف الرابع الابتدائي
+                    </button>
+                  </h2>
+                  <div
+                    id="prim-4"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingfour"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingfive">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#prim-5"
+                      aria-expanded="false"
+                      aria-controls="flush-collapsefive"
+                    >
+                      الصف الخامس البتدائي
+                    </button>
+                  </h2>
+                  <div
+                    id="prim-5"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingfour"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion accordion-flush" id="accordionFlushExample">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingsix">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#prim-6"
+                      aria-expanded="false"
+                      aria-controls="flush-collapsesix"
+                    >
+                      الصف السادس البتدائي
+                    </button>
+                  </h2>
+                  <div
+                    id="prim-6"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingfour"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--prim accordion ends here-->
+            </div>
+            <div
+              class="tab-pane fade text-break text-warning"
+              id="pills-profile"
+              role="tabpanel"
+              aria-labelledby="pills-profile-tab"
+            >
+              <!--mid accordion-->
+              <div class="accordion accordion-flush" id="accordionFlushmid">
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingOne">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#mid-1"
+                      aria-expanded="false"
+                      aria-controls="flush-collapseOne"
+                    >
+                      الصف الاول الاعدادي
+                    </button>
+                  </h2>
+                  <div
+                    id="mid-1"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingtwo">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#mid-2"
+                      aria-expanded="false"
+                      aria-controls="flush-collapsetwo"
+                    >
+                      الصف الثاني الاعدادي
+                    </button>
+                  </h2>
+                  <div
+                    id="mid-2"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-item">
+                  <h2 class="accordion-header" id="flush-headingthree">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#mid-3"
+                      aria-expanded="false"
+                      aria-controls="flush-collapsetwo"
+                    >
+                      الصف الثالث الاعدادي
+                    </button>
+                  </h2>
+                  <div
+                    id="mid-3"
+                    class="accordion-collapse collapse"
+                    aria-labelledby="flush-headingOne"
+                    data-bs-parent="#accordionFlushExample"
+                  >
+                    <div class="accordion-body text-center">
+                      Placeholder content for this accordion, which is intended
+                      to demonstrate the <code>.accordion-flush</code> class.
+                      This is the first item's accordion body.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--mid accordion-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <!--end of side bar-->
+
+    <!--register section-->
+    <main class="mt-5 pt-3 tab-content" id="register">
+      <ul
+        class="nav nav-pills mb-3 bg-dark justify-content-center"
+        id="pills-tab"
+        role="tablist"
+      >
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-contact-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#dad"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+          >
+            بيانات اﻻب
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-contact-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#mum"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+          >
+            بيانات اﻻم
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-contact-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#caretaker"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+          >
+            بيانات ولي الامر
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="pills-home-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#stud-data"
+            type="button"
+            role="tab"
+            aria-controls="pills-home"
+            aria-selected="true"
+          >
+            تسجيل طالب جديد
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-profile-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#absence"
+            type="button"
+            role="tab"
+            aria-controls="pills-profile"
+            aria-selected="false"
+          >
+            الغياب
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="pills-contact-tab"
+            data-bs-toggle="pill"
+            data-bs-target="#transfer"
+            type="button"
+            role="tab"
+            aria-controls="pills-contact"
+            aria-selected="false"
+          >
+            تحويل الطالب
+          </button>
+        </li>
+      </ul>
+
+      <section
+        id="stud-data"
+        class="container tab-pane fade show active"
+        role="tabpanel"
+        aria-labelledby="v-pills-home-tab"
+        dir="rtl"
+      >
+        <h1 class="text-center py-4">بيانات الطالب</h1>
+
+        <div class="row my-3" dir="rtl">
+          <div class="col-md-6 col-12">
+            <div class="input-group input-group col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >الاسم :</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >الرقم القومي :</span
+              >
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing"
+              >رقم الباسبورت:</span
+            >
+            <input
+              type="number"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="col-12">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >تاريخ الميلاد:</span
+              >
+              <input
+                type="date"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing"
+              >تاريخ التسجيل:</span
+            >
+            <input
+              type="date"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing"
+              >العنوان بالكامل :</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="col-6 mb-2">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>النوع</option>
+              <option value="1">ذكر</option>
+              <option value="2">انثي</option>
+            </select>
+          </div>
+
+          <div class="col-6 mb-2">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>الجنسيه</option>
+              <option value="1">مصر</option>
+              <option value="2">سوريا</option>
+              <option value="2">اليمن</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="col-md-6 col-12">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >الترتيب بين الاخوه:</span
+              >
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+          <div class="col-md-6 col-12">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>ولي الامر</option>
+              <option value="1">الاب</option>
+              <option value="2">الام</option>
+              <option value="3">غير</option>
+            </select>
+          </div>
+        </div>
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing"
+              >الحاله الصحيه:</span
+            >
+            <input
+              type="text"
+              class="form-control"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm"
+            />
+          </div>
+        </div>
+        <div class="row mb-2" dir="rtl">
+          <div class="col">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>الحاله العائليه</option>
+              <option value="1">يتيم</option>
+              <option value="2">متزوج</option>
+              <option value="3">مطلق</option>
+              <option value="4">الاب متوفي</option>
+              <option value="5">اﻻم متوفيه</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="col-md-4 col-12">
+            <select
+              class="form-select"
+              onchange="showPrimary(this)"
+              aria-label="Default select example"
+            >
+              <option selected>المرحله الدراسيه</option>
+              <option value="1">ابتدائى</option>
+              <option value="2">اعدادي</option>
+              <option value="3">ثانوي</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-12">
+            <select
+              class="form-select"
+              id="slct2"
+              aria-label="Default select example"
+            >
+              <option selected>السنه</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4" hidden id="value4">4</option>
+              <option value="5" hidden id="value5">5</option>
+              <option value="6" hidden id="value6">6</option>
+            </select>
+          </div>
+          <div class="col-md-4 col-12">
+            <select
+              class="form-select"
+              id="slct3"
+              aria-label="Default select example"
+            >
+              <option selected>الفصل</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!--dad section-->
+      <section
+        id="dad"
+        class="container tab-pane fade show"
+        role="tabpanel"
+        dir="rtl"
+      >
+        <h1 class="text-center py-4">بيانات الاب</h1>
+
+        <div class="container row">
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              onchange="hideDadData()"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label h5" for="flexSwitchCheckDefault"
+              >متوفي</label
+            >
+          </div>
+        </div>
+
+        <div id="dadData">
+          <div class="row my-3" dir="rtl">
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >الاسم :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >الرقم القومي :</span
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >رقم الباسبورت:</span
+              >
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >العنوان بالكامل :</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>شهاده الاب</option>
+                  <option value="1">بكالريوس</option>
+                  <option value="2">دكتوراه</option>
+                  <option value="3">ماجيستير</option>
+                  <option value="4">ثانويه</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12 col-md-4">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>عمل الاب</option>
+                <option value="1">يعمل بالمدرسه</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="input-group input-group mb-2 col">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >عنوان العمل :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <button class="btn btn-primary" onclick="addWork()">
+                اضافه عمل
+              </button>
+            </div>
+          </div>
+          <div id="work"></div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-md-8 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >رقم الهاتف :</span
+                >
+                <input
+                  type="number"
+                  id="phone"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-md-2 col-6">
+              <button class="btn btn-primary" onclick="addPhone()">
+                اضافه رقم اخر
+              </button>
+            </div>
+          </div>
+
+          <div id="dadphone" class="my-3"></div>
+        </div>
+      </section>
+
+      <!--mum section-->
+      <section
+        id="mum"
+        class="container tab-pane fade show"
+        role="tabpanel"
+        dir="rtl"
+      >
+        <h1 class="text-center py-4">بيانات الام</h1>
+
+        <div class="container row">
+          <div class="form-check form-switch">
+            <input
+              class="form-check-input"
+              onchange="hideMumData()"
+              type="checkbox"
+              id="flexSwitchCheckDefault"
+            />
+            <label class="form-check-label h5" for="flexSwitchCheckDefault"
+              >متوفيه</label
+            >
+          </div>
+        </div>
+
+        <div id="mumData">
+          <div class="row my-3" dir="rtl">
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >الاسم :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >الرقم القومي :</span
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >رقم الباسبورت:</span
+              >
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >العنوان بالكامل :</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12">
+              <div class="input-group input-group mb-2 col-12">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>شهاده الام</option>
+                  <option value="1">بكالريوس</option>
+                  <option value="2">دكتوراه</option>
+                  <option value="3">ماجيستير</option>
+                  <option value="4">ثانويه</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12 col-md-4">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>عمل اﻻم</option>
+                <option value="1">يعمل بالمدرسه</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="input-group input-group mb-2 col">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >عنوان العمل :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <button class="btn btn-primary" onclick="addWork2()">
+                اضافه عمل
+              </button>
+            </div>
+          </div>
+
+          <div id="work2"></div>
+
+          <div class="row my-3" id="num" dir="rtl">
+            <div class="col-md-8 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >رقم الهاتف :</span
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-md-2 col-6">
+              <button class="btn btn-primary" onclick="add_mum_Phone()">
+                اضافه رقم اخر
+              </button>
+            </div>
+          </div>
+
+          <div id="mum-phone" class="my-3"></div>
+        </div>
+      </section>
+
+      <!--siblings-->
+      <section
+        id="sibling"
+        class="container tab-pane fade show"
+        role="tabpanel"
+        dir="rtl"
+      >
+        <h1 class="text-center py-4">بيانات الاخوه</h1>
+        <div class="row my-3" dir="rtl">
+          <div class="col-md-3 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >الاسم :</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+          <div class="col-md-3 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >مدرسه الاخ :</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+          <div class="col-md-3 col-12">
+            <select class="form-select" aria-label="Default select example">
+              <option selected>النوع</option>
+              <option value="1">ذكر</option>
+              <option value="2">انثي</option>
+            </select>
+          </div>
+          <div class="col-md-3 col-12 text-center">
+            <button class="btn btn-primary w-auto" onclick="addSibling()">
+              اضافه اخ اخر
+            </button>
+          </div>
+        </div>
+
+        <div id="goto" class="my-3"></div>
+      </section>
+
+      <!--caretaker-->
+      <section
+        id="caretaker"
+        class="container tab-pane fade show"
+        role="tabpanel"
+        dir="rtl"
+      >
+        <h1 class="text-center py-4">بيانات ولي اﻻمر</h1>
+        <div class="row">
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            onchange="showCareTaker('other',this)"
+          >
+            <option selected value="1">الاب</option>
+            <option value="2">اﻻم</option>
+            <option value="3">غير</option>
+          </select>
+        </div>
+
+        <div id="other" class="my-5" hidden>
+          <div class="row my-3" dir="rtl">
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >الاسم :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-md-6 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >الرقم القومي :</span
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="input-group input-group mb-2 col">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >رقم الباسبورت:</span
+              >
+              <input
+                type="number"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12">
+              <div class="input-group input-group mb-2 col-12">
+                <select class="form-select" aria-label="Default select example">
+                  <option selected>شهاده ولي اﻻمر</option>
+                  <option value="1">بكالريوس</option>
+                  <option value="2">دكتوراه</option>
+                  <option value="3">ماجيستير</option>
+                  <option value="4">ثانويه</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="row my-3" dir="rtl">
+            <div class="col-12 col-md-4">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>عمل ولي اﻻمر</option>
+                <option value="1">يعمل بالمدرسه</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+              </select>
+            </div>
+            <div class="col-12 col-md-4">
+              <div class="input-group input-group mb-2 col">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >عنوان العمل :</span
+                >
+                <input
+                  type="text"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-12 col-md-4">
+              <button class="btn btn-primary w-75" onclick="addWork3()">
+                اضافه عمل
+              </button>
+            </div>
+          </div>
+
+          <div id="work3"></div>
+
+          <div class="row my-3" id="num" dir="rtl">
+            <div class="col-md-8 col-12">
+              <div class="input-group input-group mb-2 col-md-6 col-12">
+                <span class="input-group-text" id="inputGroup-sizing"
+                  >رقم الهاتف :</span
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-sm"
+                />
+              </div>
+            </div>
+            <div class="col-md-2 col-6">
+              <button class="btn btn-primary" onclick="add_CT_Phone()">
+                اضافه رقم اخر
+              </button>
+            </div>
+
+            <div id="CT-phone" class="my-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <!--التحويل-->
+      <section
+        class="container tab-pane fade show"
+        id="transfer"
+        role="tabpanel"
+        dir="rtl"
+      >
+        <h1 class="border-3 border-bottom border-dark text-center py-3">
+          تحويل الطلاب
+        </h1>
+        <div class="row justify-content-center my-5">
+          <div class="input-group input-group mb-2 col-12">
+            <h3>اسم الطالب :</h3>
+            <h3 class="mx-5 text-center">
+              asfa
+              <!--add student name here-->
+            </h3>
+          </div>
+        </div>
+        <div class="row justify-content-center my-5">
+          <div class="col-md-6 col-12">
+            <div class="input-group input-group mb-2">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >اسم المدرسه :</span
+              >
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex" dir="rtl">
+          <div class="col-12 my-3 text-center">
+            <button type="submit" class="btn btn-primary w-50 rounded-pill">
+              تحويل
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!--الغياب-->
+      <section
+        id="absence"
+        class="container tab-pane fade show"
+        role="tabpanel"
+        dir="rtl"
+      >
+        <h1 class="border-3 border-bottom border-dark text-center py-3">
+          الغياب
+        </h1>
+        <div class="input-group input-group mb-2 col-12">
+          <h3>اسم الطالب :</h3>
+          <h3 class="mx-5 text-center">
+            asfa
+            <!--add student name here-->
+          </h3>
+        </div>
+        <h1 class="text-center my-3 border-3 border-bottom border-dark py-3">
+          اضافه غياب
+        </h1>
+        <div class="row my-5">
+          <div class="col-md-4 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing"
+                >تاريخ الغياب:</span
+              >
+              <input
+                type="date"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <select class="form-select" aria-label="Default select example">
+                <option selected>نوع الغياب</option>
+                <option value="1"></option>
+                <option value="2"></option>
+                <option value="2"></option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <button class="btn btn-primary mx-2">اضافه غياب</button>
+          </div>
+        </div>
+        <div id="newAbsence"></div>
+
+        <div class="container">
+          <table
+            class="table table-hover table-borderless table-striped"
+            dir="rtl"
+          >
+            <thead>
+              <tr>
+                <th scope="col">اسم الطالب</th>
+                <th scope="col">تاريخ الغياب</th>
+                <th scope="col">نوع الغياب</th>
+                <th scope="col">حذف الغياب</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr id="added-Absence">
+                <th scope="row" class="pt-3">ملنسلاميسنلمسي</th>
+                <td></td>
+                <td>
+                  <select
+                    class="form-select w-auto rounded-pill"
+                    aria-label="Default select example"
+                  >
+                    <option selected>نوع الغياب</option>
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="2"></option>
+                  </select>
+                </td>
+                <td>
+                  <button
+                    class="btn btn-danger"
+                    onclick="delete_table_Absence()"
+                  >
+                    حذف
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!--submit btn DONT Change-->
+      <div class="container me-5">
+        <button
+          type="submit"
+          class="d-block w-75 text-center rounded-pill btn btn-success my-5"
+        >
+          تسجيل البيانات
+        </button>
+      </div>
+    </main>
+
+    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./js/main.js"></script>
+  </body>
+</html>

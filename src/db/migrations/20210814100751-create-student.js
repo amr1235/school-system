@@ -11,17 +11,10 @@ module.exports = {
           type: Sequelize.STRING,
           allowNull: true,
           unique: true,
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
         },
         StudentPassportId: {
           type: Sequelize.STRING,
           allowNull: true,
-          validate: {
-            isAlphanumeric: true
-          }
         },
         StudentName: {
           type: Sequelize.STRING,
@@ -33,7 +26,7 @@ module.exports = {
         },
         StudentBirthPlace: {
           type: Sequelize.STRING,
-          allowNull: false,
+          allowNull: true,
         },
         StudentAddress: {
           type: Sequelize.STRING,

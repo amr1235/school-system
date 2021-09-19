@@ -1,0 +1,181 @@
+[
+    {
+        "StageId": 3,
+        "StageName": "Primary",
+        "Grades": [
+            {
+                "GradeId": 1,
+                "GradeName": "First Primary",
+                "Classes": [
+                    {
+                        "ClassId": 2,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 1,
+                                "Student": {
+                                    "StudentName": "Ali"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "ClassId": 1,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 3,
+                                "Student": {
+                                    "StudentName": "Ahmed"
+                                }
+                            },
+                            {
+                                "StudentId": 4,
+                                "Student": {
+                                    "StudentName": "Mohammed"
+                                }
+                            },
+                            {
+                                "StudentId": 7,
+                                "Student": {
+                                    "StudentName": "Ramy"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "ClassId": 11,
+                        "StudentClasses": []
+                    },
+                    {
+                        "ClassId": 12,
+                        "StudentClasses": []
+                    },
+                    {
+                        "ClassId": 16,
+                        "StudentClasses": []
+                    },
+                    {
+                        "ClassId": 4,
+                        "StudentClasses": []
+                    }
+                ]
+            },
+            {
+                "GradeId": 2,
+                "GradeName": "Second Primary",
+                "Classes": [
+                    {
+                        "ClassId": 3,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 2,
+                                "Student": {
+                                    "StudentName": "Omar"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "ClassId": 5,
+                        "StudentClasses": []
+                    },
+                    {
+                        "ClassId": 13,
+                        "StudentClasses": []
+                    },
+                    {
+                        "ClassId": 14,
+                        "StudentClasses": []
+                    }
+                ]
+            },
+            {
+                "GradeId": 4,
+                "GradeName": "Fourth Primary",
+                "Classes": [
+                    {
+                        "ClassId": 8,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 5,
+                                "Student": {
+                                    "StudentName": "Sara"
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "ClassId": 7,
+                        "StudentClasses": [
+                            {
+                                "StudentId": 6,
+                                "Student": {
+                                    "StudentName": "Ola"
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "GradeId": 3,
+                "GradeName": "Third Primary",
+                "Classes": [
+                    {
+                        "ClassId": 15,
+                        "StudentClasses": []
+                    },
+                    {
+                        "ClassId": 6,
+                        "StudentClasses": []
+                    }
+                ]
+            },
+            {
+                "GradeId": 5,
+                "GradeName": "Fifth Primary",
+                "Classes": [
+                    {
+                        "ClassId": 9,
+                        "StudentClasses": []
+                    }
+                ]
+            },
+            {
+                "GradeId": 6,
+                "GradeName": "Sixth Primary",
+                "Classes": [
+                    {
+                        "ClassId": 10,
+                        "StudentClasses": []
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "StageId": 4,
+        "StageName": "Preparatory",
+        "Grades": [
+            {
+                "GradeId": 7,
+                "GradeName": "First Preparatory",
+                "Classes": []
+            }
+        ]
+    },
+    {
+        "StageId": 2,
+        "StageName": "Kg",
+        "Grades": []
+    },
+    {
+        "StageId": 5,
+        "StageName": "Secondary",
+        "Grades": []
+    },
+    {
+        "StageId": 1,
+        "StageName": "Nursery",
+        "Grades": []
+    }
+]

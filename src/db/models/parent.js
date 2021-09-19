@@ -41,22 +41,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
       allowNull: true,
-      validate: {
-        isNumeric: true,
-        len: [14, 14]
-      }
     },
     ParentPassportId: {
       type: DataTypes.STRING,
-      isAlphanumeric: true,
       allowNull: true
     },
     ParentName: {
       type: DataTypes.STRING,
       allowNull: false,
-      validate: {
-        isAlpha: true
-      }
     },
     ParentAddress: {
       type: DataTypes.STRING,
