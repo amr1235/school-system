@@ -4,10 +4,7 @@ const student = require("./queries/students");
 const db = require("./db/models/index");
 const { mapToJSON } = require("./queries/utlis");
 const absent = require("./queries/absent");
-// Enable live reload for Electron too
-require("electron-reload")(__dirname, {
-  electron: require("../node_modules/electron")
-});
+
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
@@ -81,7 +78,7 @@ const getEssentialData = async () => {
     nationalities,
     students
   };
-}
+};
 // get essintial Data 
 ipcMain.on("getEssentialData", function (err, destination) {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
@@ -108,19 +105,19 @@ ipcMain.on("addNewStudentRequest", (err, { studentData, fatherData, motherData, 
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   student.addNewStudent(fatherData, motherData, resData, studentData.studentData,
     studentData.StudentClassId).then(() => {
-      mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
-      ipcMain.on("ScriptLoaded", function cb() {
-        mainWindow.webContents.send("feedBackMessages", "تم تسجيل الطالب بنجاح");
-        ipcMain.removeListener("ScriptLoaded", cb);
-      });
-    }).catch(err => {
-      console.log(err);
-      mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
-      ipcMain.on("ScriptLoaded", function cb() {
-        mainWindow.webContents.send("feedBackMessages", " حدث خطأ اثناء الأدخال برجاء مراجعه البيانات وحاول مجددا");
-        ipcMain.removeListener("ScriptLoaded", cb);
-      });
+    mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
+    ipcMain.on("ScriptLoaded", function cb() {
+      mainWindow.webContents.send("feedBackMessages", "تم تسجيل الطالب بنجاح");
+      ipcMain.removeListener("ScriptLoaded", cb);
     });
+  }).catch(err => {
+    console.log(err);
+    mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
+    ipcMain.on("ScriptLoaded", function cb() {
+      mainWindow.webContents.send("feedBackMessages", " حدث خطأ اثناء الأدخال برجاء مراجعه البيانات وحاول مجددا");
+      ipcMain.removeListener("ScriptLoaded", cb);
+    });
+  });
 });
 // add Student Absent
 ipcMain.on("addStudentAbsent", function (err, { studentId, AbsentDate, AbsentReason }) {
@@ -131,7 +128,7 @@ ipcMain.on("addStudentAbsent", function (err, { studentId, AbsentDate, AbsentRea
         data = {
           ...data,
           students
-        }
+        };
         mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
         ipcMain.on("ScriptLoaded", function cb() {
           mainWindow.webContents.send("getStudentDataFromMain", data);
@@ -147,52 +144,52 @@ ipcMain.on("updateStudentAbsent",(err,{studentId,absentDate,newReasonId}) => {
 });
 ipcMain.on("deleteStudentAbsent",(err,{studentId,absentDate}) => {
   absent.deleteAbsence(studentId,absentDate).catch(console.log);
-})
+});
 // update student 
 ipcMain.on("UpdateStudentData", function (err, { studentId, studentData, fatherData, motherData, resData }) {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   //update student
   student.updateStudentByStudentId(studentId, fatherData, motherData, resData, studentData.studentData,
     studentData.StudentClassId).then(() => {
-      student.getStudentData(studentId).then(data => {
-        student.getAllStudents().then(students => {
-          data = {
-            ...data,
-            students
-          }
-          mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("getStudentDataFromMain", data);
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
-        }).catch(console.log);
+    student.getStudentData(studentId).then(data => {
+      student.getAllStudents().then(students => {
+        data = {
+          ...data,
+          students
+        };
+        mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("getStudentDataFromMain", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
       }).catch(console.log);
-    }).catch(err => {
-      alert(err);
-    });
-})
+    }).catch(console.log);
+  }).catch(err => {
+    alert(err);
+  });
+});
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 ipcMain.on("login", function (event, args) {
   console.log(args[0], args[1]);
   // load Students 
   switch (args[0]) {
-    case "1":
-      if (args[1] === "1234") {
-        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-      }
-      break;
-    case "2":
-      if (args[1] === "2468") {
-        student.getAllStudents().then(students => {
-          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", students);
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
+  case "1":
+    if (args[1] === "1234") {
+      mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+    }
+    break;
+  case "2":
+    if (args[1] === "2468") {
+      student.getAllStudents().then(students => {
+        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", students);
+          ipcMain.removeListener("ScriptLoaded", cb);
         });
-      } else
-        break;
+      });
+    } else
+      break;
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {
@@ -203,7 +200,7 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
       data = {
         ...data,
         students
-      }
+      };
       mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("getStudentDataFromMain", data);

@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       Student.belongsTo(models["Nationality"], {
         foreignKey: "StudentNationalityId"
       });
+      Student.hasOne(models["TransferredStudent"], {
+        foreignKey: "StudentId"
+      });
       Student.hasOne(models["StudentBusRoute"], {
         foreignKey: "StudentId"
       });
