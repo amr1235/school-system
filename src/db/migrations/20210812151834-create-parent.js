@@ -11,10 +11,6 @@ module.exports = {
           type: Sequelize.STRING,
           unique: true,
           allowNull: true,
-          validate: {
-            isNumeric: true,
-            len: [14, 14]
-          }
         },
         ParentPassportId: {
           type: Sequelize.STRING,

@@ -69,13 +69,6 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: false,
     modelName: "Parent",
     freezeTableName: true,
-    validate: {
-      checkIds() {
-        if (!this.ParentNationalId && !this.ParentPassportId) {
-          throw new Error("Must specify a National Id or a Passport Id");
-        }
-      }
-    },
     indexes: [
       {
         fields: ["ParentName"]

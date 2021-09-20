@@ -149,6 +149,7 @@ ipcMain.on("deleteStudentAbsent",(err,{studentId,absentDate}) => {
 ipcMain.on("UpdateStudentData", function (err, { studentId, studentData, fatherData, motherData, resData }) {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   //update student
+  // console.log(studentData);
   student.updateStudentByStudentId(studentId, fatherData, motherData, resData, studentData.studentData,
     studentData.StudentClassId).then(() => {
     student.getStudentData(studentId).then(data => {
@@ -165,7 +166,7 @@ ipcMain.on("UpdateStudentData", function (err, { studentId, studentData, fatherD
       }).catch(console.log);
     }).catch(console.log);
   }).catch(err => {
-    alert(err);
+    console.log(err);
   });
 });
 // In this file you can include the rest of your app's specific main process
