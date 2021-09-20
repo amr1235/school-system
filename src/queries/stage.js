@@ -34,6 +34,7 @@ const deleteStage = (StageId) => {
   });
 };
 
+
 module.exports = {
   getStages,
   addStage,

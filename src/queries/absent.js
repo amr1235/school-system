@@ -15,14 +15,14 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
     StudentId: StudentId,
     AbsentDate: AbsentDate
   };
-  
+
   const student = await db["Student"].findOne({
     where: {
       StudentId
-    }, 
+    },
     include: [db["StudentWarning"], db["StudentAbsent"]],
   });
-  
+
   const absenceDays = student.dataValues.StudentAbsents.length;
   const warnings = student.dataValues.StudentWarnings.length;
   const perWarning = 10;
@@ -41,6 +41,24 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
   }
 };
 
+const updateAbsenceReason = (StudentId, AbsentDate, newReasonId) => {
+  return db["StudentAbsent"].update({
+    AbsentReasonId: newReasonId
+  }, {
+    where: {
+      StudentId,
+      AbsentDate
+    }
+  });
+}
+const deleteAbsence = (StudentId, AbsentDate) => {
+  return db["StudentAbsent"].destroy({
+    where : {
+      StudentId,
+      AbsentDate
+    }
+  });
+}
 const getStudentAbsenceDays = async (StudentId) => {
   return db["StudentAbsent"].findAll({
     where: {
@@ -85,12 +103,19 @@ const deleteWarning = async (StudentId, WarningDate) => {
     }
   });
 };
-
+const getAllReasons = () => {
+  return db["AbsentReason"].findAll({
+    attributes: ['AbsentReasonId', 'AbsentReasonName']
+  }).then(Reasons => Reasons.map(reason => reason.toJSON()));
+};
 module.exports = {
   addNewAbsenceDay,
   getStudentAbsenceDays,
   getAbsenceBetween,
   getAllWarnings,
   sendWarning,
-  deleteWarning
+  deleteWarning,
+  getAllReasons,
+  updateAbsenceReason,
+  deleteAbsence
 };

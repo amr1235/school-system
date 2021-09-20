@@ -1,18 +1,123 @@
 const { Op } = require("sequelize");
 const db = require("../db/models/index");
 const parent = require("./parent");
+const absent = require("./absent");
 
 const { mapToJSON } = require("./utlis");
+
+// get all data needed to show the student 
+const getStudentData = async (Id) => {
+  let studentData = await getStudentsByColumnMultipleVals("StudentId", [Id]);
+  studentData = studentData[0];
+  let fatherData = null;
+  let motherData = null;
+  let resData = null;
+  // get nationalty 
+  let nationalities = await db["Nationality"].findAll();
+  let nationality = await db["Nationality"].findOne({
+    where: {
+      NationalityId: studentData.StudentNationalityId
+    }
+  });
+  nationality = nationality.dataValues;
+  nationalities = mapToJSON(nationalities);
+  // get fatherData 
+  let StudentFatherId = studentData.StudentFatherId;
+  if (StudentFatherId) {
+    fatherData = await parent.getParentById(StudentFatherId);
+  }
+  // get fatherData 
+  let StudentMotherId = studentData.StudentMotherId;
+  if (StudentMotherId) {
+    motherData = await parent.getParentById(StudentMotherId);
+  }
+  // resp data 
+  let StudentResponsibleId = studentData.StudentResponsibleId;
+  if (StudentResponsibleId) {
+    resData = await parent.getParentById(StudentResponsibleId);
+  }
+  // get all stages , grades and classes
+  let stagesData = await db["Stage"].findAll({
+    attributes: ["StageId", "StageName"],
+    include: {
+      model: db["Grade"],
+      attributes: ["GradeId", "GradeName"],
+      include: {
+        model: db["Class"],
+        attributes: ["ClassId"]
+      }
+    }
+  });
+  stagesData = mapToJSON(stagesData);
+  // get class of the student 
+  let ClassId = await db["StudentClass"].findOne({
+    attributes: ["ClassId"],
+    where: {
+      StudentId: Id,
+    }
+  });
+  ClassId = ClassId.ClassId;
+  let GradeId = await db["Class"].findOne({
+    attributes: ["GradeId"],
+    where: {
+      ClassId
+    }
+  });
+  GradeId = GradeId.GradeId;
+  let StageId = await db["Grade"].findOne({
+    attributes: ["StageId"],
+    where: {
+      GradeId
+    }
+  });
+  StageId = StageId.StageId;
+  let studentClass = {
+    StageId,
+    GradeId,
+    ClassId
+  };
+  //get all jobs 
+  let jobs = await db["Job"].findAll();
+  jobs = mapToJSON(jobs);
+  // get resData
+  // get absent data 
+  let absentReasons = await absent.getAllReasons();
+  let studentAbsent = await absent.getStudentAbsenceDays(Id);
+  let data = {
+    ...studentData,
+    studentId : Id,
+    nationality,
+    nationalities,
+    fatherData,
+    motherData,
+    resData,
+    stagesData,
+    studentClass,
+    jobs,
+    absentReasons,
+    studentAbsent
+  };
+  // get absent data 
+  return data;
+}
 // eslint-disable-next-line no-unused-vars
 const getAllStudents = () => {
-  return db["Student"].findAll().then(mapToJSON);
-};
-// eslint-disable-next-line no-unused-vars
-const getStudentsByColumnOneVal = (column, val) => {
-  return db["Student"].findAll({
-    where: {
-      [column]: {
-        [Op.like]: `%${val}%`,
+  return db["Stage"].findAll({
+    attributes: ["StageId", "StageName"],
+    include: {
+      model: db["Grade"],
+      attributes: ["GradeId", "GradeName"],
+      include: {
+        model: db["Class"],
+        attributes: ["ClassId"],
+        include: {
+          model: db["StudentClass"],
+          attributes: ["StudentId"],
+          include: {
+            model: db["Student"],
+            attributes: ["StudentName"]
+          }
+        }
       }
     }
   }).then(mapToJSON);
@@ -41,16 +146,18 @@ const addNewStudent = async (fatherData, motherData, responsibleParentData, stud
     if (fatherData) {
       let father = await parent.addParent(fatherData, t);
       StudentFatherId = father.ParentId;
+      console.log("father");
     }
-    // check if there is a father 
+    // check if there is a mother 
     if (motherData) {
       let mother = await parent.addParent(motherData, t);
       StudentMotherId = mother.ParentId;
+      console.log("mother");
     }
-    if (responsibleParentData[0] == "father") {
+    if (responsibleParentData[0] === "father") {
       StudentResponsibleId = StudentFatherId;
       StudentResponsibleRelation = "father";
-    } else if (responsibleParentData[0] == "mother") {
+    } else if (responsibleParentData[0] === "mother") {
       StudentResponsibleId = StudentMotherId;
       StudentResponsibleRelation = "mother";
     } else {
@@ -100,12 +207,7 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         StudentFatherId = father.toJSON().ParentId;
       } else {
         // update father with the new data 
-        await db["Parent"].update(newFatherData, {
-          where: {
-            ParentId: StudentFatherId
-          },
-          transaction: t
-        });
+        await parent.updateParentById(StudentFatherId,newFatherData,t);
       }
     }
     // check if ther ia new mother data if  so update it 
@@ -126,31 +228,21 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         });
       } else {
         // update mother with the new data 
-        await db["Parent"].update(newMotherData, {
-          where: {
-            ParentId: StudentMotherId
-          },
-          transaction: t
-        });
+        await parent.updateParentById(StudentMotherId,newMotherData,t);
       }
     }
     // check if ther ia new res data if  so update it 
     let StudentResponsibleRelation = "";
     if (newResponsibleParentData) {
-      if (newResponsibleParentData[0] == "father") {
+      if (newResponsibleParentData[0] === "father") {
         StudentResponsibleId = StudentFatherId;
         StudentResponsibleRelation = "father";
-      } else if (newResponsibleParentData[0] == "mother") {
+      } else if (newResponsibleParentData[0] === "mother") {
         StudentResponsibleId = StudentMotherId;
         StudentResponsibleRelation = "mother";
       } else {
         // update Responsible Parent
-        await db["Parent"].update(newResponsibleParentData[1], {
-          where: {
-            ParentId: StudentResponsibleId
-          },
-          transaction: t
-        });
+        await parent.updateParentById(StudentResponsibleId,newResponsibleParentData[1],t);
         StudentResponsibleRelation = newResponsibleParentData[0];
       }
     }
@@ -162,7 +254,7 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
       StudentResponsibleId,
       StudentResponsibleRelation
     };
-    let student = db["Student"].update(newStudentData, {
+    await db["Student"].update(newStudentData, {
       where: {
         StudentId
       },
@@ -179,7 +271,6 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         transaction: t
       });
     }
-    return student.toJSON();
   });
 };
 const upgradeStudentsToNextGrade = async () => {
@@ -235,19 +326,22 @@ const upgradeStudentsToNextGrade = async () => {
     // adde new 2 classes at first grade
     let firstStageId = Stages[Stages.length - 1];
     let Grades = await db["Grade"].findAll({
-      attributes:["GradeId"],
-      where : {
-        StageId : firstStageId
+      attributes: ["GradeId"],
+      where: {
+        StageId: firstStageId
       }
     });
     Grades = Grades.map(g => g.dataValues.GradeId).sort();
     let firstGradeId = Grades[0];
-    await db["Class"].bulkCreate([{GradeId : firstGradeId},{GradeId : firstGradeId}],{transaction:t});
+    await db["Class"].bulkCreate([{ GradeId: firstGradeId }, { GradeId: firstGradeId }], { transaction: t });
     return "Students have been upgraded";
   });
 };
 module.exports = {
+  getAllStudents,
   addNewStudent,
   updateStudentByStudentId,
-  upgradeStudentsToNextGrade
+  upgradeStudentsToNextGrade,
+  getStudentsByColumnMultipleVals,
+  getStudentData
 };
