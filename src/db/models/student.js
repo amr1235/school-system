@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       Student.belongsTo(models["Nationality"], {
         foreignKey: "StudentNationalityId"
       });
+      Student.hasOne(models["TransferredStudent"], {
+        foreignKey: "StudentId"
+      });
       Student.hasOne(models["StudentBusRoute"], {
         foreignKey: "StudentId"
       });
@@ -116,9 +119,7 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true
     },
     StudentFamilyStatus: {
-      type: DataTypes.ENUM,
-      allowNull: false,
-      values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
+      type: DataTypes.STRING,
     },
     StudentHealth: {
       type: DataTypes.STRING
@@ -132,27 +133,6 @@ module.exports = (sequelize, DataTypes) => {
     createdAt: false,
     modelName: "Student",
     freezeTableName: true,
-    validate: {
-      checkFamilyStatus() {
-        if (this.StudentFamilyStatus == "ORPHAN" && this.StudentMotherId) {
-          throw new Error("Can't set a Mother Id to a Student with a Dead Mother");
-        }
-        else if (this.StudentFamilyStatus == "ORPHAN" && this.StudentFatherId) {
-          throw new Error("Can't set a Father Id to a Student with a Dead Father");
-        }
-        else if (this.StudentFamilyStatus == "DEAD MOTHER" && this.StudentMotherId) {
-          throw new Error("Can't set a Mother Id to a Student with a Dead Mother");
-        }
-        else if (this.StudentFamilyStatus == "DEAD FATHER" && this.StudentFatherId) {
-          throw new Error("Can't set a Father Id to a Student with a Dead Father");
-        }
-      },
-      checkIds() {
-        if (!this.StudentNationalId && !this.StudentPassportId) {
-          throw new Error("Must specify a National Id or a Passport Id");
-        }
-      }
-    },
     indexes: [
       {
         fields: ["StudentName"]
