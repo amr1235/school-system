@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link
       rel="stylesheet"
-      href="../../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
     <link
       rel="stylesheet"
-      href="../../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
-    <link rel="stylesheet" href="../scss/Reports/Reports.css" />
+    <link rel="stylesheet" href="scss/Reports/Reports.css" />
     <link
       rel="stylesheet"
-      href="../../../node_modules/datatables.net-dt/css/jquery.dataTables.css"
+      href="../../node_modules/datatables.net-dt/css/jquery.dataTables.css"
     />
     <title>التوريد اليومى</title>
   </head>
@@ -118,24 +118,7 @@
         <h1 class="text-center py-2 border-bottom border-3 mb-5 border-dark">
           الباقى عليهم سيارة
         </h1>
-        <table id="mytable" class="display table-striped">
-          <!-- <thead>
-                      <tr>
-                          <th>Column 1</th>
-                          <th>Column 2</th>
-                      </tr>
-                  </thead> -->
-          <!-- <tbody>
-                      <tr>
-                          <td>Row 1 Data 1</td>
-                          <td>Row 1 Data 2</td>
-                      </tr>
-                      <tr>
-                          <td>Row 2 Data 1</td>
-                          <td>Row 2 Data 2</td>
-                      </tr>
-                  </tbody> -->
-        </table>
+        <table id="mytable" class="display table-striped"></table>
       </section>
 
       <div class="row mt-5">
@@ -176,11 +159,11 @@
       });
       window.api.send("ScriptLoaded", null);
     </script>
-    <script src="../../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../../../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../../../node_modules/datatables.net/js/jquery.dataTables.js"></script>
-    <script src="../js/lib/jquery.table2excel.min.js"></script>
+    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../../node_modules/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="js/lib/jquery.table2excel.min.js"></script>
     <script>
       $(document).ready(function () {
         $("#mytable").DataTable({
