@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain,dialog } = require("electron");
 const path = require("path");
 const student = require("./queries/students");
 const db = require("./db/models/index");
@@ -23,12 +23,21 @@ const createWindow = () => {
       preload: path.join(__dirname, "views/js/preload.js")
     }
   });
-
+  
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "views/login.html"));
-
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
+};
+
+// create dialog box for notifications 
+const DialogBox = exports.DialogBox = (messages,type,title) => {
+  let message = messages.join("\n");
+  dialog.showMessageBox(mainWindow,{
+    message : message,
+    type,
+    title
+  });
 };
 
 // This method will be called when Electron has finished
@@ -79,6 +88,10 @@ const getEssentialData = async () => {
     students
   };
 };
+// listen for dialogboxes 
+ipcMain.on("ShowDialogBox",(err,{messages,type,title}) => {
+  DialogBox(messages,type,title);
+});
 // get essintial Data 
 ipcMain.on("getEssentialData", function (err, destination) {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
@@ -100,22 +113,51 @@ ipcMain.on("getEssentialData", function (err, destination) {
   });
 
 });
-
+// transferStudent
+ipcMain.on("transferStudent",(err,{studentId,SchoolName}) => {
+  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
+  student.transferStudent(studentId,SchoolName).then(() => {
+    student.getAllStudents().then(students => {
+      mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", students);
+        DialogBox(['تم تحويل الطالب بنجاح'],"info","تم")
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    });
+  }).catch(err => {
+    console.log(err);
+    student.getAllStudents().then(students => {
+      mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", students);
+        DialogBox(['حصل خلل اثناء التحويل الرجاء التاكد من البيانات وحاول مجددا'],"error","خطأ")
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    });
+  });
+});
 ipcMain.on("addNewStudentRequest", (err, { studentData, fatherData, motherData, resData }) => {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   student.addNewStudent(fatherData, motherData, resData, studentData.studentData,
     studentData.StudentClassId).then(() => {
-    mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
-    ipcMain.on("ScriptLoaded", function cb() {
-      mainWindow.webContents.send("feedBackMessages", "تم تسجيل الطالب بنجاح");
-      ipcMain.removeListener("ScriptLoaded", cb);
-    });
+      getEssentialData().then(data =>{
+        mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
+        DialogBox("تم تسجيل الطالب بنجاح" , "info","تم")
+      });
   }).catch(err => {
     console.log(err);
-    mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
-    ipcMain.on("ScriptLoaded", function cb() {
-      mainWindow.webContents.send("feedBackMessages", " حدث خطأ اثناء الأدخال برجاء مراجعه البيانات وحاول مجددا");
-      ipcMain.removeListener("ScriptLoaded", cb);
+    getEssentialData().then(data =>{
+      mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", data);
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+      DialogBox("حصل خطأ اثناء التسجيل برجاء التأكد من البيانات وحاول مجددا" , "info","تم")
     });
   });
 });
@@ -136,7 +178,17 @@ ipcMain.on("addStudentAbsent", function (err, { studentId, AbsentDate, AbsentRea
         });
       }).catch(console.log);
     }).catch(console.log);
-  }).catch(console.log);
+  }).catch(err => {
+    console.log(err);
+    student.getAllStudents().then(students => {
+      mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", students);
+        DialogBox(['حصل خلل اثناء اضافة الغياب الرجاء التاكد من البيانات وحاول مجددا'],"error","خطأ")
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    });
+  });
 });
 // update absent reason 
 ipcMain.on("updateStudentAbsent",(err,{studentId,absentDate,newReasonId}) => {
@@ -167,6 +219,14 @@ ipcMain.on("UpdateStudentData", function (err, { studentId, studentData, fatherD
     }).catch(console.log);
   }).catch(err => {
     console.log(err);
+    student.getAllStudents().then(students => {
+      mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", students);
+        DialogBox(['حصل خلل اثناء تحديث البيانات الرجاء التاكد من البيانات وحاول مجددا'],"error","خطأ")
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    });
   });
 });
 // In this file you can include the rest of your app's specific main process

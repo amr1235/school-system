@@ -1,1482 +1,1115 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="./scss/affairs.css" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-    <title>شؤون الطلاب</title>
-  </head>
 
-  <body>
-    <!--start of navbar-->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">معهد الوفاء</a>
-        <button
-          class="navbar-toggler rounded-pill text-warning me-auto"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#sidebar"
-          aria-controls="sidebar"
-        >
-          <i class="bi bi-arrow-right-circle"></i>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./scss/affairs.css" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+  <title>شؤون الطلاب</title>
+</head>
+
+<body>
+  <!--start of navbar-->
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">معهد الوفاء</a>
+      <button class="navbar-toggler rounded-pill text-warning me-auto" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar" aria-controls="sidebar">
+        <i class="bi bi-arrow-right-circle"></i>
+      </button>
+      <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="d-flex me-auto mt-3 mt-md-0">
+          <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث"
+            aria-label="Search" />
+          <button class="btn btn-outline-warning rounded-circle" type="submit">
+            <i class="bi bi-search"></i>
+          </button>
+        </form>
+        <div class="mx-5 nav">
+          <button class="
+                btn btn-warning
+                mx-md-3 mx-4
+                my-2
+                d-inline-block
+                rounded-pill
+              ">
+            <a class="text-decoration-none text-dark" href="#">التقارير</a>
+          </button>
+          <button class="
+                btn btn-warning
+                mx-md-3 mx-4
+                my-2
+                d-inline-block
+                rounded-pill
+              ">
+            <a class="text-decoration-none text-dark" href="./Exams.html">ارقام الجلوس</a>
+          </button>
+          <button class="
+                btn btn-warning
+                mx-md-3 mx-4
+                my-2
+                d-inline-block
+                rounded-pill
+              " onclick='window.api.send("getEssentialData", "affairsHome");'>
+            الرئيسية
+          </button>
+          <button class="
+                btn btn-warning
+                mx-md-3 mx-4
+                my-2
+                d-inline-block
+                rounded-pill
+              " type="button" onclick='window.api.send("getEssentialData", "addStudent");'>
+            تسجيل طالب جديد
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+  <!--end of navbar-->
+
+  <!--start of side bar-->
+  <aside>
+    <div class="offcanvas offcanvas-start container sidebar-nav me-auto" data-bs-scroll="true" data-bs-backdrop="false"
+      tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+      <div class="offcanvas-header justify-content-center">
+        <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset" data-bs-dismiss="offcanvas"
+          aria-label="Close"></button>
+      </div>
+      <div class="offcanvas-body justify-content-center" dir="rtl">
+        <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
+        <div class="tab-content mt-2" id="pills-tabContent"></div>
+      </div>
+    </div>
+  </aside>
+  <!--end of side bar-->
+
+  <!--register section-->
+  <main class="mt-5 pt-3 tab-content" id="register">
+    <ul class="nav nav-pills mb-3 bg-dark justify-content-center" id="pills-tab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="btn btn-success mt-1 rounded-pill" id="SaveDataButton" type="submit">
+          حفظ التعديلات
         </button>
-        <button
-          class="navbar-toggler me-auto"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#dad" type="button"
+          role="tab" aria-controls="pills-contact" aria-selected="false">
+          بيانات اﻻب
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <form class="d-flex me-auto mt-3 mt-md-0">
-            <input
-              class="text-center form-control mx-3 rounded-pill"
-              type="search"
-              placeholder="ابحث"
-              aria-label="Search"
-            />
-            <button
-              class="btn btn-outline-warning rounded-circle"
-              type="submit"
-            >
-              <i class="bi bi-search"></i>
-            </button>
-          </form>
-          <div class="mx-5 nav">
-            <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-            >
-              <a class="text-decoration-none text-dark" href="#">التقارير</a>
-            </button>
-            <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-            >
-              <a class="text-decoration-none text-dark" href="./Exams.html"
-                >ارقام الجلوس</a
-              >
-            </button>
-            <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-              onclick='window.api.send("getEssentialData", "affairsHome");'
-            >
-              الرئيسية
-            </button>
-            <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-              type="button"
-              onclick='window.api.send("getEssentialData", "addStudent");'
-            >
-              تسجيل طالب جديد
-            </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#mum" type="button"
+          role="tab" aria-controls="pills-contact" aria-selected="false">
+          بيانات اﻻم
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#caretaker" type="button"
+          role="tab" aria-controls="pills-contact" aria-selected="false">
+          بيانات ولي الامر
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#stud-data"
+          type="button" role="tab" aria-controls="pills-home" aria-selected="true">
+          بيانات الطالب
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#absence" type="button"
+          role="tab" aria-controls="pills-profile" aria-selected="false">
+          الغياب
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#transfer" type="button"
+          role="tab" aria-controls="pills-contact" aria-selected="false">
+          تحويل الطالب
+        </button>
+      </li>
+    </ul>
+
+    <section id="stud-data" class="container tab-pane fade show active" role="tabpanel"
+      aria-labelledby="v-pills-home-tab" dir="rtl">
+      <h1 class="text-center py-4">بيانات الطالب</h1>
+
+      <div class="row my-3" dir="rtl">
+        <div class="col-md-6 col-12">
+          <div class="input-group input-group col-md-6 col-12">
+            <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" id="StudentName" required />
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="input-group input-group mb-2 col-md-6 col-12">
+            <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" required id="StudentNationalId" />
           </div>
         </div>
       </div>
-    </nav>
-    <!--end of navbar-->
-
-    <!--start of side bar-->
-    <aside>
-      <div
-        class="offcanvas offcanvas-start container sidebar-nav me-auto"
-        data-bs-scroll="true"
-        data-bs-backdrop="false"
-        tabindex="-1"
-        id="sidebar"
-        aria-labelledby="sidebarLabel"
-      >
-        <div class="offcanvas-header justify-content-center">
-          <button
-            type="button"
-            class="btn-close btn-close-white d-md-none me-auto text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div class="offcanvas-body justify-content-center" dir="rtl">
-          <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
-          <div class="tab-content mt-2" id="pills-tabContent"></div>
+      <div class="row my-3" dir="rtl">
+        <div class="input-group input-group mb-2 col">
+          <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm" required id="StudentPassportId" />
         </div>
       </div>
-    </aside>
-    <!--end of side bar-->
 
-    <!--register section-->
-    <main class="mt-5 pt-3 tab-content" id="register">
-      <ul
-        class="nav nav-pills mb-3 bg-dark justify-content-center"
-        id="pills-tab"
-        role="tablist"
-      >
-        <li class="nav-item" role="presentation">
-          <button
-            class="btn btn-success mt-1 rounded-pill"
-            id="SaveDataButton"
-            type="submit"
-          >
-            حفظ التعديلات
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-contact-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#dad"
-            type="button"
-            role="tab"
-            aria-controls="pills-contact"
-            aria-selected="false"
-          >
-            بيانات اﻻب
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-contact-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#mum"
-            type="button"
-            role="tab"
-            aria-controls="pills-contact"
-            aria-selected="false"
-          >
-            بيانات اﻻم
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-contact-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#caretaker"
-            type="button"
-            role="tab"
-            aria-controls="pills-contact"
-            aria-selected="false"
-          >
-            بيانات ولي الامر
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link active"
-            id="pills-home-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#stud-data"
-            type="button"
-            role="tab"
-            aria-controls="pills-home"
-            aria-selected="true"
-          >
-            بيانات الطالب
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-profile-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#absence"
-            type="button"
-            role="tab"
-            aria-controls="pills-profile"
-            aria-selected="false"
-          >
-            الغياب
-          </button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button
-            class="nav-link"
-            id="pills-contact-tab"
-            data-bs-toggle="pill"
-            data-bs-target="#transfer"
-            type="button"
-            role="tab"
-            aria-controls="pills-contact"
-            aria-selected="false"
-          >
-            تحويل الطالب
-          </button>
-        </li>
-      </ul>
+      <div class="row my-3" dir="rtl">
+        <div class="col-12">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing">تاريخ الميلاد:</span>
+            <input type="date" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" required id="StudentBirthDate" />
+          </div>
+        </div>
+      </div>
 
-      <section
-        id="stud-data"
-        class="container tab-pane fade show active"
-        role="tabpanel"
-        aria-labelledby="v-pills-home-tab"
-        dir="rtl"
-      >
-        <h1 class="text-center py-4">بيانات الطالب</h1>
+      <div class="row my-3" dir="rtl">
+        <div class="input-group input-group mb-2 col">
+          <span class="input-group-text" id="inputGroup-sizing">تاريخ التسجيل:</span>
+          <input type="date" class="form-control" aria-label="Sizing example input" required id="StudentRegisterDate"
+            aria-describedby="inputGroup-sizing-sm" />
+        </div>
+      </div>
 
+      <div class="row my-3" dir="rtl">
+        <div class="input-group input-group mb-2 col">
+          <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm" id="StudentAddress" />
+        </div>
+      </div>
+
+      <div class="row my-3" dir="rtl">
+        <div class="col-6 mb-2">
+          <select class="form-select" aria-label="Default select example" id="StudentSex">
+            <option value="MALE">ذكر</option>
+            <option value="FEMALE">انثي</option>
+          </select>
+        </div>
+
+        <div class="col-6 mb-2">
+          <select class="form-select" aria-label="Default select example" id="StudentNationalities"></select>
+        </div>
+      </div>
+
+      <div class="row my-3" dir="rtl">
+        <div class="col-md-6 col-12">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing">الترتيب بين الاخوه:</span>
+            <input type="number" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" id="StudentSiblingOrder" />
+          </div>
+        </div>
+      </div>
+      <div class="row my-3" dir="rtl">
+        <div class="input-group input-group mb-2 col">
+          <span class="input-group-text" id="inputGroup-sizing">الحاله الصحيه:</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm" id="StudentHealth" />
+        </div>
+      </div>
+      <div class="row mb-2" dir="rtl">
+        <div class="col">
+          <select class="form-select" aria-label="Default select example" id="StudentFamilyStatus">
+            <option selected>الحاله العائليه</option>
+            <option value="ORPHAN">يتيم</option>
+            <option value="MARRIED">متزوج</option>
+            <option value="DIVORCED">مطلق</option>
+            <option value="DEAD MOTHER">الاب متوفي</option>
+            <option value="DEAD FATHER">اﻻم متوفيه</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row my-3" dir="rtl">
+        <div class="col-md-4 col-12">
+          <select class="form-select" onchange="" aria-label="Default select example" id="StageList">
+            <option selected>المرحله الدراسيه</option>
+          </select>
+        </div>
+        <div class="col-md-4 col-12">
+          <select class="form-select" disabled aria-label="Default select example" id="GradeList"></select>
+        </div>
+        <div class="col-md-4 col-12">
+          <select class="form-select" disabled aria-label="Default select example" id="ClassList"></select>
+        </div>
+      </div>
+    </section>
+
+    <!--dad section-->
+    <section id="dad" class="container tab-pane fade show" role="tabpanel" dir="rtl">
+      <h1 class="text-center py-4">بيانات الاب</h1>
+
+      <div class="container row">
+        <div class="form-check form-switch">
+          <input class="form-check-input" id="DeadDadTrigger" onchange="hideDadData()" type="checkbox"
+            id="flexSwitchCheckDefault" />
+          <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفي</label>
+        </div>
+      </div>
+
+      <div id="dadData">
         <div class="row my-3" dir="rtl">
           <div class="col-md-6 col-12">
-            <div class="input-group input-group col-md-6 col-12">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >الاسم :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-                id="StudentName"
-                required
-              />
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+              <input id="DadName" type="text" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
             </div>
           </div>
           <div class="col-md-6 col-12">
             <div class="input-group input-group mb-2 col-md-6 col-12">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >الرقم القومي :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-                required
-                id="StudentNationalId"
-              />
+              <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+              <input type="text" id="DadNationalId" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
             </div>
           </div>
         </div>
         <div class="row my-3" dir="rtl">
           <div class="input-group input-group mb-2 col">
-            <span class="input-group-text" id="inputGroup-sizing"
-              >رقم الباسبورت:</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              required
-              id="StudentPassportId"
-            />
+            <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+            <input type="text" id="DadPassportId" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
+          </div>
+        </div>
+
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
+            <input type="text" id="DadAddress" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
           </div>
         </div>
 
         <div class="row my-3" dir="rtl">
           <div class="col-12">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >تاريخ الميلاد:</span
-              >
-              <input
-                type="date"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-                required
-                id="StudentBirthDate"
-              />
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <select id="DadAcademicDegree" class="form-select" aria-label="Default select example">
+                <option selected>شهاده الاب</option>
+                <option value="BACHELOR">بكالريوس</option>
+                <option value="PHD">دكتوراه</option>
+                <option value="MASTERS">ماجيستير</option>
+                <option value="SECONDARY">ثانويه</option>
+              </select>
             </div>
           </div>
         </div>
 
-        <div class="row my-3" dir="rtl">
-          <div class="input-group input-group mb-2 col">
-            <span class="input-group-text" id="inputGroup-sizing"
-              >تاريخ التسجيل:</span
-            >
-            <input
-              type="date"
-              class="form-control"
-              aria-label="Sizing example input"
-              required
-              id="StudentRegisterDate"
-              aria-describedby="inputGroup-sizing-sm"
-            />
-          </div>
+        <div id="DadworkArea"></div>
+
+        <div id="dadphoneArea" class="my-3"></div>
+      </div>
+    </section>
+
+    <!--mum section-->
+    <section id="mum" class="container tab-pane fade show" role="tabpanel" dir="rtl">
+      <h1 class="text-center py-4">بيانات الام</h1>
+
+      <div class="container row">
+        <div class="form-check form-switch">
+          <input class="form-check-input" onchange="hideMumData()" type="checkbox" id="DeadMomTrigger" />
+          <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفيه</label>
         </div>
+      </div>
 
-        <div class="row my-3" dir="rtl">
-          <div class="input-group input-group mb-2 col">
-            <span class="input-group-text" id="inputGroup-sizing"
-              >العنوان بالكامل :</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              id="StudentAddress"
-            />
-          </div>
-        </div>
-
-        <div class="row my-3" dir="rtl">
-          <div class="col-6 mb-2">
-            <select
-              class="form-select"
-              aria-label="Default select example"
-              id="StudentSex"
-            >
-              <option value="MALE">ذكر</option>
-              <option value="FEMALE">انثي</option>
-            </select>
-          </div>
-
-          <div class="col-6 mb-2">
-            <select
-              class="form-select"
-              aria-label="Default select example"
-              id="StudentNationalities"
-            ></select>
-          </div>
-        </div>
-
+      <div id="mumData">
         <div class="row my-3" dir="rtl">
           <div class="col-md-6 col-12">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >الترتيب بين الاخوه:</span
-              >
-              <input
-                type="number"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-                id="StudentSiblingOrder"
-              />
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+              <input type="text" id="MomName" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
+            </div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+              <input type="text" class="form-control" id="MomNationalId" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
             </div>
           </div>
         </div>
+
         <div class="row my-3" dir="rtl">
           <div class="input-group input-group mb-2 col">
-            <span class="input-group-text" id="inputGroup-sizing"
-              >الحاله الصحيه:</span
-            >
-            <input
-              type="text"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              id="StudentHealth"
-            />
-          </div>
-        </div>
-        <div class="row mb-2" dir="rtl">
-          <div class="col">
-            <select
-              class="form-select"
-              aria-label="Default select example"
-              id="StudentFamilyStatus"
-            >
-              <option selected>الحاله العائليه</option>
-              <option value="ORPHAN">يتيم</option>
-              <option value="MARRIED">متزوج</option>
-              <option value="DIVORCED">مطلق</option>
-              <option value="DEAD MOTHER">الاب متوفي</option>
-              <option value="DEAD FATHER">اﻻم متوفيه</option>
-            </select>
+            <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+            <input type="text" class="form-control" id="MomPassportId" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
           </div>
         </div>
 
         <div class="row my-3" dir="rtl">
-          <div class="col-md-4 col-12">
-            <select
-              class="form-select"
-              onchange=""
-              aria-label="Default select example"
-              id="StageList"
-            >
-              <option selected>المرحله الدراسيه</option>
-            </select>
-          </div>
-          <div class="col-md-4 col-12">
-            <select
-              class="form-select"
-              disabled
-              aria-label="Default select example"
-              id="GradeList"
-            ></select>
-          </div>
-          <div class="col-md-4 col-12">
-            <select
-              class="form-select"
-              disabled
-              aria-label="Default select example"
-              id="ClassList"
-            ></select>
-          </div>
-        </div>
-      </section>
-
-      <!--dad section-->
-      <section
-        id="dad"
-        class="container tab-pane fade show"
-        role="tabpanel"
-        dir="rtl"
-      >
-        <h1 class="text-center py-4">بيانات الاب</h1>
-
-        <div class="container row">
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              id="DeadDadTrigger"
-              onchange="hideDadData()"
-              type="checkbox"
-              id="flexSwitchCheckDefault"
-            />
-            <label class="form-check-label h5" for="flexSwitchCheckDefault"
-              >متوفي</label
-            >
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
+            <input type="text" class="form-control" id="MomAddress" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
           </div>
         </div>
 
-        <div id="dadData">
-          <div class="row my-3" dir="rtl">
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >الاسم :</span
-                >
-                <input
-                  id="DadName"
-                  type="text"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >الرقم القومي :</span
-                >
-                <input
-                  type="text"
-                  id="DadNationalId"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-          </div>
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >رقم الباسبورت:</span
-              >
-              <input
-                type="text"
-                id="DadPassportId"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >العنوان بالكامل :</span
-              >
-              <input
-                type="text"
-                id="DadAddress"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <select
-                  id="DadAcademicDegree"
-                  class="form-select"
-                  aria-label="Default select example"
-                >
-                  <option selected>شهاده الاب</option>
-                  <option value="BACHELOR">بكالريوس</option>
-                  <option value="PHD">دكتوراه</option>
-                  <option value="MASTERS">ماجيستير</option>
-                  <option value="SECONDARY">ثانويه</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div id="DadworkArea"></div>
-
-          <div id="dadphoneArea" class="my-3"></div>
-        </div>
-      </section>
-
-      <!--mum section-->
-      <section
-        id="mum"
-        class="container tab-pane fade show"
-        role="tabpanel"
-        dir="rtl"
-      >
-        <h1 class="text-center py-4">بيانات الام</h1>
-
-        <div class="container row">
-          <div class="form-check form-switch">
-            <input
-              class="form-check-input"
-              onchange="hideMumData()"
-              type="checkbox"
-              id="DeadMomTrigger"
-            />
-            <label class="form-check-label h5" for="flexSwitchCheckDefault"
-              >متوفيه</label
-            >
-          </div>
-        </div>
-
-        <div id="mumData">
-          <div class="row my-3" dir="rtl">
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >الاسم :</span
-                >
-                <input
-                  type="text"
-                  id="MomName"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >الرقم القومي :</span
-                >
-                <input
-                  type="text"
-                  class="form-control"
-                  id="MomNationalId"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >رقم الباسبورت:</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="MomPassportId"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >العنوان بالكامل :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="MomAddress"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="col-12">
-              <div class="input-group input-group mb-2 col-12">
-                <select
-                  class="form-select"
-                  id="MomAcademicDegree"
-                  aria-label="Default select example"
-                >
-                  <option selected>شهاده الام</option>
-                  <option value="BACHELOR">بكالريوس</option>
-                  <option value="PHD">دكتوراه</option>
-                  <option value="MASTERS">ماجيستير</option>
-                  <option value="SECONDARY">ثانويه</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div id="MomWorkArea"></div>
-          <div id="MomPhoneArea" class="my-3"></div>
-        </div>
-      </section>
-
-      <!--siblings-->
-      <section
-        id="sibling"
-        class="container tab-pane fade show"
-        role="tabpanel"
-        dir="rtl"
-      >
-        <h1 class="text-center py-4">بيانات الاخوه</h1>
         <div class="row my-3" dir="rtl">
-          <div class="col-md-3 col-12">
-            <div class="input-group input-group mb-2 col-md-6 col-12">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >الاسم :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
+          <div class="col-12">
+            <div class="input-group input-group mb-2 col-12">
+              <select class="form-select" id="MomAcademicDegree" aria-label="Default select example">
+                <option selected>شهاده الام</option>
+                <option value="BACHELOR">بكالريوس</option>
+                <option value="PHD">دكتوراه</option>
+                <option value="MASTERS">ماجيستير</option>
+                <option value="SECONDARY">ثانويه</option>
+              </select>
             </div>
-          </div>
-          <div class="col-md-3 col-12">
-            <div class="input-group input-group mb-2 col-md-6 col-12">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >مدرسه الاخ :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-          <div class="col-md-3 col-12">
-            <select class="form-select" aria-label="Default select example">
-              <option selected>النوع</option>
-              <option value="1">ذكر</option>
-              <option value="2">انثي</option>
-            </select>
-          </div>
-          <div class="col-md-3 col-12 text-center">
-            <button class="btn btn-primary w-auto" onclick="addSibling()">
-              اضافه اخ اخر
-            </button>
           </div>
         </div>
 
-        <div id="goto" class="my-3"></div>
-      </section>
+        <div id="MomWorkArea"></div>
+        <div id="MomPhoneArea" class="my-3"></div>
+      </div>
+    </section>
 
-      <!--caretaker-->
-      <section
-        id="caretaker"
-        class="container tab-pane fade show"
-        role="tabpanel"
-        dir="rtl"
-      >
-        <h1 class="text-center py-4">بيانات ولي اﻻمر</h1>
-        <div class="row">
-          <select
-            id="StudentResponsibleRelationSelect"
-            class="form-select"
-            aria-label="Default select example"
-            onchange="showCareTakerData('other',this)"
-          >
-            <option value="father">الاب</option>
-            <option value="mother">اﻻم</option>
-            <option value="other">غير</option>
+    <!--siblings-->
+    <section id="sibling" class="container tab-pane fade show" role="tabpanel" dir="rtl">
+      <h1 class="text-center py-4">بيانات الاخوه</h1>
+      <div class="row my-3" dir="rtl">
+        <div class="col-md-3 col-12">
+          <div class="input-group input-group mb-2 col-md-6 col-12">
+            <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group input-group mb-2 col-md-6 col-12">
+            <span class="input-group-text" id="inputGroup-sizing">مدرسه الاخ :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <select class="form-select" aria-label="Default select example">
+            <option selected>النوع</option>
+            <option value="1">ذكر</option>
+            <option value="2">انثي</option>
           </select>
         </div>
-
-        <div id="other" class="my-5" hidden>
-          <div class="row my-3" dir="rtl">
-            <div class="col-md-4 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >صلة القرابة :</span
-                >
-                <input
-                  type="text"
-                  id="StudentResponsibleRelation"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >الاسم :</span
-                >
-                <input
-                  type="text"
-                  id="ResName"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group input-group mb-2 col-md-6 col-12">
-                <span class="input-group-text" id="inputGroup-sizing"
-                  >الرقم القومي :</span
-                >
-                <input
-                  type="text"
-                  id="ResNationalId"
-                  class="form-control"
-                  aria-label="Sizing example input"
-                  aria-describedby="inputGroup-sizing-sm"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >رقم الباسبورت:</span
-              >
-              <input
-                type="text"
-                id="ResPassportId"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-          <div class="row my-3" dir="rtl">
-            <div class="input-group input-group mb-2 col">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >العنوان بالكامل :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="ResAddress"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
-            </div>
-          </div>
-          <div class="row my-3" dir="rtl">
-            <div class="col-12">
-              <div class="input-group input-group mb-2 col-12">
-                <select
-                  id="ResAcademicDegree"
-                  class="form-select"
-                  aria-label="Default select example"
-                >
-                  <option selected>شهاده ولي اﻻمر</option>
-                  <option value="BACHELOR">بكالريوس</option>
-                  <option value="PHD">دكتوراه</option>
-                  <option value="MASTERS">ماجيستير</option>
-                  <option value="SECONDARY">ثانويه</option>
-                </select>
-              </div>
-            </div>
-          </div>
-
-          <div id="ResWorkArea"></div>
-          <div id="ResPhoneArea" class="my-3"></div>
+        <div class="col-md-3 col-12 text-center">
+          <button class="btn btn-primary w-auto" onclick="addSibling()">
+            اضافه اخ اخر
+          </button>
         </div>
-      </section>
+      </div>
 
-      <!--التحويل-->
-      <section
-        class="container tab-pane fade show"
-        id="transfer"
-        role="tabpanel"
-        dir="rtl"
-      >
-        <h1 class="border-3 border-bottom border-dark text-center py-3">
-          تحويل الطلاب
-        </h1>
-        <div class="row justify-content-center my-5">
-          <div class="input-group input-group mb-2 col-12">
-            <h3>اسم الطالب :</h3>
-            <h3 class="mx-5 text-center">
-              asfa
-              <!--add student name here-->
-            </h3>
+      <div id="goto" class="my-3"></div>
+    </section>
+
+    <!--caretaker-->
+    <section id="caretaker" class="container tab-pane fade show" role="tabpanel" dir="rtl">
+      <h1 class="text-center py-4">بيانات ولي اﻻمر</h1>
+      <div class="row">
+        <select id="StudentResponsibleRelationSelect" class="form-select" aria-label="Default select example"
+          onchange="showCareTakerData('other',this)">
+          <option value="father">الاب</option>
+          <option value="mother">اﻻم</option>
+          <option value="other">غير</option>
+        </select>
+      </div>
+
+      <div id="other" class="my-5" hidden>
+        <div class="row my-3" dir="rtl">
+          <div class="col-md-4 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing">صلة القرابة :</span>
+              <input type="text" id="StudentResponsibleRelation" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
+            </div>
           </div>
-        </div>
-        <div class="row justify-content-center my-5">
-          <div class="col-md-6 col-12">
-            <div class="input-group input-group mb-2">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >اسم المدرسه :</span
-              >
-              <input
-                type="text"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-              />
+          <div class="col-md-4 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing">الاسم :</span>
+              <input type="text" id="ResName" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div class="input-group input-group mb-2 col-md-6 col-12">
+              <span class="input-group-text" id="inputGroup-sizing">الرقم القومي :</span>
+              <input type="text" id="ResNationalId" class="form-control" aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-sm" />
             </div>
           </div>
         </div>
 
-        <div class="d-flex" dir="rtl">
-          <div class="col-12 my-3 text-center">
-            <button type="submit" class="btn btn-primary w-50 rounded-pill">
-              تحويل
-            </button>
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing">رقم الباسبورت:</span>
+            <input type="text" id="ResPassportId" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
           </div>
         </div>
-      </section>
+        <div class="row my-3" dir="rtl">
+          <div class="input-group input-group mb-2 col">
+            <span class="input-group-text" id="inputGroup-sizing">العنوان بالكامل :</span>
+            <input type="text" class="form-control" id="ResAddress" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" />
+          </div>
+        </div>
+        <div class="row my-3" dir="rtl">
+          <div class="col-12">
+            <div class="input-group input-group mb-2 col-12">
+              <select id="ResAcademicDegree" class="form-select" aria-label="Default select example">
+                <option selected>شهاده ولي اﻻمر</option>
+                <option value="BACHELOR">بكالريوس</option>
+                <option value="PHD">دكتوراه</option>
+                <option value="MASTERS">ماجيستير</option>
+                <option value="SECONDARY">ثانويه</option>
+              </select>
+            </div>
+          </div>
+        </div>
 
-      <!--الغياب-->
-      <section
-        id="absence"
-        class="container tab-pane fade show"
-        role="tabpanel"
-        dir="rtl"
-      >
-        <h1 class="border-3 border-bottom border-dark text-center py-3">
-          الغياب
-        </h1>
+        <div id="ResWorkArea"></div>
+        <div id="ResPhoneArea" class="my-3"></div>
+      </div>
+    </section>
+
+    <!--التحويل-->
+    <section class="container tab-pane fade show" id="transfer" role="tabpanel" dir="rtl">
+      <h1 class="border-3 border-bottom border-dark text-center py-3">
+        تحويل الطلاب
+      </h1>
+      <div class="row justify-content-center my-5">
         <div class="input-group input-group mb-2 col-12">
           <h3>اسم الطالب :</h3>
-          <h3 id="absenceStudentName" class="mx-5 text-center"></h3>
-        </div>
-        <h1 class="text-center my-3 border-3 border-bottom border-dark py-3">
-          اضافه غياب
-        </h1>
-        <div class="row my-5">
-          <div class="col-md-4 col-12">
-            <div class="input-group input-group mb-2 col-md-6 col-12">
-              <span class="input-group-text" id="inputGroup-sizing"
-                >تاريخ الغياب:</span
-              >
-              <input
-                type="date"
-                class="form-control"
-                aria-label="Sizing example input"
-                aria-describedby="inputGroup-sizing-sm"
-                id="AbsentDate"
-              />
-            </div>
-          </div>
-          <div class="col-md-4 col-12">
-            <div class="input-group input-group mb-2 col-md-6 col-12">
-              <select
-                id="AbsentReasons"
-                class="form-select"
-                aria-label="Default select example"
-              ></select>
-            </div>
-          </div>
-          <div class="col-md-4 col-12">
-            <button id="addStudentAbsent" class="btn btn-primary mx-2">
-              اضافه غياب
-            </button>
-          </div>
-        </div>
-        <div id="newAbsence"></div>
+          <h3 id="transferredStudentId" class="mx-5 text-center">
 
-        <div class="container">
-          <div hidden id="absentEmptyDiv">لا يوجد غياب للطالب</div>
-          <table
-            id="absentTabel"
-            class="table table-hover table-borderless table-striped"
-            dir="rtl"
-          >
-            <thead>
-              <tr>
-                <th scope="col">تاريخ الغياب</th>
-                <th scope="col">نوع الغياب</th>
-                <th scope="col">حذف الغياب</th>
-              </tr>
-            </thead>
-            <tbody id="absentTabelBody"></tbody>
-          </table>
+
+          </h3>
         </div>
-      </section>
-    </main>
-    <script>
-      let jobs = [];
-      function removeDiv(devId) {
-        document.getElementById(devId).remove();
+      </div>
+      <div class="row justify-content-center my-5">
+        <div class="col-md-6 col-12">
+          <div class="input-group input-group mb-2">
+            <span class="input-group-text" id="inputGroup-sizing">اسم المدرسه :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" id="transferredSchoolName" />
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex" dir="rtl">
+        <div class="col-12 my-3 text-center">
+          <button type="button" id="transferStudentButton" class="btn btn-primary w-50 rounded-pill">
+            تحويل
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!--الغياب-->
+    <section id="absence" class="container tab-pane fade show" role="tabpanel" dir="rtl">
+      <h1 class="border-3 border-bottom border-dark text-center py-3">
+        الغياب
+      </h1>
+      <div class="input-group input-group mb-2 col-12">
+        <h3>اسم الطالب :</h3>
+        <h3 id="absenceStudentName" class="mx-5 text-center"></h3>
+      </div>
+      <h1 class="text-center my-3 border-3 border-bottom border-dark py-3">
+        اضافه غياب
+      </h1>
+      <div class="row my-5">
+        <div class="col-md-4 col-12">
+          <div class="input-group input-group mb-2 col-md-6 col-12">
+            <span class="input-group-text" id="inputGroup-sizing">تاريخ الغياب:</span>
+            <input type="date" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" id="AbsentDate" />
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="input-group input-group mb-2 col-md-6 col-12">
+            <select id="AbsentReasons" class="form-select" aria-label="Default select example"></select>
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <button id="addStudentAbsent" class="btn btn-primary mx-2">
+            اضافه غياب
+          </button>
+        </div>
+      </div>
+      <div id="newAbsence"></div>
+
+      <div class="container">
+        <div hidden id="absentEmptyDiv">لا يوجد غياب للطالب</div>
+        <table id="absentTabel" class="table table-hover table-borderless table-striped" dir="rtl">
+          <thead>
+            <tr>
+              <th scope="col">تاريخ الغياب</th>
+              <th scope="col">نوع الغياب</th>
+              <th scope="col">حذف الغياب</th>
+            </tr>
+          </thead>
+          <tbody id="absentTabelBody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script>
+    let jobs = [];
+    function removeDiv(devId) {
+      document.getElementById(devId).remove();
+    }
+    function addWorkToDiv(
+      divId,
+      JobId = 1,
+      JobAddress = "",
+      addRemove = true
+    ) {
+      let ID = Math.floor(Math.random() * (20000 - 500)) + 500;
+      const dadJobArea = document.getElementById(divId);
+      const wrapperDiv = document.createElement("div");
+      wrapperDiv.classList.add("row", "my-3");
+      wrapperDiv.setAttribute("dir", "rtl");
+      wrapperDiv.setAttribute("id", "delete-" + String(ID));
+      const dadWorkTitle = document.createElement("div");
+      dadWorkTitle.classList.add("col-12", "col-md-4");
+      const dadWorkSelect = document.createElement("select");
+      dadWorkSelect.classList.add("form-select");
+      dadWorkSelect.setAttribute("aria-label", "Default select example");
+      jobs.forEach((j) => {
+        const option = document.createElement("option");
+        option.value = j.JobId;
+        option.innerText = j.JobName;
+        dadWorkSelect.appendChild(option);
+      });
+      dadWorkSelect.value = JobId;
+      dadWorkTitle.appendChild(dadWorkSelect);
+      wrapperDiv.appendChild(dadWorkTitle);
+      const dadWorkAdress = document.createElement("div");
+      dadWorkAdress.classList.add("col-12", "col-md-4");
+      const dadWorkAdressInner = document.createElement("div");
+      dadWorkAdressInner.classList.add(
+        "input-group",
+        "input-group",
+        "mb-2",
+        "col"
+      );
+      const dadWorkAdressInnerLabel = document.createElement("span");
+      dadWorkAdressInnerLabel.classList.add("input-group-text");
+      dadWorkAdressInnerLabel.innerText = "عنوان العمل :";
+      dadWorkAdressInner.appendChild(dadWorkAdressInnerLabel);
+      const dadWorkAdressInnerInput = document.createElement("input");
+      dadWorkAdressInnerInput.classList.add("form-control");
+      dadWorkAdressInnerInput.setAttribute("type", "text");
+      dadWorkAdressInnerInput.value = JobAddress;
+      dadWorkAdressInner.appendChild(dadWorkAdressInnerInput);
+      dadWorkAdress.appendChild(dadWorkAdressInner);
+      wrapperDiv.appendChild(dadWorkAdress);
+      const addButtonDiv = document.createElement("div");
+      addButtonDiv.classList.add("col-12", "col-md-4");
+      const addButtonDivButton = document.createElement("button");
+      addButtonDivButton.classList.add("btn", "btn-primary");
+      addButtonDivButton.setAttribute(
+        "onclick",
+        "addWorkToDiv('" + divId + "')"
+      );
+      addButtonDivButton.innerText = "اضافة عمل";
+      addButtonDiv.appendChild(addButtonDivButton);
+      wrapperDiv.appendChild(addButtonDiv);
+      if (addRemove) {
+        const removeButtonDiv = document.createElement("div");
+        removeButtonDiv.classList.add("col-12", "col-md-3");
+        const removeButtonDivButton = document.createElement("button");
+        removeButtonDivButton.classList.add("btn", "bg-danger");
+        removeButtonDivButton.setAttribute(
+          "onclick",
+          "removeDiv('delete-" + String(ID) + "')"
+        );
+        const removeButtonDivButtonI = document.createElement("i");
+        removeButtonDivButtonI.classList.add("bi", "bi-trash2");
+        removeButtonDivButton.appendChild(removeButtonDivButtonI);
+        removeButtonDiv.appendChild(removeButtonDivButton);
+        wrapperDiv.appendChild(removeButtonDiv);
       }
-      function addWorkToDiv(
-        divId,
-        JobId = 1,
-        JobAddress = "",
-        addRemove = true
-      ) {
-        let ID = Math.floor(Math.random() * (20000 - 500)) + 500;
-        const dadJobArea = document.getElementById(divId);
-        const wrapperDiv = document.createElement("div");
-        wrapperDiv.classList.add("row", "my-3");
-        wrapperDiv.setAttribute("dir", "rtl");
-        wrapperDiv.setAttribute("id", "delete-" + String(ID));
-        const dadWorkTitle = document.createElement("div");
-        dadWorkTitle.classList.add("col-12", "col-md-4");
-        const dadWorkSelect = document.createElement("select");
-        dadWorkSelect.classList.add("form-select");
-        dadWorkSelect.setAttribute("aria-label", "Default select example");
-        jobs.forEach((j) => {
-          const option = document.createElement("option");
-          option.value = j.JobId;
-          option.innerText = j.JobName;
-          dadWorkSelect.appendChild(option);
+      dadJobArea.appendChild(wrapperDiv);
+    }
+    function addNewPhone(devId, phone = "", addRemove = true) {
+      let ID = Math.floor(Math.random() * (20000 - 500)) + 500;
+      const dadPhoneArea = document.getElementById(devId);
+      const wrapperDiv = document.createElement("div");
+      wrapperDiv.classList.add("row", "my-3");
+      wrapperDiv.setAttribute("dir", "rtl");
+      wrapperDiv.setAttribute("id", "delete-" + String(ID));
+      const dadPhoneHead = document.createElement("div");
+      dadPhoneHead.classList.add("col-md-8", "col-12");
+      const dadPhoneHeadInner = document.createElement("div");
+      dadPhoneHeadInner.classList.add(
+        "input-group",
+        "input-group",
+        "mb-2",
+        "col-md-6",
+        "col-12"
+      );
+      const dadPhoneHeadInnerLabel = document.createElement("span");
+      dadPhoneHeadInnerLabel.classList.add("input-group-text");
+      dadPhoneHeadInnerLabel.innerText = "رقم الهاتف :";
+      dadPhoneHeadInner.appendChild(dadPhoneHeadInnerLabel);
+      const dadPhoneHeadInnerInput = document.createElement("input");
+      dadPhoneHeadInnerInput.classList.add("form-control");
+      dadPhoneHeadInnerInput.setAttribute("type", "text");
+      dadPhoneHeadInnerInput.value = phone;
+      dadPhoneHeadInner.appendChild(dadPhoneHeadInnerInput);
+      dadPhoneHead.appendChild(dadPhoneHeadInner);
+      wrapperDiv.appendChild(dadPhoneHead);
+      const addPhoneDiv = document.createElement("div");
+      addPhoneDiv.classList.add("col-md-2", "col-6");
+      const addPhoneDivButton = document.createElement("button");
+      addPhoneDivButton.classList.add("btn", "btn-primary");
+      addPhoneDivButton.innerText = "إضافة رقم جديد";
+      addPhoneDivButton.setAttribute(
+        "onclick",
+        "addNewPhone('" + devId + "')"
+      );
+      addPhoneDiv.appendChild(addPhoneDivButton);
+      wrapperDiv.appendChild(addPhoneDiv);
+      if (addRemove) {
+        const removeButtonDiv = document.createElement("div");
+        removeButtonDiv.classList.add("col-12", "col-md-3");
+        const removeButtonDivButton = document.createElement("button");
+        removeButtonDivButton.classList.add("btn", "bg-danger");
+        removeButtonDivButton.setAttribute(
+          "onclick",
+          "removeDiv('delete-" + String(ID) + "')"
+        );
+        const removeButtonDivButtonI = document.createElement("i");
+        removeButtonDivButtonI.classList.add("bi", "bi-trash2");
+        removeButtonDivButton.appendChild(removeButtonDivButtonI);
+        removeButtonDiv.appendChild(removeButtonDivButton);
+        wrapperDiv.appendChild(removeButtonDiv);
+      }
+      dadPhoneArea.appendChild(wrapperDiv);
+    }
+    function UpdateStudentData(studentId) {
+      let studentData = checkStudentData();
+      let fatherData = checkFatherData();
+      let motherData = checkMotherData();
+      let resData = checkResData();
+      let errors = studentData.errors.concat(
+        fatherData.errors.concat(motherData.errors).concat(resData.errors)
+      );
+      if (errors.length === 0) {
+        window.api.send("UpdateStudentData", {
+          studentId,
+          studentData: studentData.data,
+          fatherData: fatherData.fatherData,
+          motherData: motherData.motherData,
+          resData: resData.ResData,
         });
-        dadWorkSelect.value = JobId;
-        dadWorkTitle.appendChild(dadWorkSelect);
-        wrapperDiv.appendChild(dadWorkTitle);
-        const dadWorkAdress = document.createElement("div");
-        dadWorkAdress.classList.add("col-12", "col-md-4");
-        const dadWorkAdressInner = document.createElement("div");
-        dadWorkAdressInner.classList.add(
-          "input-group",
-          "input-group",
-          "mb-2",
-          "col"
-        );
-        const dadWorkAdressInnerLabel = document.createElement("span");
-        dadWorkAdressInnerLabel.classList.add("input-group-text");
-        dadWorkAdressInnerLabel.innerText = "عنوان العمل :";
-        dadWorkAdressInner.appendChild(dadWorkAdressInnerLabel);
-        const dadWorkAdressInnerInput = document.createElement("input");
-        dadWorkAdressInnerInput.classList.add("form-control");
-        dadWorkAdressInnerInput.setAttribute("type", "text");
-        dadWorkAdressInnerInput.value = JobAddress;
-        dadWorkAdressInner.appendChild(dadWorkAdressInnerInput);
-        dadWorkAdress.appendChild(dadWorkAdressInner);
-        wrapperDiv.appendChild(dadWorkAdress);
-        const addButtonDiv = document.createElement("div");
-        addButtonDiv.classList.add("col-12", "col-md-4");
-        const addButtonDivButton = document.createElement("button");
-        addButtonDivButton.classList.add("btn", "btn-primary");
-        addButtonDivButton.setAttribute(
-          "onclick",
-          "addWorkToDiv('" + divId + "')"
-        );
-        addButtonDivButton.innerText = "اضافة عمل";
-        addButtonDiv.appendChild(addButtonDivButton);
-        wrapperDiv.appendChild(addButtonDiv);
-        if (addRemove) {
-          const removeButtonDiv = document.createElement("div");
-          removeButtonDiv.classList.add("col-12", "col-md-3");
-          const removeButtonDivButton = document.createElement("button");
-          removeButtonDivButton.classList.add("btn", "bg-danger");
-          removeButtonDivButton.setAttribute(
-            "onclick",
-            "removeDiv('delete-" + String(ID) + "')"
-          );
-          const removeButtonDivButtonI = document.createElement("i");
-          removeButtonDivButtonI.classList.add("bi", "bi-trash2");
-          removeButtonDivButton.appendChild(removeButtonDivButtonI);
-          removeButtonDiv.appendChild(removeButtonDivButton);
-          wrapperDiv.appendChild(removeButtonDiv);
-        }
-        dadJobArea.appendChild(wrapperDiv);
+      } else {
+        window.api.send("ShowDialogBox",{messages : errors,type : "error" , title: "خطأ"});
       }
-      function addNewPhone(devId, phone = "", addRemove = true) {
-        let ID = Math.floor(Math.random() * (20000 - 500)) + 500;
-        const dadPhoneArea = document.getElementById(devId);
-        const wrapperDiv = document.createElement("div");
-        wrapperDiv.classList.add("row", "my-3");
-        wrapperDiv.setAttribute("dir", "rtl");
-        wrapperDiv.setAttribute("id", "delete-" + String(ID));
-        const dadPhoneHead = document.createElement("div");
-        dadPhoneHead.classList.add("col-md-8", "col-12");
-        const dadPhoneHeadInner = document.createElement("div");
-        dadPhoneHeadInner.classList.add(
-          "input-group",
-          "input-group",
-          "mb-2",
-          "col-md-6",
-          "col-12"
-        );
-        const dadPhoneHeadInnerLabel = document.createElement("span");
-        dadPhoneHeadInnerLabel.classList.add("input-group-text");
-        dadPhoneHeadInnerLabel.innerText = "رقم الهاتف :";
-        dadPhoneHeadInner.appendChild(dadPhoneHeadInnerLabel);
-        const dadPhoneHeadInnerInput = document.createElement("input");
-        dadPhoneHeadInnerInput.classList.add("form-control");
-        dadPhoneHeadInnerInput.setAttribute("type", "text");
-        dadPhoneHeadInnerInput.value = phone;
-        dadPhoneHeadInner.appendChild(dadPhoneHeadInnerInput);
-        dadPhoneHead.appendChild(dadPhoneHeadInner);
-        wrapperDiv.appendChild(dadPhoneHead);
-        const addPhoneDiv = document.createElement("div");
-        addPhoneDiv.classList.add("col-md-2", "col-6");
-        const addPhoneDivButton = document.createElement("button");
-        addPhoneDivButton.classList.add("btn", "btn-primary");
-        addPhoneDivButton.innerText = "إضافة رقم جديد";
-        addPhoneDivButton.setAttribute(
-          "onclick",
-          "addNewPhone('" + devId + "')"
-        );
-        addPhoneDiv.appendChild(addPhoneDivButton);
-        wrapperDiv.appendChild(addPhoneDiv);
-        if (addRemove) {
-          const removeButtonDiv = document.createElement("div");
-          removeButtonDiv.classList.add("col-12", "col-md-3");
-          const removeButtonDivButton = document.createElement("button");
-          removeButtonDivButton.classList.add("btn", "bg-danger");
-          removeButtonDivButton.setAttribute(
-            "onclick",
-            "removeDiv('delete-" + String(ID) + "')"
-          );
-          const removeButtonDivButtonI = document.createElement("i");
-          removeButtonDivButtonI.classList.add("bi", "bi-trash2");
-          removeButtonDivButton.appendChild(removeButtonDivButtonI);
-          removeButtonDiv.appendChild(removeButtonDivButton);
-          wrapperDiv.appendChild(removeButtonDiv);
-        }
-        dadPhoneArea.appendChild(wrapperDiv);
+    }
+    function showCareTakerData(divId, element) {
+      let caretaker = document.getElementById(divId);
+      caretaker.hidden = element.value == "other" ? false : true;
+    }
+    window.api.receive("getStudentDataFromMain", (data) => {
+      loadSideBar(data.students);
+      jobs = data.jobs;
+      //set save data button event
+      let SaveDataButton = document.getElementById("SaveDataButton");
+      SaveDataButton.setAttribute(
+        "onclick",
+        "UpdateStudentData(" + data.studentId + ")"
+      );
+      document
+        .getElementById("StudentName")
+        .setAttribute("value", data.StudentName);
+      if (data.StudentNationalId)
+        document
+          .getElementById("StudentNationalId")
+          .setAttribute("value", data.StudentNationalId);
+      if (data.StudentPassportId)
+        document
+          .getElementById("StudentPassportId")
+          .setAttribute("value", data.StudentPassportId);
+      document
+        .getElementById("StudentBirthDate")
+        .setAttribute("value", data.StudentBirthDate);
+      document
+        .getElementById("StudentRegisterDate")
+        .setAttribute("value", data.StudentRegisterDate);
+      document
+        .getElementById("StudentAddress")
+        .setAttribute("value", data.StudentAddress);
+      document
+        .getElementById("StudentSiblingOrder")
+        .setAttribute("value", data.StudentSiblingOrder);
+      if (data.StudentHealth == null) {
+        document.getElementById("StudentHealth").setAttribute("value", "");
+      } else {
+        document
+          .getElementById("StudentHealth")
+          .setAttribute("value", data.StudentHealth);
       }
-      function UpdateStudentData(studentId) {
-        let studentData = checkStudentData();
-        let fatherData = checkFatherData();
-        let motherData = checkMotherData();
-        let resData = checkResData();
-        let erros = studentData.errors.concat(
-          fatherData.errors.concat(motherData.errors).concat(resData.errors)
-        );
-        console.log(erros);
-        if (erros.length === 0) {
-          window.api.send("UpdateStudentData", {
-            studentId,
-            studentData: studentData.data,
-            fatherData: fatherData.fatherData,
-            motherData: motherData.motherData,
-            resData: resData.ResData,
-          });
-        } else {
-          alert(erros.join("\n"));
+      document.getElementById("StudentFamilyStatus").value =
+        data.StudentFamilyStatus;
+      document.getElementById("StudentSex").value = data.StudentSex;
+      let nationalities = document.getElementById("StudentNationalities");
+      data.nationalities.forEach((el) => {
+        const option = document.createElement("option");
+        option.setAttribute("value", el.NationalityId);
+        option.innerText = el.NationalityName;
+        if (el.NationalityId == data.nationality.NationalityId) {
+          option.setAttribute("selected", "true");
         }
-      }
-      function showCareTakerData(divId, element) {
-        let caretaker = document.getElementById(divId);
-        caretaker.hidden = element.value == "other" ? false : true;
-      }
-      window.api.receive("getStudentDataFromMain", (data) => {
-        loadSideBar(data.students);
-        jobs = data.jobs;
-        //set save data button event
-        let SaveDataButton = document.getElementById("SaveDataButton");
-        SaveDataButton.setAttribute(
-          "onclick",
-          "UpdateStudentData(" + data.studentId + ")"
-        );
-        document
-          .getElementById("StudentName")
-          .setAttribute("value", data.StudentName);
-        if (data.StudentNationalId)
-          document
-            .getElementById("StudentNationalId")
-            .setAttribute("value", data.StudentNationalId);
-        if (data.StudentPassportId)
-          document
-            .getElementById("StudentPassportId")
-            .setAttribute("value", data.StudentPassportId);
-        document
-          .getElementById("StudentBirthDate")
-          .setAttribute("value", data.StudentBirthDate);
-        document
-          .getElementById("StudentRegisterDate")
-          .setAttribute("value", data.StudentRegisterDate);
-        document
-          .getElementById("StudentAddress")
-          .setAttribute("value", data.StudentAddress);
-        document
-          .getElementById("StudentSiblingOrder")
-          .setAttribute("value", data.StudentSiblingOrder);
-        if (data.StudentHealth == null) {
-          document.getElementById("StudentHealth").setAttribute("value", "");
-        } else {
-          document
-            .getElementById("StudentHealth")
-            .setAttribute("value", data.StudentHealth);
-        }
-        document.getElementById("StudentFamilyStatus").value =
-          data.StudentFamilyStatus;
-        document.getElementById("StudentSex").value = data.StudentSex;
-        let nationalities = document.getElementById("StudentNationalities");
-        data.nationalities.forEach((el) => {
-          const option = document.createElement("option");
-          option.setAttribute("value", el.NationalityId);
-          option.innerText = el.NationalityName;
-          if (el.NationalityId == data.nationality.NationalityId) {
-            option.setAttribute("selected", "true");
-          }
-          nationalities.appendChild(option);
-        });
-        // stages
-        const StageList = document.getElementById("StageList");
-        const GradeList = document.getElementById("GradeList");
-        const ClassList = document.getElementById("ClassList");
-        //console.log(StageList);
+        nationalities.appendChild(option);
+      });
+      // stages
+      const StageList = document.getElementById("StageList");
+      const GradeList = document.getElementById("GradeList");
+      const ClassList = document.getElementById("ClassList");
+      //console.log(StageList);
+      data.stagesData.forEach((stage) => {
+        const option = document.createElement("option");
+        option.setAttribute("value", stage.StageId);
+        option.innerText = stage.StageName;
+        StageList.appendChild(option);
+      });
+
+      StageList.addEventListener("change", function () {
+        let StageId = this.value;
         data.stagesData.forEach((stage) => {
-          const option = document.createElement("option");
-          option.setAttribute("value", stage.StageId);
-          option.innerText = stage.StageName;
-          StageList.appendChild(option);
-        });
-
-        StageList.addEventListener("change", function () {
-          let StageId = this.value;
-          data.stagesData.forEach((stage) => {
-            if (stage.StageId == StageId) {
-              // remover all elements in grade list
-              const GradeList = document.getElementById("GradeList");
-              for (let i = GradeList.length - 1; i >= 0; i--) {
-                GradeList.remove(i);
-              }
-              const header = document.createElement("option");
-              header.selected = true;
-              header.innerText = "السنة الدراسية";
-              GradeList.appendChild(header);
-              // fill Grades
-              let Grades = stage.Grades;
-              Grades.forEach((grade) => {
-                const option = document.createElement("option");
-                option.setAttribute("value", grade.GradeId);
-                option.innerText = grade.GradeName;
-                GradeList.appendChild(option);
-              });
-              GradeList.disabled = false;
+          if (stage.StageId == StageId) {
+            // remover all elements in grade list
+            const GradeList = document.getElementById("GradeList");
+            for (let i = GradeList.length - 1; i >= 0; i--) {
+              GradeList.remove(i);
             }
-          });
-        });
-
-        GradeList.addEventListener("change", function (ev) {
-          let StageId = document.getElementById("StageList").value;
-          let GradeId = this.value;
-          data.stagesData.forEach((stage) => {
-            if (stage.StageId == StageId) {
-              stage.Grades.forEach((grade) => {
-                if (grade.GradeId == GradeId) {
-                  // remover all elements in class list
-                  const ClassList = document.getElementById("ClassList");
-                  for (let i = GradeList.length - 1; i >= 0; i--) {
-                    ClassList.remove(i);
-                  }
-                  // fill Grades
-                  let Classes = grade.Classes;
-                  let counts = 1;
-                  Classes.forEach((clas) => {
-                    const option = document.createElement("option");
-                    option.setAttribute("value", clas.ClassId);
-                    option.innerText = "الفصل " + clas.ClassId;
-                    counts++;
-                    ClassList.appendChild(option);
-                  });
-                  ClassList.disabled = false;
-                }
-              });
-            }
-          });
-        });
-        // get class of the student
-        StageList.value = data.studentClass.StageId;
-        StageList.dispatchEvent(new Event("change"));
-        GradeList.value = data.studentClass.GradeId;
-        GradeList.dispatchEvent(new Event("change"));
-        ClassList.value = data.studentClass.ClassId;
-        // fill father data
-        let fatherData = data.fatherData;
-        let motherData = data.motherData;
-        let resData = data.resData;
-        if (!fatherData) {
-          //dead
-          const DeadDadTrigger = document.getElementById("DeadDadTrigger");
-          DeadDadTrigger.checked = true;
-          DeadDadTrigger.dispatchEvent(new Event("change"));
-          addNewPhone("dadphoneArea", "", false);
-          addWorkToDiv("DadworkArea", "", false);
-        } else {
-          document
-            .getElementById("DadName")
-            .setAttribute("value", fatherData.ParentName);
-          if (fatherData.ParentNationalId)
-            document
-              .getElementById("DadNationalId")
-              .setAttribute("value", fatherData.ParentNationalId);
-          if (fatherData.ParentPassportId)
-            document
-              .getElementById("DadPassportId")
-              .setAttribute("value", fatherData.ParentPassportId);
-          document
-            .getElementById("DadAddress")
-            .setAttribute("value", fatherData.ParentAddress);
-          document.getElementById("DadAcademicDegree").value =
-            fatherData.ParentAcademicDegree;
-          // hundle job data
-          let dadJobs = fatherData.jobs;
-          const dadJobArea = document.getElementById("DadworkArea");
-          dadJobs.forEach((job, i) => {
-            if (i === 0) {
-              addWorkToDiv("DadworkArea", job.JobId, job.JobAddress, false);
-            } else {
-              addWorkToDiv("DadworkArea", job.JobId, job.JobAddress);
-            }
-          });
-          // hundle dad phones
-          data.fatherData.phones.forEach((phone, i) => {
-            if (i === 0) {
-              addNewPhone("dadphoneArea", phone, false);
-            } else {
-              addNewPhone("dadphoneArea", phone);
-            }
-          });
-        }
-        if (!motherData) {
-          //dead
-          const DeadMomTrigger = document.getElementById("DeadMomTrigger");
-          DeadMomTrigger.checked = true;
-          DeadMomTrigger.dispatchEvent(new Event("change"));
-          addNewPhone("MomPhoneArea", "", false);
-          addWorkToDiv("MomWorkArea", 1, "", false);
-        } else {
-          document
-            .getElementById("MomName")
-            .setAttribute("value", motherData.ParentName);
-          if (motherData.ParentNationalId)
-            document
-              .getElementById("MomNationalId")
-              .setAttribute("value", motherData.ParentNationalId);
-          if (motherData.ParentPassportId)
-            document
-              .getElementById("MomPassportId")
-              .setAttribute("value", motherData.ParentPassportId);
-          document
-            .getElementById("MomAddress")
-            .setAttribute("value", motherData.ParentAddress);
-          document.getElementById("MomAcademicDegree").value =
-            motherData.ParentAcademicDegree;
-          // hundle mom job
-          let momJobs = motherData.jobs;
-          momJobs.forEach((job, i) => {
-            if (i === 0) {
-              addWorkToDiv("MomWorkArea", job.JobId, job.JobAddress, false);
-            } else {
-              addWorkToDiv("MomWorkArea", job.JobId, job.JobAddress);
-            }
-          });
-          // hundle moms phone
-          data.motherData.phones.forEach((phone, i) => {
-            if (i === 0) {
-              addNewPhone("MomPhoneArea", phone, false);
-            } else {
-              addNewPhone("MomPhoneArea", phone);
-            }
-          });
-        }
-
-        // hundle res data
-        if (fatherData && resData.ParentId === fatherData.ParentId) {
-          // res is dad
-          const StudentResponsibleRelationSelect = document.getElementById(
-            "StudentResponsibleRelationSelect"
-          );
-          StudentResponsibleRelationSelect.value = "father";
-          StudentResponsibleRelationSelect.dispatchEvent(new Event("change"));
-          addNewPhone("ResPhoneArea", "", false);
-          addWorkToDiv("ResWorkArea", 1, "", false);
-        } else if (motherData && resData.ParentId === motherData.ParentId) {
-          const StudentResponsibleRelationSelect = document.getElementById(
-            "StudentResponsibleRelationSelect"
-          );
-          StudentResponsibleRelationSelect.value = "mother";
-          StudentResponsibleRelationSelect.dispatchEvent(new Event("change"));
-          addNewPhone("ResPhoneArea", "", false);
-          addWorkToDiv("ResWorkArea", 1, "", false);
-        } else {
-          const StudentResponsibleRelationSelect = document.getElementById(
-            "StudentResponsibleRelationSelect"
-          );
-          StudentResponsibleRelationSelect.value = "other";
-          StudentResponsibleRelationSelect.dispatchEvent(new Event("change"));
-          document
-            .getElementById("ResName")
-            .setAttribute("value", resData.ParentName);
-          if (resData.ParentNationalId)
-            document
-              .getElementById("ResNationalId")
-              .setAttribute("value", resData.ParentNationalId);
-          if (resData.ParentPassportId)
-            document
-              .getElementById("ResPassportId")
-              .setAttribute("value", resData.ParentPassportId);
-          document
-            .getElementById("ResAddress")
-            .setAttribute("value", resData.ParentAddress);
-          document.getElementById("ResAcademicDegree").value =
-            resData.ParentAcademicDegree;
-          // hundle job data
-          let ResJobs = resData.jobs;
-          ResJobs.forEach((job, i) => {
-            if (i === 0) {
-              addWorkToDiv("ResJobArea", job.JobId, job.JobAddress, false);
-            } else {
-              addWorkToDiv("ResJobArea", job.JobId, job.JobAddress);
-            }
-          });
-          // hundle dad phones
-          data.resData.phones.forEach((phone) => {
-            if (i === 0) {
-              addNewPhone("ResPhoneArea", phone, false);
-            } else {
-              addNewPhone("ResPhoneArea", phone);
-            }
-          });
-        }
-        // hundel absent of the student
-        document.getElementById("absenceStudentName").innerText =
-          data.StudentName;
-        const AbsentReasons = document.getElementById("AbsentReasons");
-        data.absentReasons.forEach((reason) => {
-          const absentOption = document.createElement("option");
-          absentOption.setAttribute("value", reason.AbsentReasonName);
-          absentOption.innerText = reason.AbsentReasonName;
-          AbsentReasons.appendChild(absentOption);
-        });
-        document
-          .getElementById("addStudentAbsent")
-          .setAttribute("onclick", "addStudentAbsent(" + data.studentId + ")");
-        // generate abesnt table
-        const absentTabelBody = document.getElementById("absentTabelBody");
-        if (data.studentAbsent.length === 0) {
-          document.getElementById("absentEmptyDiv").hidden = false;
-          document.getElementById("absentTabel"), (hidden = true);
-        } else {
-          data.studentAbsent.forEach((absent) => {
-            const absentRow = document.createElement("tr");
-            const DateCell = document.createElement("td");
-            DateCell.innerText = absent.AbsentDate;
-            absentRow.appendChild(DateCell);
-            const reasonCell = document.createElement("td");
-            const reasonCellSelect = document.createElement("select");
-            reasonCellSelect.classList.add(
-              "form-select",
-              "w-auto",
-              "rounded-pill"
-            );
-            reasonCellSelect.setAttribute(
-              "onchange",
-              "updateStudentAbsent(this," +
-                data.studentId +
-                ",'" +
-                absent.AbsentDate +
-                "')"
-            );
-            data.absentReasons.forEach((reason) => {
-              const reasonCellSelectOption = document.createElement("option");
-              if (reason.AbsentReasonId === absent.AbsentReasonId) {
-                reasonCellSelectOption.selected = true;
-              }
-              reasonCellSelectOption.setAttribute(
-                "value",
-                reason.AbsentReasonId
-              );
-              reasonCellSelectOption.innerText = reason.AbsentReasonName;
-              reasonCellSelect.appendChild(reasonCellSelectOption);
+            const header = document.createElement("option");
+            header.selected = true;
+            header.innerText = "السنة الدراسية";
+            GradeList.appendChild(header);
+            // fill Grades
+            let Grades = stage.Grades;
+            Grades.forEach((grade) => {
+              const option = document.createElement("option");
+              option.setAttribute("value", grade.GradeId);
+              option.innerText = grade.GradeName;
+              GradeList.appendChild(option);
             });
-            reasonCell.appendChild(reasonCellSelect);
-            absentRow.appendChild(reasonCell);
-            const deleteCell = document.createElement("td");
-            const deleteCellButton = document.createElement("button");
-            deleteCellButton.classList.add("btn", "btn-danger");
-            deleteCellButton.setAttribute(
-              "onclick",
-              "deleteStudentAbsent(this," +
-                data.studentId +
-                ",'" +
-                absent.AbsentDate +
-                "')"
+            GradeList.disabled = false;
+          }
+        });
+      });
+
+      GradeList.addEventListener("change", function (ev) {
+        let StageId = document.getElementById("StageList").value;
+        let GradeId = this.value;
+        data.stagesData.forEach((stage) => {
+          if (stage.StageId == StageId) {
+            stage.Grades.forEach((grade) => {
+              if (grade.GradeId == GradeId) {
+                // remover all elements in class list
+                const ClassList = document.getElementById("ClassList");
+                for (let i = GradeList.length - 1; i >= 0; i--) {
+                  ClassList.remove(i);
+                }
+                // fill Grades
+                let Classes = grade.Classes;
+                let counts = 1;
+                Classes.forEach((clas) => {
+                  const option = document.createElement("option");
+                  option.setAttribute("value", clas.ClassId);
+                  option.innerText = "الفصل " + clas.ClassId;
+                  counts++;
+                  ClassList.appendChild(option);
+                });
+                ClassList.disabled = false;
+              }
+            });
+          }
+        });
+      });
+      // get class of the student
+      StageList.value = data.studentClass.StageId;
+      StageList.dispatchEvent(new Event("change"));
+      GradeList.value = data.studentClass.GradeId;
+      GradeList.dispatchEvent(new Event("change"));
+      ClassList.value = data.studentClass.ClassId;
+      // fill father data
+      let fatherData = data.fatherData;
+      let motherData = data.motherData;
+      let resData = data.resData;
+      if (!fatherData) {
+        //dead
+        const DeadDadTrigger = document.getElementById("DeadDadTrigger");
+        DeadDadTrigger.checked = true;
+        DeadDadTrigger.dispatchEvent(new Event("change"));
+        addNewPhone("dadphoneArea", "", false);
+        addWorkToDiv("DadworkArea", "", false);
+      } else {
+        document
+          .getElementById("DadName")
+          .setAttribute("value", fatherData.ParentName);
+        if (fatherData.ParentNationalId)
+          document
+            .getElementById("DadNationalId")
+            .setAttribute("value", fatherData.ParentNationalId);
+        if (fatherData.ParentPassportId)
+          document
+            .getElementById("DadPassportId")
+            .setAttribute("value", fatherData.ParentPassportId);
+        document
+          .getElementById("DadAddress")
+          .setAttribute("value", fatherData.ParentAddress);
+        document.getElementById("DadAcademicDegree").value =
+          fatherData.ParentAcademicDegree;
+        // hundle job data
+        let dadJobs = fatherData.jobs;
+        const dadJobArea = document.getElementById("DadworkArea");
+        dadJobs.forEach((job, i) => {
+          if (i === 0) {
+            addWorkToDiv("DadworkArea", job.JobId, job.JobAddress, false);
+          } else {
+            addWorkToDiv("DadworkArea", job.JobId, job.JobAddress);
+          }
+        });
+        // hundle dad phones
+        data.fatherData.phones.forEach((phone, i) => {
+          if (i === 0) {
+            addNewPhone("dadphoneArea", phone, false);
+          } else {
+            addNewPhone("dadphoneArea", phone);
+          }
+        });
+      }
+      if (!motherData) {
+        //dead
+        const DeadMomTrigger = document.getElementById("DeadMomTrigger");
+        DeadMomTrigger.checked = true;
+        DeadMomTrigger.dispatchEvent(new Event("change"));
+        addNewPhone("MomPhoneArea", "", false);
+        addWorkToDiv("MomWorkArea", 1, "", false);
+      } else {
+        document
+          .getElementById("MomName")
+          .setAttribute("value", motherData.ParentName);
+        if (motherData.ParentNationalId)
+          document
+            .getElementById("MomNationalId")
+            .setAttribute("value", motherData.ParentNationalId);
+        if (motherData.ParentPassportId)
+          document
+            .getElementById("MomPassportId")
+            .setAttribute("value", motherData.ParentPassportId);
+        document
+          .getElementById("MomAddress")
+          .setAttribute("value", motherData.ParentAddress);
+        document.getElementById("MomAcademicDegree").value =
+          motherData.ParentAcademicDegree;
+        // hundle mom job
+        let momJobs = motherData.jobs;
+        momJobs.forEach((job, i) => {
+          if (i === 0) {
+            addWorkToDiv("MomWorkArea", job.JobId, job.JobAddress, false);
+          } else {
+            addWorkToDiv("MomWorkArea", job.JobId, job.JobAddress);
+          }
+        });
+        // hundle moms phone
+        data.motherData.phones.forEach((phone, i) => {
+          if (i === 0) {
+            addNewPhone("MomPhoneArea", phone, false);
+          } else {
+            addNewPhone("MomPhoneArea", phone);
+          }
+        });
+      }
+
+      // hundle res data
+      if (fatherData && resData.ParentId === fatherData.ParentId) {
+        // res is dad
+        const StudentResponsibleRelationSelect = document.getElementById(
+          "StudentResponsibleRelationSelect"
+        );
+        StudentResponsibleRelationSelect.value = "father";
+        StudentResponsibleRelationSelect.dispatchEvent(new Event("change"));
+        addNewPhone("ResPhoneArea", "", false);
+        addWorkToDiv("ResWorkArea", 1, "", false);
+      } else if (motherData && resData.ParentId === motherData.ParentId) {
+        const StudentResponsibleRelationSelect = document.getElementById(
+          "StudentResponsibleRelationSelect"
+        );
+        StudentResponsibleRelationSelect.value = "mother";
+        StudentResponsibleRelationSelect.dispatchEvent(new Event("change"));
+        addNewPhone("ResPhoneArea", "", false);
+        addWorkToDiv("ResWorkArea", 1, "", false);
+      } else {
+        const StudentResponsibleRelationSelect = document.getElementById(
+          "StudentResponsibleRelationSelect"
+        );
+        StudentResponsibleRelationSelect.value = "other";
+        StudentResponsibleRelationSelect.dispatchEvent(new Event("change"));
+        document
+          .getElementById("ResName")
+          .setAttribute("value", resData.ParentName);
+        if (resData.ParentNationalId)
+          document
+            .getElementById("ResNationalId")
+            .setAttribute("value", resData.ParentNationalId);
+        if (resData.ParentPassportId)
+          document
+            .getElementById("ResPassportId")
+            .setAttribute("value", resData.ParentPassportId);
+        document
+          .getElementById("ResAddress")
+          .setAttribute("value", resData.ParentAddress);
+        document.getElementById("ResAcademicDegree").value =
+          resData.ParentAcademicDegree;
+        // hundle job data
+        let ResJobs = resData.jobs;
+        ResJobs.forEach((job, i) => {
+          if (i === 0) {
+            addWorkToDiv("ResJobArea", job.JobId, job.JobAddress, false);
+          } else {
+            addWorkToDiv("ResJobArea", job.JobId, job.JobAddress);
+          }
+        });
+        // hundle dad phones
+        data.resData.phones.forEach((phone) => {
+          if (i === 0) {
+            addNewPhone("ResPhoneArea", phone, false);
+          } else {
+            addNewPhone("ResPhoneArea", phone);
+          }
+        });
+      }
+      // hundel absent of the student
+      document.getElementById("absenceStudentName").innerText =
+        data.StudentName;
+      const AbsentReasons = document.getElementById("AbsentReasons");
+      data.absentReasons.forEach((reason) => {
+        const absentOption = document.createElement("option");
+        absentOption.setAttribute("value", reason.AbsentReasonName);
+        absentOption.innerText = reason.AbsentReasonName;
+        AbsentReasons.appendChild(absentOption);
+      });
+      document
+        .getElementById("addStudentAbsent")
+        .setAttribute("onclick", "addStudentAbsent(" + data.studentId + ")");
+      // generate abesnt table
+      const absentTabelBody = document.getElementById("absentTabelBody");
+      if (data.studentAbsent.length === 0) {
+        document.getElementById("absentEmptyDiv").hidden = false;
+        document.getElementById("absentTabel"), (hidden = true);
+      } else {
+        data.studentAbsent.forEach((absent) => {
+          const absentRow = document.createElement("tr");
+          const DateCell = document.createElement("td");
+          DateCell.innerText = absent.AbsentDate;
+          absentRow.appendChild(DateCell);
+          const reasonCell = document.createElement("td");
+          const reasonCellSelect = document.createElement("select");
+          reasonCellSelect.classList.add(
+            "form-select",
+            "w-auto",
+            "rounded-pill"
+          );
+          reasonCellSelect.setAttribute(
+            "onchange",
+            "updateStudentAbsent(this," +
+            data.studentId +
+            ",'" +
+            absent.AbsentDate +
+            "')"
+          );
+          data.absentReasons.forEach((reason) => {
+            const reasonCellSelectOption = document.createElement("option");
+            if (reason.AbsentReasonId === absent.AbsentReasonId) {
+              reasonCellSelectOption.selected = true;
+            }
+            reasonCellSelectOption.setAttribute(
+              "value",
+              reason.AbsentReasonId
             );
-            deleteCellButton.innerText = "حذف";
-            deleteCell.appendChild(deleteCellButton);
-            absentRow.appendChild(deleteCell);
-            absentTabelBody.appendChild(absentRow);
+            reasonCellSelectOption.innerText = reason.AbsentReasonName;
+            reasonCellSelect.appendChild(reasonCellSelectOption);
           });
+          reasonCell.appendChild(reasonCellSelect);
+          absentRow.appendChild(reasonCell);
+          const deleteCell = document.createElement("td");
+          const deleteCellButton = document.createElement("button");
+          deleteCellButton.classList.add("btn", "btn-danger");
+          deleteCellButton.setAttribute(
+            "onclick",
+            "deleteStudentAbsent(this," +
+            data.studentId +
+            ",'" +
+            absent.AbsentDate +
+            "')"
+          );
+          deleteCellButton.innerText = "حذف";
+          deleteCell.appendChild(deleteCellButton);
+          absentRow.appendChild(deleteCell);
+          absentTabelBody.appendChild(absentRow);
+        });
+      }
+      //hundle transferStudentButton
+      document.getElementById("transferStudentButton").addEventListener("click", () => {
+        let TransferStudentData = checkTransferStudentData();
+        let studentId = data.studentId;
+        console.log(TransferStudentData);
+        if (TransferStudentData.errors.length === 0) {
+          let transferredSchoolName = TransferStudentData.data.transferredSchoolName;
+          window.api.send("transferStudent", { studentId, SchoolName: transferredSchoolName });
+        } else {
+          window.api.send("ShowDialogBox",{messages : TransferStudentData.errors,type : "error" , title: "خطأ"});
         }
       });
-      function updateStudentAbsent(e, studentId, absentDate) {
-        let newReasonId = e.value;
-        window.api.send("updateStudentAbsent", {
+    });
+    function updateStudentAbsent(e, studentId, absentDate) {
+      let newReasonId = e.value;
+      window.api.send("updateStudentAbsent", {
+        studentId,
+        absentDate,
+        newReasonId,
+      });
+    }
+    function deleteStudentAbsent(e, studentId, absentDate) {
+      window.api.send("deleteStudentAbsent", { studentId, absentDate });
+      console.log(e.parentElement.parentElement.remove());
+    }
+    function addStudentAbsent(studentId) {
+      let { errors, data } = checkAddAbsenceData();
+      if (errors.length === 0) {
+        data = {
+          ...data,
           studentId,
-          absentDate,
-          newReasonId,
-        });
+        };
+        window.api.send("addStudentAbsent", data);
+        // console.log(studentId,data.AbsentDate,data.AbsentReason);
+      } else {
+        window.api.send("ShowDialogBox",{messages : errors,type : "error" , title: "خطأ"});
       }
-      function deleteStudentAbsent(e, studentId, absentDate) {
-        window.api.send("deleteStudentAbsent", { studentId, absentDate });
-        console.log(e.parentElement.parentElement.remove());
-      }
-      function addStudentAbsent(studentId) {
-        let { errors, data } = checkAddAbsenceData();
-        if (errors.length === 0) {
-          data = {
-            ...data,
-            studentId,
-          };
-          window.api.send("addStudentAbsent", data);
-          // console.log(studentId,data.AbsentDate,data.AbsentReason);
-        } else {
-          alert(errors.join("\n"));
-        }
-      }
-      window.api.send("ScriptLoaded", null);
-    </script>
-    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./js/main.js"></script>
-    <script src="./js/fieldsValidation.js"></script>
-    <script src="../views/js/loadSideBar.js"></script>
-  </body>
+    }
+    window.api.send("ScriptLoaded", null);
+  </script>
+  <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./js/main.js"></script>
+  <script src="./js/fieldsValidation.js"></script>
+  <script src="../views/js/loadSideBar.js"></script>
+</body>
+
 </html>

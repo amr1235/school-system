@@ -1,3 +1,4 @@
+
 const checkStudentData = () => {
     let errors = [];
     let StudentName = document.getElementById("StudentName").value;
@@ -61,7 +62,7 @@ const checkFatherData = () => {
     let DadAcademicDegree = document.getElementById("DadAcademicDegree").value;
     let DadworkAreaChilds = document.getElementById("DadworkArea").children;
     let dadphoneAreaChilds = document.getElementById("dadphoneArea").children;
-    if (DeadDadTrigger) return {errors,fatherData:null};
+    if (DeadDadTrigger) return { errors, fatherData: null };
     if (DadName.length === 0 || DadAddress.length === 0 || DadAcademicDegree.length === 0) {
         errors.push("من فضلك ادخل جميع الحقول في بيانات الأب");
     }
@@ -129,7 +130,7 @@ const checkMotherData = () => {
     let MomAcademicDegree = document.getElementById("MomAcademicDegree").value;
     let MomWorkAreaChilds = document.getElementById("MomWorkArea").children;
     let MomPhoneAreaChilds = document.getElementById("MomPhoneArea").children;
-    if (DeadMomTrigger) return {errors:[],motherData : null};
+    if (DeadMomTrigger) return { errors: [], motherData: null };
     if (MomName.length === 0 || MomAddress.length === 0 || MomAcademicDegree.length === 0) {
         errors.push("من فضلك ادخل جميع الحقول في بيانات الأب");
     }
@@ -200,15 +201,15 @@ const checkResData = () => {
     let ResPhoneAreaChilds = document.getElementById("ResPhoneArea").children;
     let DeadMomTrigger = document.getElementById("DeadMomTrigger").checked;
     let DeadDadTrigger = document.getElementById("DeadDadTrigger").checked;
-    console.log(DeadMomTrigger,StudentResponsibleRelationSelect);
-    if(DeadDadTrigger && StudentResponsibleRelationSelect === "father") {
+    console.log(DeadMomTrigger, StudentResponsibleRelationSelect);
+    if (DeadDadTrigger && StudentResponsibleRelationSelect === "father") {
         errors.push("لا يمكن اختيار الأب ك ولي أمر وهو متوفي");
     }
-    if(DeadMomTrigger && StudentResponsibleRelationSelect === "mother") {
+    if (DeadMomTrigger && StudentResponsibleRelationSelect === "mother") {
         errors.push("لا يمكن اختيار الأم ك ولي أمر وهي متوفيه");
     }
-    if (StudentResponsibleRelationSelect === "father") return {errors,ResData : ['father', {}]};
-    if (StudentResponsibleRelationSelect === "mother") return {errors,ResData : ['mother', {}]};
+    if (StudentResponsibleRelationSelect === "father") return { errors, ResData: ['father', {}] };
+    if (StudentResponsibleRelationSelect === "mother") return { errors, ResData: ['mother', {}] };
 
     if (StudentResponsibleRelation.length === 0) {
         errors.push("يجب ادخال صله القرابه بين الطالب وولي الأمر");
@@ -280,21 +281,42 @@ const checkAddAbsenceData = () => {
     let errors = [];
     const AbsentDate = document.getElementById("AbsentDate").value;
     const AbsentReason = document.getElementById("AbsentReasons").value;
-    if(AbsentReason.length === 0 || AbsentDate.length === 0){
+    if (AbsentReason.length === 0 || AbsentDate.length === 0) {
         errors.push("من فضلك ادخل التاريخ وسبب الغياب لإضافه غياب جديد للطالب");
     }
-    if(errors.length === 0) {
+    if (errors.length === 0) {
         return {
-            errors : [],
-            data : {
+            errors: [],
+            data: {
                 AbsentReason,
                 AbsentDate
             }
         }
-    }else {
+    } else {
         return {
             errors,
-            data : {}
+            data: {}
         }
+    }
+}
+
+const checkTransferStudentData = () => {
+    let errors = [];
+    const transferredSchoolName = document.getElementById("transferredSchoolName").value;
+    if (transferredSchoolName.length === 0) {
+        errors.push("يجب ادخال اسم المدرسه المحول إليها");
+    }
+    if (errors.length === 0) {
+        return {
+            errors: [],
+            data: {
+                transferredSchoolName
+            }
+        };
+    } else {
+        return {
+            errors,
+            data: {}
+        };
     }
 }
