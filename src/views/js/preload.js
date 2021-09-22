@@ -6,7 +6,7 @@ contextBridge.exposeInMainWorld(
       // whitelist channels
       let validChannels = ["sendStudentIdToMain","ScriptLoaded","UpdateStudentData","getEssentialData",
       "addNewStudentRequest","feedBackMessages","addStudentAbsent","updateStudentAbsent",
-        "deleteStudentAbsent"];
+        "deleteStudentAbsent","transferStudent","ShowDialogBox"];
       if (validChannels.includes(channel)) {
         ipcRenderer.send(channel, data);
       }

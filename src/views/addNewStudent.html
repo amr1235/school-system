@@ -438,7 +438,7 @@
     let fatherData = checkFatherData();
     let motherData = checkMotherData();
     let resData = checkResData();
-    let erros = studentData.errors.concat(
+    let errors = studentData.errors.concat(
       fatherData.errors.concat(motherData.errors).concat(resData.errors)
     );
     if (erros.length === 0) {
@@ -449,7 +449,7 @@
         resData: resData.ResData,
       });
     } else {
-      alert(erros.join("\n"));
+      window.api.send("ShowDialogBox",{messages : errors,type : "error" , title: "خطأ"});
     }
   }
   let jobs = [];
@@ -590,9 +590,6 @@
     let caretaker = document.getElementById(divId);
     caretaker.hidden = element.value == "other" ? false : true;
   }
-  window.api.receive("feedBackMessages", (message) => {
-    alert(message);
-  });
   // get essintial data like all nationalities and all jobs parent   
   window.api.receive("sentEssentialData", (data) => {
     loadSideBar(data.students);
