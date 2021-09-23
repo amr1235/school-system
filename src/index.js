@@ -4,7 +4,9 @@ const student = require("./queries/students");
 const db = require("./db/models/index");
 const { mapToJSON } = require("./queries/utlis");
 const absent = require("./queries/absent");
-
+const grade = require("./queries/grade");
+const CLASS = require("./queries/class");
+const parent = require("./queries/parent");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
@@ -92,25 +94,64 @@ const getEssentialData = async () => {
 ipcMain.on("ShowDialogBox",(err,{messages,type,title}) => {
   DialogBox(messages,type,title);
 });
-// get essintial Data 
-ipcMain.on("getEssentialData", function (err, destination) {
-  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
-  // get all stages , grades and classes
-  getEssentialData().then(data => {
-    if (destination === "addStudent") {
-      mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
-      ipcMain.on("ScriptLoaded", function cb() {
-        mainWindow.webContents.send("sentEssentialData", data);
-        ipcMain.removeListener("ScriptLoaded", cb);
-      });
-    } else if (destination === "affairsHome") {
-      mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-      ipcMain.on("ScriptLoaded", function cb() {
-        mainWindow.webContents.send("sentEssentialData", data.students);
-        ipcMain.removeListener("ScriptLoaded", cb);
-      });
-    }
+//add New Class
+ipcMain.on("addNewClass",(err,GradeId) => {
+  CLASS.addClass(GradeId).then(() => {
+    DialogBox(["تم إضافه الفصل بنجاح"],"info","تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ اثناء الإضافه برجاء المحاوله مجددا"],"error","خطأ");
   });
+});
+ipcMain.on("addNewParentJob",(err,newParentJob) => {
+  parent.addNewJob(newParentJob).then(() => {
+    DialogBox(["تم اضافة الوظيفة بنجاح"],"info","تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"],"error","خطأ");
+  });
+});
+
+//addAbsentType
+ipcMain.on("addAbsentType",(err,AbsentReasonName) => {
+  absent.addAbsentReason(AbsentReasonName).then(() => {
+    DialogBox(["تم اضافة عذر غياب جديد"],"info","تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"],"error","خطأ");
+  });
+});
+// get essintial Data
+ipcMain.on("getEssentialData", function (err, destination) {
+  if(destination === "affairsSettings") {
+    mainWindow.loadFile(path.join(__dirname, "views/affairsSettings.html"));
+    grade.getGrades().then(grades => {
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", grades);
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    }).catch(err => {
+      console.log(err);
+      DialogBox("حدث خطأ ما برجاء المحاولة مجددا","error","خطأ");
+    });
+  }else {
+    // get all stages , grades and classes
+    getEssentialData().then(data => {
+      if (destination === "addStudent") {
+        mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
+      } else if (destination === "affairsHome") {
+        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data.students);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
+      }
+    });
+  }
 
 });
 // transferStudent
@@ -121,7 +162,7 @@ ipcMain.on("transferStudent",(err,{studentId,SchoolName}) => {
       mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("sentEssentialData", students);
-        DialogBox(['تم تحويل الطالب بنجاح'],"info","تم")
+        DialogBox(["تم تحويل الطالب بنجاح"],"info","تم");
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     });
@@ -131,7 +172,7 @@ ipcMain.on("transferStudent",(err,{studentId,SchoolName}) => {
       mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("sentEssentialData", students);
-        DialogBox(['حصل خلل اثناء التحويل الرجاء التاكد من البيانات وحاول مجددا'],"error","خطأ")
+        DialogBox(["حصل خلل اثناء التحويل الرجاء التاكد من البيانات وحاول مجددا"],"error","خطأ");
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     });
@@ -141,14 +182,14 @@ ipcMain.on("addNewStudentRequest", (err, { studentData, fatherData, motherData, 
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   student.addNewStudent(fatherData, motherData, resData, studentData.studentData,
     studentData.StudentClassId).then(() => {
-      getEssentialData().then(data =>{
-        mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
-        });
-        DialogBox("تم تسجيل الطالب بنجاح" , "info","تم")
+    getEssentialData().then(data =>{
+      mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", data);
+        ipcMain.removeListener("ScriptLoaded", cb);
       });
+      DialogBox("تم تسجيل الطالب بنجاح" , "info","تم");
+    });
   }).catch(err => {
     console.log(err);
     getEssentialData().then(data =>{
@@ -157,7 +198,7 @@ ipcMain.on("addNewStudentRequest", (err, { studentData, fatherData, motherData, 
         mainWindow.webContents.send("sentEssentialData", data);
         ipcMain.removeListener("ScriptLoaded", cb);
       });
-      DialogBox("حصل خطأ اثناء التسجيل برجاء التأكد من البيانات وحاول مجددا" , "info","تم")
+      DialogBox("حصل خطأ اثناء التسجيل برجاء التأكد من البيانات وحاول مجددا" , "info","تم");
     });
   });
 });
@@ -184,7 +225,7 @@ ipcMain.on("addStudentAbsent", function (err, { studentId, AbsentDate, AbsentRea
       mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("sentEssentialData", students);
-        DialogBox(['حصل خلل اثناء اضافة الغياب الرجاء التاكد من البيانات وحاول مجددا'],"error","خطأ")
+        DialogBox(["حصل خلل اثناء اضافة الغياب الرجاء التاكد من البيانات وحاول مجددا"],"error","خطأ");
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     });
@@ -223,7 +264,7 @@ ipcMain.on("UpdateStudentData", function (err, { studentId, studentData, fatherD
       mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("sentEssentialData", students);
-        DialogBox(['حصل خلل اثناء تحديث البيانات الرجاء التاكد من البيانات وحاول مجددا'],"error","خطأ")
+        DialogBox(["حصل خلل اثناء تحديث البيانات الرجاء التاكد من البيانات وحاول مجددا"],"error","خطأ");
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     });

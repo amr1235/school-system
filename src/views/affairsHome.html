@@ -94,6 +94,20 @@
             >
               تسجيل طالب جديد
             </button>
+            <div class="nav">
+              <button
+                onclick='window.api.send("getEssentialData", "affairsSettings");'
+                class="
+                  btn btn-warning
+                  mx-md-3 mx-4
+                  my-2
+                  d-inline-block
+                  rounded-pill
+                "
+              >
+                <a class="text-decoration-none text-dark">اعدادات الشؤون</a>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -126,10 +140,9 @@
     </aside>
     <!--end of side bar-->
     <!--register section-->
-    <main class="mt-5 pt-3 tab-content" id="register">
-    </main>
+    <main class="mt-5 pt-3 tab-content" id="register"></main>
     <script>
-      window.api.receive("sentEssentialData",(students) => {
+      window.api.receive("sentEssentialData", (students) => {
         loadSideBar(students);
       });
       window.api.send("ScriptLoaded");
