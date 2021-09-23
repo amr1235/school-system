@@ -74,9 +74,7 @@ module.exports = {
           allowNull: true
         },
         StudentFamilyStatus: {
-          type: Sequelize.ENUM,
-          allowNull: false,
-          values: ["ORPHAN", "MARRIED", "DIVORCED", "DEAD MOTHER", "DEAD FATHER"]
+          type: Sequelize.STRING,
         },
         StudentHealth: {
           type: Sequelize.STRING

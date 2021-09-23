@@ -145,6 +145,48 @@ ipcMain.on(
   "addStudentAbsent",
   function (err, { studentId, AbsentDate, AbsentReason }) {
     mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
+    absent.addNewAbsenceDay(studentId, AbsentReason, AbsentDate).then(() => {
+      student.getStudentData(studentId).then((data) => {
+        student
+          .getAllStudents()
+          .then((students) => {
+            data = {
+              ...data,
+              students,
+            };
+            mainWindow.loadFile(
+              path.join(__dirname, "views/updateStudent.html"),
+            );
+            ipcMain.on("ScriptLoaded", function cb() {
+              mainWindow.webContents.send(
+                "feedBackMessages",
+                "تم تسجيل الطالب بنجاح",
+              );
+              ipcMain.removeListener("ScriptLoaded", cb);
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+            mainWindow.loadFile(
+              path.join(__dirname, "views/addNewStudent.html"),
+            );
+            ipcMain.on("ScriptLoaded", function cb() {
+              mainWindow.webContents.send(
+                "feedBackMessages",
+                " حدث خطأ اثناء الأدخال برجاء مراجعه البيانات وحاول مجددا",
+              );
+              ipcMain.removeListener("ScriptLoaded", cb);
+            });
+          });
+      });
+    });
+  },
+);
+// add Student Absent
+ipcMain.on(
+  "addStudentAbsent",
+  function (err, { studentId, AbsentDate, AbsentReason }) {
+    mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
     absent
       .addNewAbsenceDay(studentId, AbsentReason, AbsentDate)
       .then(() => {
@@ -185,12 +227,16 @@ ipcMain.on(
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
   absent.deleteAbsence(studentId, absentDate).catch(console.log);
 });
+ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
+  absent.deleteAbsence(studentId, absentDate).catch(console.log);
+});
 // update student
 ipcMain.on(
   "UpdateStudentData",
   function (err, { studentId, studentData, fatherData, motherData, resData }) {
     mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
     //update student
+    // console.log(studentData);
     student
       .updateStudentByStudentId(
         studentId,
