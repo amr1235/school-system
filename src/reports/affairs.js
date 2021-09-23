@@ -170,16 +170,14 @@ const getAbsenceRatioInAllGrades = async (startingDate, endingDate) => {
         promises.push(
           getAllAbsenceInGrade(grade[0], startingDate, endingDate).then(
             ([Absencecount, studentCount]) => {
-              return {
-                gradeId: grade[0],
-                gradeName: grade[1],
-                count: Absencecount,
-                ratio:
-                  (Absencecount /
-                    (dateDiffIndays(startingDate, endingDate) * studentCount)) *
-                    100 +
+              return [
+                grade[1],
+                Absencecount,
+                (Absencecount /
+                  (dateDiffIndays(startingDate, endingDate) * studentCount)) *
+                  100 +
                   " %",
-              };
+              ];
             },
           ),
         );

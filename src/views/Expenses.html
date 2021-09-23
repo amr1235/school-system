@@ -75,19 +75,19 @@
             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
               <li>
                 <button
-                  onclick='window.api.send("sendAffairsReportData", ["Seats", 1])'
+                  onclick='window.api.send("sendAffairsReportData", "Seats")'
                   class="dropdown-item"
                 >
                   التوريد اليومى
                 </button>
               </li>
               <li>
-                <a
+                <button
                   class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/monthly-income.html"
-                  >التوريد الشهرى</a
+                  onclick='window.api.send("sendAffairsReportData", "AbsenceRate")'
                 >
+                  التوريد الشهرى
+                </button>
               </li>
               <li>
                 <a

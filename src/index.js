@@ -332,7 +332,7 @@ ipcMain.on("sendAffairsReportData", (err, ReportType) => {
   });
   newWindow.loadFile(path.join(__dirname, "views/loading.html"));
   newWindow.webContents.openDevTools();
-  reports["Affairs"][ReportType]["query"](1)
+  reports["Affairs"][ReportType]["query"]("2010-01-01", "2022-01-01")
     .then((results) => {
       const data = {
         rows: results,

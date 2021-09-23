@@ -1,4 +1,8 @@
-const { getSeatsData, studentsOfColleagues } = require("./affairs");
+const {
+  getSeatsData,
+  studentsOfColleagues,
+  getAbsenceRatioInAllGrades,
+} = require("./affairs");
 
 const Reports = {
   Affairs: {
@@ -11,6 +15,15 @@ const Reports = {
       query: studentsOfColleagues,
       headers: ["الوالد", "اسم الطالب", "المرحلة", "الفصل"],
       title: "أبناء العاملين بالمعهد",
+    },
+    AbsenceRate: {
+      query: getAbsenceRatioInAllGrades,
+      headers: [
+        "المرحلة",
+        "إجمالي الغياب خلال الفترة",
+        "نسبة الغياب خلال الفترة",
+      ],
+      title: "نسبة الغياب",
     },
   },
 };
