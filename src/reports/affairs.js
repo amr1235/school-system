@@ -1,7 +1,21 @@
 const { studentsInGrade } = require("../queries/seats");
 const { getClasses } = require("../queries/class");
+const { getAbsenceBetween } = require("../queries/absent");
+const { getGrades } = require("../queries/grade");
 const db = require("../db/models");
 const { Op } = require("sequelize");
+
+const dateDiffIndays = (date1, date2) => {
+  const dt1 = new Date(date1);
+  const dt2 = new Date(date2);
+  return (
+    Math.floor(
+      (Date.UTC(dt2.getFullYear(), dt2.getMonth(), dt2.getDate()) -
+        Date.UTC(dt1.getFullYear(), dt1.getMonth(), dt1.getDate())) /
+        (1000 * 60 * 60 * 24),
+    ) + 1
+  );
+};
 
 const getSeatsData = async (gradeId) => {
   const { students, count } = await studentsInGrade(gradeId);
@@ -82,8 +96,104 @@ const studentsOfColleagues = async () => {
     .then((students) => students.map((student) => student.toJSON()));
 };
 
+const getStudentAbsenceRatio = async (StudentId, startingData, endingDate) => {
+  const student = await db["Student"].findAll({
+    where: {
+      StudentId: StudentId,
+    },
+    attributes: ["StudentName"],
+  });
+  return getAbsenceBetween(StudentId, startingData, endingDate).then(
+    (dates) => {
+      return {
+        studentName: student[0].dataValues["StudentName"],
+        absentDays: dates.length,
+        ratio:
+          (dates.length / dateDiffIndays(startingData, endingDate)) * 100 +
+          " %",
+      };
+    },
+  );
+};
+
+const CountStudentsInGrade = async (gradeId) => {
+  const { count } = await db["Student"].findAndCountAll({
+    include: {
+      model: db["StudentClass"],
+      required: true,
+      include: {
+        model: db["Class"],
+        required: true,
+        where: {
+          GradeId: gradeId,
+        },
+      },
+    },
+  });
+  return count;
+};
+
+const getAllAbsenceInGrade = async (gradeId, startingDate, endingDate) => {
+  const { count } = await db["StudentAbsent"].findAndCountAll({
+    required: true,
+    where: {
+      AbsentDate: {
+        [Op.between]: [startingDate, endingDate],
+      },
+    },
+    include: {
+      model: db["Student"],
+      required: true,
+      include: {
+        model: db["StudentClass"],
+        required: true,
+        include: {
+          model: db["Class"],
+          required: true,
+          where: {
+            GradeId: gradeId,
+          },
+        },
+      },
+    },
+  });
+
+  const studentCount = await CountStudentsInGrade(gradeId);
+  return [count, studentCount];
+};
+
+const getAbsenceRatioInAllGrades = async (startingDate, endingDate) => {
+  const promises = [];
+  return getGrades()
+    .then((grades) => {
+      grades.map((grade) => {
+        promises.push(
+          getAllAbsenceInGrade(grade[0], startingDate, endingDate).then(
+            ([Absencecount, studentCount]) => {
+              return {
+                gradeId: grade[0],
+                gradeName: grade[1],
+                count: Absencecount,
+                ratio:
+                  (Absencecount /
+                    (dateDiffIndays(startingDate, endingDate) * studentCount)) *
+                    100 +
+                  " %",
+              };
+            },
+          ),
+        );
+      });
+    })
+    .then(() => {
+      return Promise.all(promises);
+    });
+};
+
 module.exports = {
   getSeatsData,
   getCapacityStats,
   studentsOfColleagues,
+  getStudentAbsenceRatio,
+  getAbsenceRatioInAllGrades,
 };
