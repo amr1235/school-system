@@ -50,7 +50,7 @@ const updateAbsenceReason = (StudentId, AbsentDate, newReasonId) => {
       AbsentDate
     }
   });
-}
+};
 const deleteAbsence = (StudentId, AbsentDate) => {
   return db["StudentAbsent"].destroy({
     where : {
@@ -58,7 +58,7 @@ const deleteAbsence = (StudentId, AbsentDate) => {
       AbsentDate
     }
   });
-}
+};
 const getStudentAbsenceDays = async (StudentId) => {
   return db["StudentAbsent"].findAll({
     where: {
@@ -105,8 +105,11 @@ const deleteWarning = async (StudentId, WarningDate) => {
 };
 const getAllReasons = () => {
   return db["AbsentReason"].findAll({
-    attributes: ['AbsentReasonId', 'AbsentReasonName']
+    attributes: ["AbsentReasonId", "AbsentReasonName"]
   }).then(Reasons => Reasons.map(reason => reason.toJSON()));
+};
+const addAbsentReason = (AbsentReasonName) => {
+  return db["AbsentReason"].create({AbsentReasonName});
 };
 module.exports = {
   addNewAbsenceDay,
@@ -117,5 +120,6 @@ module.exports = {
   deleteWarning,
   getAllReasons,
   updateAbsenceReason,
-  deleteAbsence
+  deleteAbsence,
+  addAbsentReason
 };

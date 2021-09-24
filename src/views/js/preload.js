@@ -13,6 +13,15 @@ contextBridge.exposeInMainWorld("api", {
       "updateStudentAbsent",
       "deleteStudentAbsent",
       "sendAffairsReportData",
+      "feedBackMessages",
+      "addStudentAbsent",
+      "updateStudentAbsent",
+      "deleteStudentAbsent",
+      "transferStudent",
+      "ShowDialogBox",
+      "addNewClass",
+      "addNewParentJob",
+      "addAbsentType",
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);

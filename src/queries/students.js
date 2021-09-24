@@ -99,7 +99,7 @@ const getStudentData = async (Id) => {
   };
   // get absent data 
   return data;
-}
+};
 // eslint-disable-next-line no-unused-vars
 const getAllStudents = () => {
   return db["Stage"].findAll({
@@ -337,11 +337,33 @@ const upgradeStudentsToNextGrade = async () => {
     return "Students have been upgraded";
   });
 };
+const transferStudent = (StudentId,SchoolName) => {
+  return db.sequelize.transaction(t => {
+    // delete student from student class
+    let proms = [];
+    let currentDate = new Date();
+    proms.push(db["StudentClass"].destroy({
+      where : {
+        StudentId
+      },
+      transaction : t
+    }));
+    proms.push(db["TransferredStudent"].create({
+      StudentId,
+      SchoolName,
+      TransferDate : currentDate.toISOString()
+    },{
+      transaction : t
+    }));
+    return Promise.all(proms);
+  });
+};
 module.exports = {
   getAllStudents,
   addNewStudent,
   updateStudentByStudentId,
   upgradeStudentsToNextGrade,
   getStudentsByColumnMultipleVals,
-  getStudentData
+  getStudentData,
+  transferStudent
 };

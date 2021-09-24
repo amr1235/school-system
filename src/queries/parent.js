@@ -46,7 +46,7 @@ const updateParentById = async (ParentId, newParentData, t) => {
     transaction: t
   });
 
-}
+};
 //get ParentById 
 const getParentById = async (ParentId) => {
   //get parent data 
@@ -126,9 +126,13 @@ const addParent = async (parentData,t) => {
   }
   return parent;
 };
-
+// add new job 
+const addNewJob = (JobName) => {
+  return db["Job"].create({JobName});
+};
 module.exports = {
   addParent,
   getParentById,
-  updateParentById
+  updateParentById,
+  addNewJob
 };
