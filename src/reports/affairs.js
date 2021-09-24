@@ -49,7 +49,8 @@ const getClassStats = async (classId) => {
 
 const getCapacityStats = async () => {
   const classes = await getClasses();
-  let stats = {};
+
+  let stats = [];
   for (let [classId, gradeId] of classes) {
     const classCount = await getClassStats(classId);
     stats[gradeId] ? false : (stats[gradeId] = { total: 0 });
@@ -57,6 +58,41 @@ const getCapacityStats = async () => {
     stats[gradeId][classId] = classCount;
   }
   return stats;
+};
+
+const getGradeCapacity = async (gradeId) => {
+  return db.sequelize.transaction(async (t) => {
+    let promises = [];
+    let classes = await db["Class"].findAll(
+      {
+        attributes: ["ClassId"],
+        where: {
+          GradeId: gradeId,
+        },
+        include: {
+          model: db["Grade"],
+          attributes: ["GradeName"],
+        },
+        order: [["ClassId", "ASC"]],
+      },
+      { transaction: t },
+    );
+    classes = classes.map((clas) => clas.toJSON());
+    for (const clas of classes) {
+      promises.push(
+        db["StudentClass"]
+          .count({ where: { ClassId: clas["ClassId"] } }, { transaction: t })
+          .then((count) => {
+            return [clas["ClassId"], count];
+          }),
+      );
+    }
+    return Promise.all(promises).then((c) => {
+      const total = c.reduce((sum, clas) => sum + clas[1], 0);
+      c.unshift([classes[0]["Grade"]["GradeName"], total]);
+      return c;
+    });
+  });
 };
 
 const studentsOfColleagues = async () => {
@@ -219,11 +255,60 @@ const getTransferredStudents = async (notBefore) => {
     );
 };
 
+const AbsentDays = async () => {
+  return db["StudentAbsent"]
+    .findAll({
+      attributes: ["AbsentDate"],
+      include: [
+        {
+          model: db["Student"],
+          attributes: ["StudentName"],
+          order: [["StudentName", "ASC"]],
+          include: {
+            model: db["StudentClass"],
+            attributes: ["ClassId"],
+            order: [["ClassId", "ASC"]],
+            include: {
+              model: db["Class"],
+              attributes: ["ClassId"],
+              order: [["ClassId", "ASC"]],
+              include: {
+                model: db["Grade"],
+                attributes: ["GradeName"],
+                order: [["GradeName", "ASC"]],
+              },
+            },
+          },
+        },
+        {
+          model: db["AbsentReason"],
+          attributes: db["AbsentReasonName"],
+        },
+      ],
+      order: [["AbsentDate", "DESC"]],
+    })
+    .then((dates) =>
+      dates.map((date) => {
+        const data = date.toJSON();
+        console.log(data);
+        return [
+          data["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
+          data["Student"]["StudentClass"]["Class"]["ClassId"],
+          data["Student"]["StudentName"],
+          data["AbsentReason"]["AbsentReasonName"],
+          data["AbsentDate"],
+        ];
+      }),
+    );
+};
+
 module.exports = {
   getSeatsData,
   getCapacityStats,
+  getGradeCapacity,
   studentsOfColleagues,
   getStudentAbsenceRatio,
   getAbsenceRatioInAllGrades,
   getTransferredStudents,
+  AbsentDays,
 };

@@ -3,6 +3,8 @@ const {
   studentsOfColleagues,
   getAbsenceRatioInAllGrades,
   getTransferredStudents,
+  getGradeCapacity,
+  AbsentDays,
 } = require("./affairs");
 
 const Reports = {
@@ -30,6 +32,16 @@ const Reports = {
       query: getTransferredStudents,
       headers: ["اسم الطالب", "اسم المدرسة المحول لها", "تاريخ التحويل"],
       title: "المحولين من المدرسة",
+    },
+    GradeCapacity: {
+      query: getGradeCapacity,
+      headers: ["الصف/الفصل", "الكثافة"],
+      title: "كثافة الفصول والمراحل",
+    },
+    AllAbsents: {
+      query: AbsentDays,
+      headers: ["الصف", "الفصل", "اسم الطالب", "سبب الغياب", "تاريخ الغياب"],
+      title: "الغياب",
     },
   },
 };

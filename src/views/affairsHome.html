@@ -118,11 +118,23 @@
               </li>
               <li><a class="dropdown-item btn" href="#"> طﻻب العاملين </a></li>
               <li>
-                <a class="dropdown-item btn" href="#">
+                <a
+                  class="dropdown-item btn"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["GradeCapacity", [1]])'
+                >
                   Class, Stage, Grade cap
                 </a>
               </li>
-              <li><a class="dropdown-item btn" href="#"> غياب الطالب </a></li>
+              <li>
+                <a
+                  class="dropdown-item btn"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["AllAbsents", []])'
+                >
+                  غياب الطالب
+                </a>
+              </li>
               <li>
                 <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
                 <ul class="dropdown-menu dropdown-submenu">
