@@ -33,6 +33,7 @@ const getSeatsData = async (gradeId) => {
         required: true,
         attributes: ["StudentId", "StudentName"],
       },
+      order: [["SeatNumber", "ASC"]],
     })
     .then((students) => students.map((student) => student.toJSON()))
     .then((results) => {
@@ -235,6 +236,7 @@ const getTransferredStudents = async (notBefore) => {
       include: {
         model: db["Student"],
         attributes: ["StudentName"],
+        order: [["StudentName", "ASC"]],
       },
       where: {
         TransferDate: {
