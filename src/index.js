@@ -75,11 +75,14 @@ const getEssentialData = async () => {
     include: {
       model: db["Grade"],
       attributes: ["GradeId", "GradeName"],
+      order: [["GradeId", "ASC"]],
       include: {
         model: db["Class"],
         attributes: ["ClassId"],
+        order: [["ClassId", "ASC"]],
       },
     },
+    order: [["StageId", "ASC"]],
   });
   stagesData = mapToJSON(stagesData);
   //get all jobs
@@ -154,6 +157,7 @@ ipcMain.on("getEssentialData", function (err, destination) {
   } else {
     // get all stages , grades and classes
     getEssentialData().then((data) => {
+      console.log(data);
       if (destination === "addStudent") {
         mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
         ipcMain.on("ScriptLoaded", function cb() {
@@ -456,8 +460,10 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
   });
 });
 
-ipcMain.on("sendAffairsReportData", (err, ReportType) => {
+ipcMain.on("sendAffairsReportData", (err, args) => {
   // load screen
+  const ReportType = args[0];
+  const params = args[1];
   let newWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
@@ -470,7 +476,7 @@ ipcMain.on("sendAffairsReportData", (err, ReportType) => {
   });
   newWindow.loadFile(path.join(__dirname, "views/loading.html"));
   newWindow.webContents.openDevTools();
-  reports["Affairs"][ReportType]["query"]("2010-01-01", "2022-01-01")
+  reports["Affairs"][ReportType]["query"](...params)
     .then((results) => {
       const data = {
         rows: results,

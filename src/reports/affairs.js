@@ -188,10 +188,42 @@ const getAbsenceRatioInAllGrades = async (startingDate, endingDate) => {
     });
 };
 
+const getTransferredStudents = async (notBefore) => {
+  let startingDate = "1970-01-01";
+  if (notBefore) {
+    startingDate = notBefore;
+  }
+  return db["TransferredStudent"]
+    .findAll({
+      attributes: ["TransferDate", "SchoolName"],
+      include: {
+        model: db["Student"],
+        attributes: ["StudentName"],
+      },
+      where: {
+        TransferDate: {
+          [Op.gt]: startingDate,
+        },
+      },
+      order: [["TransferDate", "DESC"]],
+    })
+    .then((students) =>
+      students.map((student) => {
+        const s = student.toJSON();
+        return [
+          s["Student"]["StudentName"],
+          s["SchoolName"],
+          s["TransferDate"],
+        ];
+      }),
+    );
+};
+
 module.exports = {
   getSeatsData,
   getCapacityStats,
   studentsOfColleagues,
   getStudentAbsenceRatio,
   getAbsenceRatioInAllGrades,
+  getTransferredStudents,
 };

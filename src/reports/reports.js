@@ -2,6 +2,7 @@ const {
   getSeatsData,
   studentsOfColleagues,
   getAbsenceRatioInAllGrades,
+  getTransferredStudents,
 } = require("./affairs");
 
 const Reports = {
@@ -24,6 +25,11 @@ const Reports = {
         "نسبة الغياب خلال الفترة",
       ],
       title: "نسبة الغياب",
+    },
+    TransferredStudents: {
+      query: getTransferredStudents,
+      headers: ["اسم الطالب", "اسم المدرسة المحول لها", "تاريخ التحويل"],
+      title: "المحولين من المدرسة",
     },
   },
 };
