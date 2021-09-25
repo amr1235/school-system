@@ -8,9 +8,12 @@ module.exports = (sequelize, DataTypes) => {
          */
     // eslint-disable-next-line no-unused-vars
     static associate(models) {
-      // Category.hasMany(models["Student"], {
-      //   foreignKey: "CategoryId"
-      // });
+      Category.belongsTo(models["Grade"], {
+        foreignKey: "GradeId"
+      });
+      Category.hasMany(models["PaymentCategory"], {
+        foreignKey: "PaymentCategory"
+      });
     }
   }
   Category.init({
@@ -19,13 +22,21 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
+    GradeId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     CategoryName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     CategoryCost: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
       allowNull: false,
+    },
+    AcademicYear: {
+    type: DataTypes.STRING,
+    allowNull: false
     }
   }, {
     sequelize,

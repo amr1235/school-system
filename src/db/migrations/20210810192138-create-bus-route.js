@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
       },
       BusRouteCost: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.INTEGER,
         allowNull: false,
       }
     });

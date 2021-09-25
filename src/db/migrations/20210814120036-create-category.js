@@ -6,13 +6,21 @@ module.exports = {
         autoIncrement: true,
         primaryKey: true,
       },
+      GradeId: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
       CategoryName: {
         type: Sequelize.STRING,
         allowNull: false,
       },
       CategoryCost: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.INTEGER,
         allowNull: false,
+      },
+      AcademicYear: {
+      type: Sequelize.STRING,
+      allowNull: false
       }
     });
   },

@@ -1,31 +1,21 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
-      await queryInterface.createTable("Payment", {
-        PaymentId: {
+      await queryInterface.createTable("PaymentCategory", {
+        PaymentCategoryid: {
           type: Sequelize.INTEGER,
           autoIncrement: true,
           primaryKey: true,
         },
-        StudentId: {
+        CategoryId: {
           type: Sequelize.INTEGER,
-          allowNull: false,
-          references: {
-            model: "Student",
-            key: "StudentId"
-          }
         },
-        PaymentType: {
-          type: Sequelize.ENUM,
-          values: ["Category","Bus"],
+        PaymentId: {
+          type: Sequelize.INTEGER,
           allowNull: false
         },
-        PaymentAmount: {
+        Amount: {
           type: Sequelize.INTEGER,
-          allowNull: false,
-        },
-        PaymentDate: {
-          type: Sequelize.DATEONLY,
           allowNull: false,
         },
       }, { transaction: t });
@@ -33,6 +23,6 @@ module.exports = {
   },
   // eslint-disable-next-line no-unused-vars
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("Payment");
+    await queryInterface.dropTable("PaymentCategory");
   }
 };
