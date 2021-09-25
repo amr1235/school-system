@@ -358,6 +358,70 @@ const transferStudent = (StudentId,SchoolName) => {
     return Promise.all(proms);
   });
 }
+// get financial Data 
+const getFinancialData = (StudentId) => {
+  let proms = [];
+  // get first installment Data
+  proms.push(db["Installment"].findOne({
+    where : {
+      StudentId,
+      InstallmentName : 'first-install',
+      Status : 'DUE'
+    }
+  }).then(inst => inst.toJSON()));
+  // get second installment Data 
+  proms.push(db["Installment"].findOne({
+    where : {
+      StudentId,
+      InstallmentName : 'second-install',
+      Status : 'DUE'
+    }
+  }).then(inst => inst.toJSON()));
+  // get busData
+  // proms.push(db["Installment"].findOne({
+  //   where : {
+  //     StudentId,
+  //     Status : 'DUE'
+  //   }
+  // }).then(inst => inst.toJSON()));
+  // get all installments that FROMLASTYEARED
+  proms.push(db["Installment"].findAll({
+    where : {
+      StudentId,
+      Status : 'FROMLASTYEAR',
+      InstallmentFullyPaidDate : null
+    }
+  }).then(insts => mapToJSON(insts)));
+
+  // get all cats that students have to pay
+  proms.push(db["StudentClass"].findOne({
+    attributes : ['ClassId'],
+    where : {
+      StudentId,
+    },
+    include : {
+      model : db["Class"],
+      attributes : ["GradeId"],
+      required : true,
+      include : {
+          model : db["Grade"],
+          required : true,
+          include : {
+            model : db["Category"],
+            required : true,
+            include : {
+              model : db["PaymentCategory"],
+              required : true
+            }
+          }
+      }
+    }
+  }).then(res => mapToJSON(res)[0].Class.Grade.Categories));
+  // get all cats of that student
+  // db["PaymentCategory"].findAll({
+    
+  // });
+};
 module.exports = {
   getAllStudents,
   addNewStudent,

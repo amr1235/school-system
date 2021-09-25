@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./scss/stud-installment.css">
+  <title>مصاريف الطالب</title>
+</head>
+
+<body>
+  <!--start of navbar-->
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+    <div class="container-fluid">
+      <a class="navbar-brand mx-5" href="#">معهد الوفاء</a>
+      <button class="navbar-toggler rounded-pill text-warning mx-auto" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar" aria-controls="sidebar">
+        <i class="bi bi-arrow-right-circle"></i>
+      </button>
+      <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="dropdown mx-1" dir="rtl">
+          <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            اﻻعدادات
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li><a class="dropdown-item" href="./installments.html">اقساط</a></li>
+            <li><a class="dropdown-item" href="#">خصومات </a></li>
+            <li><a class="dropdown-item" href="#">بدء سنه جديده</a></li>
+            <li><a class="dropdown-item" href="#"> خطوط الباص </a></li>
+          </ul>
+        </div>
+        <div class="mx-2">
+          <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"
+              href="#">التقارير</a></button>
+        </div>
+        <div class="mx-2">
+          <button onclick='window.api.send("getEssentialData", "Expenses");'
+            class="btn btn-warning my-2 mx-2 me-auto rounded-pill">الرئيسية</button>
+        </div>
+        <form class="d-flex  me-auto  mt-3 mt-md-0 ">
+          <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث"
+            aria-label="Search">
+          <button class="btn btn-outline-warning rounded-circle" type="submit"><i class="bi bi-search"></i></button>
+        </form>
+
+      </div>
+    </div>
+  </nav>
+  <!--end of navbar-->
+
+  <!--start of sidebar-->
+  <aside>
+    <div class="offcanvas offcanvas-start container sidebar-nav me-auto" data-bs-scroll="true" data-bs-backdrop="false"
+      tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+      <div class="offcanvas-header justify-content-center">
+        <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset" data-bs-dismiss="offcanvas"
+          aria-label="Close"></button>
+      </div>
+      <div id="" class="offcanvas-body justify-content-center" dir="rtl">
+        <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
+        <div class="tab-content mt-2" id="pills-tabContent"></div>
+      </div>
+    </div>
+  </aside>
+  <!--end of sidebar-->
+
+
+
+  <!--main content-->
+  <main dir="rtl" class="tab-content mt-5 pt-3">
+    <nav class="bg-dark text-center fixed-bottom">
+      <div class="nav nav-tabs" id="nav-tab" role="tablist">
+        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#first-install"
+          type="button" role="tab" aria-controls="nav-home" aria-selected="true">القسط اﻻول</button>
+        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#second-install"
+          type="button" role="tab" aria-controls="nav-profile" aria-selected="false">القسط الثانى</button>
+        <button class="nav-link" id="nav-late-tab" data-bs-toggle="tab" data-bs-target="#late-install"
+          type="button" role="tab" aria-controls="nav-profile" aria-selected="false">الأقساط المرحله</button>
+        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#bus-sub" type="button"
+          role="tab" aria-controls="nav-contact" aria-selected="false">اشتراك الباص</button>
+      </div>
+    </nav>
+
+
+    <!--first term payment-->
+    <section class="tab-pane container  py-2 mb-5 fade show active" id="first-install" role="tabpanel"
+      aria-labelledby="nav-home-tab">
+      <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">القسط اﻻول</h1>
+      <div class="row my-3">
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default"> قيمه القسط</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الباقي</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">10</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الحاله</span>
+
+            <div class="w-25 d-flex mx-3 justify-content-center rounded-pill exp-label">
+              <span class="text-center pt-1" id="inputGroup-sizing-default">مشسميشس</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row my-5">
+          <h2 class=" border-1 border-bottom border-dark pb-2"> تفاصيل القسط </h2>
+          <div class="row my-3">
+            <table class="table table-hover table-borderless table-striped" dir="rtl">
+              <thead>
+                <tr>
+                  <th scope="col">نوع الخدمه</th>
+                  <th scope="col"> قيمه الخدمه</th>
+                  <th scope="col"> المدفوع</th>
+                  <th scope="col"> الباقي</th>
+                  <th scope="col"> ادفع</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="added-Absence">
+                  <th scope="row" class="pt-3">
+                    <!--نوع القسط-->
+                  </th>
+                  <td>
+                    <!-- قيمه الخدمه-->
+                  </td>
+                  <td>
+                    <!-- المدفوع-->
+                  </td>
+                  <td>
+                    <!-- الباقي-->
+                  </td>
+                  <td>
+                    <!-- ادفع-->
+                    <input type="text">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-primary">أدفع الأن</button>
+          </div>
+        </div>
+
+    </section>
+
+    <!--second term payment-->
+    <section class="tab-pane container  py-2 mb-5 fade show active" id="second-install" role="tabpanel"
+      aria-labelledby="nav-profile-tab">
+      <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">القسط اﻻول</h1>
+      <div class="row my-3">
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default"> قيمه القسط</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الباقي</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">10</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الحاله</span>
+
+            <div class="w-25 d-flex mx-3 justify-content-center rounded-pill exp-label">
+              <span class="text-center pt-1" id="inputGroup-sizing-default">مشسميشس</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row my-5">
+          <h2 class=" border-1 border-bottom border-dark pb-2"> تفاصيل القسط </h2>
+          <div class="row my-3">
+            <table class="table table-hover table-borderless table-striped" dir="rtl">
+              <thead>
+                <tr>
+                  <th scope="col">نوع الخدمه</th>
+                  <th scope="col"> قيمه الخدمه</th>
+                  <th scope="col"> المدفوع</th>
+                  <th scope="col"> الباقي</th>
+                  <th scope="col"> ادفع</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="added-Absence">
+                  <th scope="row" class="pt-3">
+                    <!--نوع القسط-->
+                  </th>
+                  <td>
+                    <!-- قيمه الخدمه-->
+                  </td>
+                  <td>
+                    <!-- المدفوع-->
+                  </td>
+                  <td>
+                    <!-- الباقي-->
+                  </td>
+                  <td>
+                    <!-- ادفع-->
+                    <input type="text">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <button class="btn btn-primary">أدفع الأن</button>
+          </div>
+        </div>
+    </section>
+
+    <!--late payment-->
+    <section class="tab-pane container  py-2 mb-5 fade show active" id="late-install" role="tabpanel"
+      aria-labelledby="nav-late-tab">
+      <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">المرحل</h1>
+      <div class="row my-3">
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default">قيمه المستحقه</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الباقي</span>
+
+            <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+              <span class="text-center  pt-1" id="inputGroup-sizing-default">10</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 col-12">
+          <div class="input-group mb-3">
+            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الحاله</span>
+
+            <div class="w-25 d-flex mx-3 justify-content-center rounded-pill exp-label">
+              <span class="text-center pt-1" id="inputGroup-sizing-default">مشسميشس</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="row my-5">
+          <h2 class=" border-1 border-bottom border-dark pb-2"> الأقساط </h2>
+          <div class="row my-3">
+            <table class="table table-hover table-borderless table-striped" dir="rtl">
+              <thead>
+                <tr>
+                  <th scope="col">اسم القسط</th>
+                  <th scope="col"> قيمه القسط</th>
+                  <th scope="col"> تاريخ الدفع الأساسي</th>
+                  <th scope="col"> المدفوع</th>
+                  <th scope="col"> الباقي</th>
+                  <th scope="col"> المبلغ المراد دفعه</th>
+                  <th scope="col"> ادفع</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr id="added-Absence">
+                  <th scope="row" class="pt-3">
+                    <!--نوع القسط-->
+                  </th>
+                  <td>
+                    <!-- قيمه الخدمه-->
+                  </td>
+                  <td>
+                    <!-- قيمه الخدمه-->
+                  </td>
+                  <td>
+                    <!-- المدفوع-->
+                  </td>
+                  <td>
+                    <!-- الباقي-->
+                  </td>
+                  <td>
+                    <!-- ادفع-->
+                    <input type="text">
+                  </td>
+                  <td>
+                    <!-- ادفع-->
+                    <button class="btn btn-primary">ادفع</button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+    </section>
+    <!--bus subscribtion-->
+    <section class="tab-pane fade container py-2 mb-5" id="bus-sub" role="tabpanel">peoryir</section>
+
+  </main>
+
+  <script>
+
+    window.api.receive("getStudentDataFromMain", data => {
+      loadSideBar(data.students);
+    });
+    window.api.send("ScriptLoaded");
+  </script>
+  <script src="js/loadSideBar.js"></script>
+  <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+
+</html>

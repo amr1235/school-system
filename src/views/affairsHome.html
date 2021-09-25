@@ -227,6 +227,9 @@
     <!--register section-->
     <main class="mt-5 pt-3 tab-content" id="register"></main>
     <script>
+      window.api.receive("getStudentDataFromMain",data => {
+        console.log("received");
+      });
       window.api.receive("sentEssentialData", (students) => {
         loadSideBar(students);
       });
