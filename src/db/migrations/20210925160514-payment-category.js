@@ -9,10 +9,18 @@ module.exports = {
         },
         CategoryId: {
           type: Sequelize.INTEGER,
+          references: {
+            model: "Category",
+            key: "CategoryId"
+          }
         },
         PaymentId: {
           type: Sequelize.INTEGER,
-          allowNull: false
+          allowNull: false,
+          references: {
+            model: "Payment",
+            key: "PaymentId"
+          }
         },
         Amount: {
           type: Sequelize.INTEGER,
