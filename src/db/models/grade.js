@@ -14,6 +14,9 @@ module.exports = (sequelize, DataTypes) => {
       Grade.hasMany(models["Class"], {
         foreignKey: "GradeId"
       });
+      Grade.hasMany(models["Category"], {
+        foreignKey: "GradeId"
+      });
     }
   }
   Grade.init({

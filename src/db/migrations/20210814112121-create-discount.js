@@ -12,7 +12,7 @@ module.exports = {
         unique: true
       },
       DiscountCost: {
-        type: Sequelize.FLOAT,
+        type: Sequelize.INTEGER,
         allowNull: false,
       }
     });
