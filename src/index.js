@@ -167,7 +167,7 @@ ipcMain.on("getEssentialData", function (err, destination) {
       } else if (destination === "affairsHome") {
         mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
         ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data.students);
+          mainWindow.webContents.send("sentEssentialData", data);
           ipcMain.removeListener("ScriptLoaded", cb);
         });
       }
@@ -429,10 +429,10 @@ ipcMain.on("login", function (event, args) {
     break;
   case "2":
     if (args[1] === "2468") {
-      student.getAllStudents().then((students) => {
+      getEssentialData().then((data) => {
         mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
         ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", students);
+          mainWindow.webContents.send("sentEssentialData", data);
           ipcMain.removeListener("ScriptLoaded", cb);
         });
       });
