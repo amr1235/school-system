@@ -1,0 +1,63 @@
+[
+    {
+        "StudentId" : 1,
+        "InstallmentName" : "first-install",
+        "InstallmentAmount" : 4500,
+        "InstallmentPaidAmount" : 1000,
+        "InstallmentDueDate" : "12-31-2021",
+        "InstallmentFullyPaidDate" : null,
+        "InstallmentType" : "Category",
+        "Status" : "DUE"
+    },
+    {
+        "StudentId" : 1,
+        "InstallmentName" : "second-install",
+        "InstallmentAmount" : 4000,
+        "InstallmentPaidAmount" : 0,
+        "InstallmentDueDate" : "12-31-2021",
+        "InstallmentFullyPaidDate" : null,
+        "InstallmentType" : "Category",
+        "Status" : "DUE"
+    },
+    {
+        "StudentId" : 1,
+        "InstallmentName" : "first-install",
+        "InstallmentAmount" : 4000,
+        "InstallmentPaidAmount" : 2000,
+        "InstallmentDueDate" : "12-31-2019",
+        "InstallmentFullyPaidDate" : null,
+        "InstallmentType" : "Category",
+        "Status" : "FROMLASTYEAR"
+    },
+    {
+        "StudentId" : 1,
+        "InstallmentName" : "second-install",
+        "InstallmentAmount" : 5000,
+        "InstallmentPaidAmount" : 3000,
+        "InstallmentDueDate" : "8-31-2018",
+        "InstallmentFullyPaidDate" : null,
+        "InstallmentType" : "Category",
+        "Status" : "FROMLASTYEAR"
+    },
+    {
+        "StudentId" : 2,
+        "InstallmentName" : "first-install",
+        "InstallmentAmount" : 4500,
+        "InstallmentPaidAmount" : 0,
+        "InstallmentDueDate" : "12-31-2021",
+        "InstallmentFullyPaidDate" : null,
+        "InstallmentType" : "Category",
+        "Status" : "DUE"
+    }
+    ,
+    {
+        "StudentId" : 2,
+        "InstallmentName" : "second-install",
+        "InstallmentAmount" : 4500,
+        "InstallmentPaidAmount" : 0,
+        "InstallmentDueDate" : "12-31-2021",
+        "InstallmentFullyPaidDate" : null,
+        "InstallmentType" : "Category",
+        "Status" : "DUE"
+    }
+]

@@ -320,13 +320,25 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
       };
       if (CurrentWindow === "affairs") {
         mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("getStudentDataFromMain", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
       } else {
-        mainWindow.loadFile(path.join(__dirname, "views/studentInstallments.html"));
+        student.getFinancialData(studentId).then((finData) => {
+          data = {
+            ...data,
+            financialData: {
+              ...finData
+            }
+          }
+          mainWindow.loadFile(path.join(__dirname, "views/studentInstallments.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("getStudentDataFromMain", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
+        });
       }
-      ipcMain.on("ScriptLoaded", function cb() {
-        mainWindow.webContents.send("getStudentDataFromMain", data);
-        ipcMain.removeListener("ScriptLoaded", cb);
-      });
     }).catch(console.log);
   });
 });
