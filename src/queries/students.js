@@ -85,7 +85,7 @@ const getStudentData = async (Id) => {
   let studentAbsent = await absent.getStudentAbsenceDays(Id);
   let data = {
     ...studentData,
-    studentId : Id,
+    studentId: Id,
     nationality,
     nationalities,
     fatherData,
@@ -207,7 +207,7 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         StudentFatherId = father.toJSON().ParentId;
       } else {
         // update father with the new data 
-        await parent.updateParentById(StudentFatherId,newFatherData,t);
+        await parent.updateParentById(StudentFatherId, newFatherData, t);
       }
     }
     // check if ther ia new mother data if  so update it 
@@ -228,7 +228,7 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         });
       } else {
         // update mother with the new data 
-        await parent.updateParentById(StudentMotherId,newMotherData,t);
+        await parent.updateParentById(StudentMotherId, newMotherData, t);
       }
     }
     // check if ther ia new res data if  so update it 
@@ -242,7 +242,7 @@ const updateStudentByStudentId = async (StudentId, newFatherData, newMotherData,
         StudentResponsibleRelation = "mother";
       } else {
         // update Responsible Parent
-        await parent.updateParentById(StudentResponsibleId,newResponsibleParentData[1],t);
+        await parent.updateParentById(StudentResponsibleId, newResponsibleParentData[1], t);
         StudentResponsibleRelation = newResponsibleParentData[0];
       }
     }
@@ -337,27 +337,145 @@ const upgradeStudentsToNextGrade = async () => {
     return "Students have been upgraded";
   });
 };
-const transferStudent = (StudentId,SchoolName) => {
+const transferStudent = (StudentId, SchoolName) => {
   return db.sequelize.transaction(t => {
     // delete student from student class
     let proms = [];
     let currentDate = new Date();
     proms.push(db["StudentClass"].destroy({
-      where : {
+      where: {
         StudentId
       },
-      transaction : t
+      transaction: t
     }));
     proms.push(db["TransferredStudent"].create({
       StudentId,
       SchoolName,
-      TransferDate : currentDate.toISOString()
-    },{
-      transaction : t
+      TransferDate: currentDate.toISOString()
+    }, {
+      transaction: t
     }));
     return Promise.all(proms);
   });
 }
+// get financial Data 
+const getFinancialData = async (StudentId) => {
+  let proms = [];
+  // get first installment Data
+  proms.push(db["Installment"].findOne({
+    where: {
+      StudentId,
+      InstallmentName: 'first-install',
+      InstallmentType: 'Category',
+      Status: 'DUE'
+    }
+  }).then(inst => {
+    if (inst) {
+      return inst.toJSON();
+    } else {
+      return {};
+    }
+  }));
+  // get second installment Data 
+  proms.push(db["Installment"].findOne({
+    where: {
+      StudentId,
+      InstallmentName: 'second-install',
+      InstallmentType: 'Category',
+      Status: 'DUE'
+    }
+  }).then(inst => {
+    if (inst) {
+      return inst.toJSON();
+    } else {
+      return {};
+    }
+  }));
+  // get all installments that FROMLASTYEARED
+  proms.push(db["Installment"].findAll({
+    where: {
+      StudentId,
+      Status: 'FROMLASTYEAR',
+      InstallmentType: 'Category',
+      InstallmentFullyPaidDate: null
+    }
+  }).then(insts => {
+    if (insts) {
+      return mapToJSON(insts);
+    } else {
+      return [];
+    }
+  }));
+
+  // get all cats that students have to pay 
+  proms.push((async () => {
+    let p = [];
+    p.push(db["Category"].findAll({
+      include: {
+        model: db["Grade"],
+        attributes: ["GradeId"],
+        required: true,
+        include: {
+          model: db["Class"],
+          required: true,
+          include: {
+            model: db["StudentClass"],
+            required: true,
+            include: {
+              model: db["Student"],
+              required: true,
+              where: {
+                StudentId
+              }
+            }
+          }
+        }
+      }
+    }).then(mapToJSON));
+    p.push(db["PaymentCategory"].findAll({
+      include: {
+        model: db["Payment"],
+        where: {
+          StudentId
+        },
+        required: true
+      }
+    }).then(mapToJSON));
+
+    const [allCats, paidCats] = await Promise.all(p);
+    let finalCats = [];
+    for (let i = 0; i < allCats.length; i++) {
+      const cat = allCats[i];
+      let found = false;
+      for (let j = 0; j < paidCats.length; j++) {
+        const paidCat = paidCats[j];
+        if (cat.CategoryId === paidCat.CategoryId) {
+          finalCats.push({
+            CategoryId: cat.CategoryId,
+            CategoryName: cat.CategoryName,
+            CategoryCost: cat.CategoryCost,
+            AcademicYear: cat.AcademicYear,
+            paidAmount: paidCat.Amount
+          });
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        finalCats.push({
+          CategoryId: cat.CategoryId,
+          CategoryName: cat.CategoryName,
+          CategoryCost: cat.CategoryCost,
+          AcademicYear: cat.AcademicYear,
+          paidAmount: 0
+        });
+      }
+    }
+    return finalCats;
+  })());
+  let [firsInstall, secondInstall, fromLastYearInstall, Categories] = await Promise.all(proms);
+  return { firsInstall, secondInstall, fromLastYearInstall, Categories };
+};
 module.exports = {
   getAllStudents,
   addNewStudent,
@@ -365,5 +483,6 @@ module.exports = {
   upgradeStudentsToNextGrade,
   getStudentsByColumnMultipleVals,
   getStudentData,
+  getFinancialData,
   transferStudent
 };

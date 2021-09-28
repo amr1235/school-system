@@ -1,455 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>التحصيل</title>
-    <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./scss/Expenses.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
+    />
+    <link
+      rel="stylesheet"
+      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="./scss/Expenses.css" />
+  </head>
+  <body>
     <!--start of navbar-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
-        <div class="container-fluid">
-          <a class="navbar-brand mx-5" href="#" >معهد الوفاء</a>
-          <button class="navbar-toggler rounded-pill text-warning mx-auto" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebar" aria-controls="sidebar">
-            <i class="bi bi-arrow-right-circle"></i>
-          </button>
-          <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse mx-2" id="navbarSupportedContent">
-            <div class="dropdown mx-1" dir="rtl">
-              <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                اﻻعدادات
-              </button>
-              <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item"  href="./installments.html">اقساط</a></li>
-                <li><a class="dropdown-item"  href="#">خصومات </a></li>
-                <li><a class="dropdown-item"  href="#">بدء سنه جديده</a></li>
-                <li><a class="dropdown-item"  href="#"> خطوط الباص </a></li>
-              </ul>
-            </div>
-            <!-- <div class="mx-2">
+      <div class="container-fluid">
+        <a class="navbar-brand mx-5" href="#">معهد الوفاء</a>
+        <button
+          class="navbar-toggler rounded-pill text-warning mx-auto"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebar"
+          aria-controls="sidebar"
+        >
+          <i class="bi bi-arrow-right-circle"></i>
+        </button>
+        <button
+          class="navbar-toggler mx-auto"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse mx-2" id="navbarSupportedContent">
+          <div class="dropdown mx-1" dir="rtl">
+            <button
+              class="btn btn-warning rounded-pill dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              اﻻعدادات
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item" href="./installments.html">اقساط</a>
+              </li>
+              <li><a class="dropdown-item" href="#">خصومات </a></li>
+              <li><a class="dropdown-item" href="#">بدء سنه جديده</a></li>
+              <li><a class="dropdown-item" href="#"> خطوط الباص </a></li>
+            </ul>
+          </div>
+          <!-- <div class="mx-2">
               <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
             </div> -->
-            <div class="dropdown">
-              <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                التقارير
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                <li><a class="dropdown-item" target="_blank" href="./Reports/daily-income.html">التوريد اليومى</a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/monthly-income.html">التوريد الشهرى</a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/siblings-expenses.html"> الأشقاء وموقفهم من المصروفات </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/installments-residue.html"> الباقى على الطلبة قسط اول وقسط ثانى </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/paid-the-installments.html"> المسددين من القسط الأول بالكامل وكذلك القسط الثانى </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/payments.html"> دفتر التسديدات </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/car-payments.html"> المسددين سيارة </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/car-payments-residue.html"> الباقى عليهم سيارة </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/collected-extra-payments.html"> المحصل من الملازم والرعاية والملف والهدايا    </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/extra-payments-overdue.html"> تقرير لغير المسددين ملازم ورعاية وملف وهدايا وتاسيس </a></li>
-                <li><a class="dropdown-item" target="_blank" href="./Reports/delayed-payments.html"> تقرير المسددين مرحل والباقى عليهم مرحل </a></li>
-              </ul>
-            </div>
-            <form class="d-flex  me-auto  mt-3 mt-md-0 ">
-              <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث" aria-label="Search">
-              <button class="btn btn-outline-warning rounded-circle" type="submit"><i class="bi bi-search"></i></button>
-            </form>
-
-
+          <div class="dropdown">
+            <button
+              class="btn btn-warning rounded-pill dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              التقارير
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <button
+                  onclick='window.api.send("sendAffairsReportData", "Seats")'
+                  class="dropdown-item"
+                >
+                  التوريد اليومى
+                </button>
+              </li>
+              <li>
+                <button
+                  class="dropdown-item"
+                  onclick='window.api.send("sendAffairsReportData", "AbsenceRate")'
+                >
+                  التوريد الشهرى
+                </button>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/siblings-expenses.html"
+                >
+                  الأشقاء وموقفهم من المصروفات
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/installments-residue.html"
+                >
+                  الباقى على الطلبة قسط اول وقسط ثانى
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/paid-the-installments.html"
+                >
+                  المسددين من القسط الأول بالكامل وكذلك القسط الثانى
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/payments.html"
+                >
+                  دفتر التسديدات
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/car-payments.html"
+                >
+                  المسددين سيارة
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/car-payments-residue.html"
+                >
+                  الباقى عليهم سيارة
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/collected-extra-payments.html"
+                >
+                  المحصل من الملازم والرعاية والملف والهدايا
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/extra-payments-overdue.html"
+                >
+                  تقرير لغير المسددين ملازم ورعاية وملف وهدايا وتاسيس
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  target="_blank"
+                  href="./Reports/delayed-payments.html"
+                >
+                  تقرير المسددين مرحل والباقى عليهم مرحل
+                </a>
+              </li>
+            </ul>
           </div>
+          <form class="d-flex me-auto mt-3 mt-md-0">
+            <input
+              class="text-center form-control mx-3 rounded-pill"
+              type="search"
+              placeholder="ابحث"
+              aria-label="Search"
+            />
+            <button
+              class="btn btn-outline-warning rounded-circle"
+              type="submit"
+            >
+              <i class="bi bi-search"></i>
+            </button>
+          </form>
         </div>
+      </div>
     </nav>
     <!--end of navbar-->
     <!--start of sidebar-->
     <aside>
-        <div class="offcanvas offcanvas-start container sidebar-nav me-auto" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
-          <div class="offcanvas-header justify-content-center">
-            <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-          </div>
-          <div class="offcanvas-body justify-content-center" dir="rtl">
-            <button class="btn btn-success w-100 mb-3" type="submit"> تسجيل البيانات</button>
-            <ul class="nav nav-tabs" id="pills-tab" role="tablist">
-              <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#prim" type="button" role="tab" aria-controls="pills-home" aria-selected="true">ابتدائى</button>
-              </li>
-              <li class="nav-item" role="presentation">
-                <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">اعدادي</button>
-              </li>
-            </ul>
-            <div class="tab-content mt-2" id="pills-tabContent">
-              <div class="tab-pane fade show active text-warning" id="prim" role="tabpanel" aria-labelledby="pills-home-tab">
-                <!--prim accordion starts here-->
-                <div class="accordion accordion-flush" id="accordionFlushmid">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prim-1" aria-expanded="false" aria-controls="flush-collapseOne">
-                        الصف الاول الابتدائي
-                      </button>
-                    </h2>
-                    <div id="prim-1" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">
-                        <ul class="list-group" id="stud-list">
-                          <li class=" list-group-item"><a href="./stud-installment.html" class="text-decoration-none">احمد</a></li>
-                          <li class=" list-group-item "><a href="#" class="text-decoration-none">lasdgjs</a></li>
-                          <li class=" list-group-item "><a href="#" class="text-decoration-none">ahmed</a></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingTwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prim-2" aria-expanded="false" aria-controls="flush-collapseTwo">
-                        الصف الثانى الابتدائي
-                      </button>
-                    </h2>
-                    <div id="prim-2" class="accordion-collapse collapse" aria-labelledby="flush-headingTwo" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingThree">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prim-3" aria-expanded="false" aria-controls="flush-collapseThree">
-                        الصف الثالث الابتدائي
-                      </button>
-                    </h2>
-                    <div id="prim-3" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingfour">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prim-4" aria-expanded="false" aria-controls="flush-collapsefour">
-                        الصف الرابع الابتدائي
-                      </button>
-                    </h2>
-                    <div id="prim-4" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingfive">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prim-5" aria-expanded="false" aria-controls="flush-collapsefive">
-                        الصف الخامس البتدائي
-                      </button>
-                    </h2>
-                    <div id="prim-5" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="accordion accordion-flush" id="accordionFlushExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingsix">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#prim-6" aria-expanded="false" aria-controls="flush-collapsesix">
-                        الصف السادس البتدائي
-                      </button>
-                    </h2>
-                    <div id="prim-6" class="accordion-collapse collapse" aria-labelledby="flush-headingfour" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                </div>
-                <!--prim accordion ends here-->
-              </div>
-              <div class="tab-pane fade text-break  text-warning" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-                <!--mid accordion-->
-                <div class="accordion accordion-flush" id="accordionFlushmid">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingOne">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mid-1" aria-expanded="false" aria-controls="flush-collapseOne">
-                        الصف الاول الاعدادي
-                      </button>
-                    </h2>
-                    <div id="mid-1" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingtwo">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mid-2" aria-expanded="false" aria-controls="flush-collapsetwo">
-                        الصف الثاني الاعدادي
-                      </button>
-                    </h2>
-                    <div id="mid-2" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header" id="flush-headingthree">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#mid-3" aria-expanded="false" aria-controls="flush-collapsetwo">
-                        الصف الثالث الاعدادي
-                      </button>
-                    </h2>
-                    <div id="mid-3" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                      <div class="accordion-body text-center">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                    </div>
-                  </div>
-                </div>
-                <!--mid accordion-->
-              </div>
-            </div>
-
-            <div class="nav nav-pills " dir="rtl" id="v-pills-tab" role="tablist" >
-              <button class="nav-link active btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#Expenses" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">المصاريف</button>
-              <button class="nav-link btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#installment" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">التقسيط</button>
-              <button class="nav-link btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#discount" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">قيمه الخصم</button>
-              <button class="nav-link btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#first-term" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">  الترم الاول</button>
-              <button class="nav-link btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#second-term" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">  الترم الثاني</button>
-              <button class="nav-link btn btn-success text-center my-2"  data-bs-toggle="pill" data-bs-target="#bus" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false"> الباص </button>
-            </div>
-          </div>
+      <div
+        class="offcanvas offcanvas-start container sidebar-nav me-auto"
+        data-bs-scroll="true"
+        data-bs-backdrop="false"
+        tabindex="-1"
+        id="sidebar"
+        aria-labelledby="sidebarLabel"
+      >
+        <div class="offcanvas-header justify-content-center">
+          <button
+            type="button"
+            class="btn-close btn-close-white d-md-none me-auto text-reset"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button>
         </div>
+        <div id="" class="offcanvas-body justify-content-center" dir="rtl">
+          <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
+          <div class="tab-content mt-2" id="pills-tabContent"></div>
+        </div>
+      </div>
     </aside>
     <!--end of sidebar-->
     <main dir="rtl" class="mt-5 pt-3 tab-content" id="Expenses-general">
-        <section id="Expenses" class="container py-2 mb-5 tab-pane fade show active">
-          <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">المصاريف</h1>
-          <div class="row my-3">
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default">المبلغ المستحق</span>
-                
-                <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
-                  <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
-                
-                <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
-                  <span class="text-center  pt-1" id="inputGroup-sizing-default">30</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الباقي</span>
-               
-                <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
-                  <span class="text-center pt-1" id="inputGroup-sizing-default">30</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </section>
-
-
-        <section class="container border-3 border-dark  tab-pane fade" id="first-term" dir="rtl">
-          <h1 class="text-center py-2 border-bottom border-3 mb-5 border-dark">مصاريف الترم الاول</h1>
-          <div class="row my-3">
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <select class="form-select rounded-pill" aria-label="Default select example">
-                  <option selected>نوع المصاريف</option>
-                  <option value="1">رعايه</option>
-                  <option value="2">ملازم</option>
-                  <option value="3">مصاريف عاديه</option>
-                  <option value="4">ثمن ملف </option>
-                  <option value="5">اعفاءات </option>
-                  <option value="6">السيارة</option>
-                  <option value="7">ايصالات ملغيه</option>
-                  <option value="8">مبالغ مسترده</option>
-                  <option value="9">مصاريف تاسيس (للمحولين)</option>
-
-                </select>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
-                <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3 justify-content-center justify-content-md-start">
-                <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpenses()">اضافه مصاريف</button>
-              </div>
-            </div>
-          </div>
-          <div id="newExpenses1">
-
-          </div>
-        </section>
-
-
-        <section class="container border-3 border-dark tab-pane fade" id="second-term" dir="rtl">
-          <h1 class="text-center py-2 border-bottom mb-5 border-3 border-dark">مصاريف الترم الثاني</h1>
-          <div class="row my-3">
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <select class="form-select rounded-pill" aria-label="Default select example">
-                  <option selected>نوع المصاريف</option>
-                  <option value="1">رعايه</option>
-                  <option value="2">ملازم</option>
-                  <option value="3">مصاريف عاديه</option>
-                  <option value="4">ثمن ملف </option>
-                  <option value="5">اعفاءات </option>
-                  <option value="6">السيارة</option>
-                  <option value="7">ايصالات ملغيه</option>
-                  <option value="8">مبالغ مسترده</option>
-                  <option value="9">مصاريف تاسيس (للمحولين)</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
-                <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              </div>
-            </div>
-            <div class="col-md-4 col-12">
-              <div class="input-group mb-3 justify-content-center justify-content-md-start">
-                <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpensesI()">اضافه مصاريف</button>
-              </div>
-            </div>
-          </div>
-          <div id="newExpenses2">
-
-          </div>
-        </section>
-
-
-        <section class="container border-3 border-dark tab-pane fade" id="bus" dir="rtl">
-          <h1 class="mb-5 text-center py-2 border-bottom border-3 border-dark">مصاريف الباص</h1>
-          <div class="row my-3">
-            <div class="col-md-6 col-12">
-              <div class="input-group mb-3">
-                <select class="form-select rounded-pill" aria-label="Default select example">
-                  <option selected> اختر الخط </option>
-                  <option value="1">1</option>
-                  <option value="2">2</option>
-                  <option value="3"> 3</option>
-                  <option value="4">4  </option>
-                  <option value="5">5 </option>
-                  <option value="6">6</option>
-                  <option value="7">7</option>
-                  <option value="8">8</option>
-                  <option value="9">9</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-6 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1"> تكلفه الخط</span>
-                <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              </div>
-            </div>
-          </div>
-          <div class="row my-3">
+      <section
+        id="Expenses"
+        class="container py-2 mb-5 tab-pane fade show active"
+      >
+        <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">
+          المصاريف
+        </h1>
+        <div class="row my-3">
+          <div class="col-md-4 col-12">
             <div class="input-group mb-3">
-              <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
-              <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row my-3">
-            <div class="col-12 col-md-6">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1"> اسم السائق</span>
-                <input type="text" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default"
+                >المبلغ المستحق</span
+              >
+
+              <div
+                class="
+                  w-25
+                  d-flex
+                  mx-2
+                  justify-content-center
+                  rounded-pill
+                  exp-label
+                "
+              >
+                <span class="text-center pt-1" id="inputGroup-sizing-default"
+                  >30</span
+                >
               </div>
             </div>
-            <div class="col-12 col-md-6">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">رقم هاتف السائق</span>
-                <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              </div>
-            </div>
           </div>
-        </section>
-
-
-        <section class="container border-3 border-dark tab-pane fade" id="installment" dir="rtl">
-          <h1 class="mb-5 text-center py-2 border-bottom border-3 border-dark"> تقسيط باقي المبلغ</h1>
-          <div class="row my-3">
+          <div class="col-md-4 col-12">
             <div class="input-group mb-3">
-              <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">  باقي المستحقات</span>
-              <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-            </div>
-          </div>
-          <div class="row my-3">
-            <div class="col-12 col-md-4">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
-                <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              </div>
-            </div>
-            <div class="col-12 col-md-4">
-              <div class="input-group mb-3 col-12 col-md-6">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1"> تاريخ السداد </span>
-                <input type="date" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
-              </div>
-            </div>
-            <div class="co-12 col-md-4">
-              <div class="input-group mb-3 justify-content-around justify-content-md-start">
-                <button class="btn btn-primary mx-3 rounded-pill" onclick="addInstallment()">اضافه مصاريف</button>
-              </div>
-            </div>
-          </div>
-          <div id="newInstallment">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >المبلغ المدفوع</span
+              >
 
-          </div>
-        </section> 
-        
-        
-        <section id="discount" class="container border-3 border-dark tab-pane fade">
-          <h1 class="mb-5 text-center py-2 border-bottom border-3 border-dark">الخصومات</h1> 
-          <div class="row my-3">
-            <div class="col-md-3 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default">قيمه الخصم</span>
-                
-                <div class="w-25 d-flex mx-5 justify-content-center rounded-pill exp-label">
-                  <span class="text-center pt-1" id="inputGroup-sizing-default">30</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-12">
-              <div class="input-group mb-3">
-                <select class="form-select rounded-pill" aria-label="Default select example">
-                  <option selected>نوع الخصم</option>
-                  <option value="1">حفظه قران</option>
-                </select>
-              </div>
-            </div>
-            <div class="col-md-3 col-12">
-              <div class="input-group mb-3">
-                <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الباقي</span>
-                <div class="w-25 d-flex mx-5 justify-content-center rounded-pill exp-label">
-                  <span class="text-center pt-1" id="inputGroup-sizing-default">30</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3 col-12">
-              <div class="input-group mb-3">
-                <button onclick="addDiscount()" class="btn btn-primary rounded-pill mx-2">اضافه خصم اخر</button>
+              <div
+                class="
+                  w-25
+                  d-flex
+                  mx-2
+                  justify-content-center
+                  rounded-pill
+                  exp-label
+                "
+              >
+                <span class="text-center pt-1" id="inputGroup-sizing-default"
+                  >30</span
+                >
               </div>
             </div>
           </div>
-          <div id="newDisc">
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >الباقي</span
+              >
 
+              <div
+                class="
+                  w-25
+                  d-flex
+                  mx-2
+                  justify-content-center
+                  rounded-pill
+                  exp-label
+                "
+              >
+                <span class="text-center pt-1" id="inputGroup-sizing-default"
+                  >30</span
+                >
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
+
+      <section
+        class="container border-3 border-dark tab-pane fade"
+        id="first-term"
+        dir="rtl"
+      >
+        <h1 class="text-center py-2 border-bottom border-3 mb-5 border-dark">
+          مصاريف الترم الاول
+        </h1>
+        <div class="row my-3">
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <select
+                class="form-select rounded-pill"
+                aria-label="Default select example"
+              >
+                <option selected>نوع المصاريف</option>
+                <option value="1">رعايه</option>
+                <option value="2">ملازم</option>
+                <option value="3">مصاريف عاديه</option>
+                <option value="4">ثمن ملف</option>
+                <option value="5">اعفاءات</option>
+                <option value="6">السيارة</option>
+                <option value="7">ايصالات ملغيه</option>
+                <option value="8">مبالغ مسترده</option>
+                <option value="9">مصاريف تاسيس (للمحولين)</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >المبلغ المدفوع</span
+              >
+              <input
+                type="number"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div
+              class="
+                input-group
+                mb-3
+                justify-content-center justify-content-md-start
+              "
+            >
+              <button
+                class="btn btn-primary mx-3 rounded-pill"
+                onclick="addExpenses()"
+              >
+                اضافه مصاريف
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="newExpenses1"></div>
+      </section>
+
+      <section
+        class="container border-3 border-dark tab-pane fade"
+        id="second-term"
+        dir="rtl"
+      >
+        <h1 class="text-center py-2 border-bottom mb-5 border-3 border-dark">
+          مصاريف الترم الثاني
+        </h1>
+        <div class="row my-3">
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <select
+                class="form-select rounded-pill"
+                aria-label="Default select example"
+              >
+                <option selected>نوع المصاريف</option>
+                <option value="1">رعايه</option>
+                <option value="2">ملازم</option>
+                <option value="3">مصاريف عاديه</option>
+                <option value="4">ثمن ملف</option>
+                <option value="5">اعفاءات</option>
+                <option value="6">السيارة</option>
+                <option value="7">ايصالات ملغيه</option>
+                <option value="8">مبالغ مسترده</option>
+                <option value="9">مصاريف تاسيس (للمحولين)</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >المبلغ المدفوع</span
+              >
+              <input
+                type="number"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div
+              class="
+                input-group
+                mb-3
+                justify-content-center justify-content-md-start
+              "
+            >
+              <button
+                class="btn btn-primary mx-3 rounded-pill"
+                onclick="addExpensesI()"
+              >
+                اضافه مصاريف
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="newExpenses2"></div>
+      </section>
+
+      <section
+        class="container border-3 border-dark tab-pane fade"
+        id="bus"
+        dir="rtl"
+      >
+        <h1 class="mb-5 text-center py-2 border-bottom border-3 border-dark">
+          مصاريف الباص
+        </h1>
+        <div class="row my-3">
+          <div class="col-md-6 col-12">
+            <div class="input-group mb-3">
+              <select
+                class="form-select rounded-pill"
+                aria-label="Default select example"
+              >
+                <option selected>اختر الخط</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-6 col-12">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+              >
+                تكلفه الخط</span
+              >
+              <input
+                type="number"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="input-group mb-3">
+            <span
+              class="input-group-text rounded-3"
+              id="inputGroup-sizing-default-1"
+              >المبلغ المدفوع</span
+            >
+            <input
+              type="number"
+              class="form-control rounded-pill mx-1"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-12 col-md-6">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+              >
+                اسم السائق</span
+              >
+              <input
+                type="text"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >رقم هاتف السائق</span
+              >
+              <input
+                type="number"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section
+        class="container border-3 border-dark tab-pane fade"
+        id="installment"
+        dir="rtl"
+      >
+        <h1 class="mb-5 text-center py-2 border-bottom border-3 border-dark">
+          تقسيط باقي المبلغ
+        </h1>
+        <div class="row my-3">
+          <div class="input-group mb-3">
+            <span
+              class="input-group-text rounded-3"
+              id="inputGroup-sizing-default-1"
+            >
+              باقي المستحقات</span
+            >
+            <input
+              type="number"
+              class="form-control rounded-pill mx-1"
+              aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default"
+            />
+          </div>
+        </div>
+        <div class="row my-3">
+          <div class="col-12 col-md-4">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >المبلغ المدفوع</span
+              >
+              <input
+                type="number"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+          <div class="col-12 col-md-4">
+            <div class="input-group mb-3 col-12 col-md-6">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+              >
+                تاريخ السداد
+              </span>
+              <input
+                type="date"
+                class="form-control rounded-pill mx-1"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+              />
+            </div>
+          </div>
+          <div class="co-12 col-md-4">
+            <div
+              class="
+                input-group
+                mb-3
+                justify-content-around justify-content-md-start
+              "
+            >
+              <button
+                class="btn btn-primary mx-3 rounded-pill"
+                onclick="addInstallment()"
+              >
+                اضافه مصاريف
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="newInstallment"></div>
+      </section>
+
+      <section
+        id="discount"
+        class="container border-3 border-dark tab-pane fade"
+      >
+        <h1 class="mb-5 text-center py-2 border-bottom border-3 border-dark">
+          الخصومات
+        </h1>
+        <div class="row my-3">
+          <div class="col-md-3 col-12">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default"
+                >قيمه الخصم</span
+              >
+
+              <div
+                class="
+                  w-25
+                  d-flex
+                  mx-5
+                  justify-content-center
+                  rounded-pill
+                  exp-label
+                "
+              >
+                <span class="text-center pt-1" id="inputGroup-sizing-default"
+                  >30</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-12">
+            <div class="input-group mb-3">
+              <select
+                class="form-select rounded-pill"
+                aria-label="Default select example"
+              >
+                <option selected>نوع الخصم</option>
+                <option value="1">حفظه قران</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-3 col-12">
+            <div class="input-group mb-3">
+              <span
+                class="input-group-text rounded-3"
+                id="inputGroup-sizing-default-1"
+                >الباقي</span
+              >
+              <div
+                class="
+                  w-25
+                  d-flex
+                  mx-5
+                  justify-content-center
+                  rounded-pill
+                  exp-label
+                "
+              >
+                <span class="text-center pt-1" id="inputGroup-sizing-default"
+                  >30</span
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-12">
+            <div class="input-group mb-3">
+              <button
+                onclick="addDiscount()"
+                class="btn btn-primary rounded-pill mx-2"
+              >
+                اضافه خصم اخر
+              </button>
+            </div>
+          </div>
+        </div>
+        <div id="newDisc"></div>
+      </section>
     </main>
 
-
-
-
-
+    <script>
+      window.api.receive("sentEssentialData", (students) => {
+        loadSideBar(students);
+      });
+      window.api.send("ScriptLoaded",null);
+    </script>
+    <script src="../views/js/loadSideBar.js"></script>
     <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
-</body>
+  </body>
 </html>

@@ -1,0 +1,17 @@
+[
+    {
+        "CategoryId" : 1,
+        "PaymentId" : 1,
+        "Amount"    : 20
+    },
+    {
+        "CategoryId" : 2,
+        "PaymentId" : 1,
+        "Amount"    : 180
+    },
+    {
+        "CategoryId" : 2,
+        "PaymentId" : 4,
+        "Amount"    : 180
+    }
+]

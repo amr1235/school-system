@@ -1,18 +1,32 @@
 [
   {
+    "GradeId" : 1,
     "CategoryName": "Presents",
-    "CategoryCost": 1000
+    "CategoryCost": 1000,
+    "AcademicYear" : "2018"
   },
   {
-    "CategoryName": "Presents",
-    "CategoryCost": 200
+    "GradeId" : 1,
+    "CategoryName": "books",
+    "CategoryCost": 200,
+    "AcademicYear" : "2018"
   },
   {
+    "GradeId" : 1,
+    "CategoryName": "health",
+    "CategoryCost": 600,
+    "AcademicYear" : "2018"
+  },
+  {
+    "GradeId" : 2,
     "CategoryName": "Insurance",
+    "AcademicYear" : "2018",
     "CategoryCost": 1500
   },
   {
+    "GradeId" : 2,
     "CategoryName": "Books",
+    "AcademicYear" : "2018",
     "CategoryCost": 3000
   }
 ]

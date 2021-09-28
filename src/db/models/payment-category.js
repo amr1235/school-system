@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "CategoryId"
       });
       PaymentCategory.belongsTo(models["Payment"], {
-        foreignKey: "Payment"
+        foreignKey: "PaymentId"
       });
     }
   }
@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     },
     CategoryId: {
       type: DataTypes.INTEGER,
+      allowNull : false
     },
     PaymentId: {
       type: DataTypes.INTEGER,
