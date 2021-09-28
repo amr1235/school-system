@@ -83,8 +83,8 @@
           type="button" role="tab" aria-controls="nav-home" aria-selected="true">القسط اﻻول</button>
         <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#second-install"
           type="button" role="tab" aria-controls="nav-profile" aria-selected="false">القسط الثانى</button>
-        <button class="nav-link" id="nav-late-tab" data-bs-toggle="tab" data-bs-target="#late-install" type="button"
-          role="tab" aria-controls="nav-profile" aria-selected="false">الأقساط المرحله</button>
+        <button class="nav-link" id="fromLastYearTabButton" data-bs-toggle="tab" data-bs-target="#late-install"
+          type="button" role="tab" aria-controls="nav-profile" aria-selected="false">الأقساط المرحله</button>
         <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#bus-sub" type="button"
           role="tab" aria-controls="nav-contact" aria-selected="false">اشتراك الباص</button>
       </div>
@@ -145,13 +145,14 @@
                   <th scope="col"> قيمه الخدمه</th>
                   <th scope="col"> المدفوع</th>
                   <th scope="col"> الباقي</th>
+                  <th scope="col"> الحالة</th>
                   <th scope="col"> ادفع</th>
                 </tr>
               </thead>
               <tbody id="FirstCategories">
               </tbody>
             </table>
-            <button class="btn btn-primary">أدفع الأن</button>
+            <button id="payForFirstInstallment" class="btn btn-primary">أدفع الأن</button>
           </div>
         </div>
 
@@ -211,6 +212,7 @@
                   <th scope="col"> قيمه الخدمه</th>
                   <th scope="col"> المدفوع</th>
                   <th scope="col"> الباقي</th>
+                  <th scope="col"> الحالة</th>
                   <th scope="col"> ادفع</th>
                 </tr>
               </thead>
@@ -218,14 +220,14 @@
 
               </tbody>
             </table>
-            <button class="btn btn-primary">أدفع الأن</button>
+            <button id="payForSecondInstallment" class="btn btn-primary">أدفع الأن</button>
           </div>
         </div>
     </section>
 
     <!--late payment-->
     <section class="tab-pane container  py-2 mb-5 fade" id="late-install" role="tabpanel"
-      aria-labelledby="nav-late-tab">
+      aria-labelledby="fromLastYearTabButton">
       <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">المرحل</h1>
       <div class="row my-3">
         <div class="col-md-3 col-12">
@@ -283,31 +285,7 @@
                 </tr>
               </thead>
               <tbody id="FromLastyearInstallmentsTable">
-                <!-- <tr> -->
-                <!-- <th scope="row" class="pt-3"> -->
-                <!--نوع القسط-->
-                <!-- </th>
-                  <td> -->
-                <!-- قيمه الخدمه-->
-                <!-- </td>
-                  <td> -->
-                <!-- قيمه الخدمه-->
-                <!-- </td>
-                  <td> -->
-                <!-- المدفوع-->
-                <!-- </td>
-                  <td> -->
-                <!-- الباقي-->
-                <!-- </td>
-                  <td> -->
-                <!-- ادفع-->
-                <!-- <input type="text">
-                  </td>
-                  <td> -->
-                <!-- ادفع-->
-                <!-- <button class="btn btn-primary">ادفع</button>
-                  </td>
-                </tr> -->
+
               </tbody>
             </table>
           </div>
@@ -323,6 +301,9 @@
       const tableBody = document.getElementById(parentId);
       categories.forEach(cat => {
         const Row = document.createElement("tr");
+        Row.setAttribute("data-CategoryId", cat.CategoryId);
+        Row.setAttribute("data-CategoryName", cat.CategoryName);
+        Row.setAttribute("data-remainingCost", String(cat.CategoryCost - cat.paidAmount));
         const nameCell = document.createElement("th");
         nameCell.classList.add("pt-3");
         nameCell.innerText = cat.CategoryName;
@@ -337,12 +318,24 @@
         remainingCell.innerText = cat.CategoryCost - cat.paidAmount;
         Row.appendChild(remainingCell);
         const goingToPayCell = document.createElement("td");
-        goingToPayCell.innerHTML = '<input type="text">';
+        const statusCell = document.createElement("td");
+        if ((cat.CategoryCost - cat.paidAmount) === 0) {
+          goingToPayCell.innerHTML = '<input disabled type="text">';
+          statusCell.innerText = "تم الدفع";
+        } else {
+          goingToPayCell.innerHTML = '<input type="text">';
+          statusCell.innerText = "لم يكتمل";
+        }
+        Row.appendChild(statusCell);
         Row.appendChild(goingToPayCell);
         tableBody.appendChild(Row);
       });
     }
+
     window.api.receive("getStudentDataFromMain", data => {
+      window.api.receive("reload", () => {
+        window.api.send("sendStudentIdToMain", data.StudentId)
+      });
       loadSideBar(data.students);
       console.log(data.financialData);
       // hundle first installment
@@ -350,7 +343,7 @@
       document.getElementById("FirstInstallmentPaidAmount").innerText = data.financialData.firsInstall.InstallmentPaidAmount;
       document.getElementById("FirstInstallmentDueDate").innerText = data.financialData.firsInstall.InstallmentDueDate;
       if (data.financialData.firsInstall.Status === "DUE") {
-        document.getElementById("FirstInstallmentStatus").innerText = "لم يأتي بعد";
+        document.getElementById("FirstInstallmentStatus").innerText = "لم يكتمل بعد";
       } else if (data.financialData.firsInstall.Status === "PAID") {
         document.getElementById("FirstInstallmentStatus").innerText = "تم الدفع";
       } else if (data.financialData.firsInstall.Status === "LATE") {
@@ -364,7 +357,7 @@
       document.getElementById("SecondInstallmentPaidAmount").innerText = data.financialData.secondInstall.InstallmentPaidAmount;
       document.getElementById("SecondInstallmentDueDate").innerText = data.financialData.secondInstall.InstallmentDueDate;
       if (data.financialData.secondInstall.Status === "DUE") {
-        document.getElementById("SecondInstallmentStatus").innerText = "لم يأتي بعد";
+        document.getElementById("SecondInstallmentStatus").innerText = "لم يكتمل بعد";
       } else if (data.financialData.secondInstall.Status === "PAID") {
         document.getElementById("SecondInstallmentStatus").innerText = "تم الدفع";
       } else if (data.financialData.secondInstall.Status === "LATE") {
@@ -378,45 +371,75 @@
       const FromLastyearInstallmentsTable = document.getElementById("FromLastyearInstallmentsTable");
       let totalAmount = 0;
       let paidTotalAmount = 0;
-      data.financialData.fromLastYearInstall.forEach(install => {
-        const Row = document.createElement("tr");
-        const nameCell = document.createElement("th");
-        nameCell.classList.add("pt-3");
-        if (install.InstallmentName === "first-install") {
-          nameCell.innerText = "القسط الأول";
+      if (data.financialData.fromLastYearInstall.length !== 0) {
+        data.financialData.fromLastYearInstall.forEach(install => {
+          const Row = document.createElement("tr");
+          const nameCell = document.createElement("th");
+          nameCell.classList.add("pt-3");
+          if (install.InstallmentName === "first-install") {
+            nameCell.innerText = "القسط الأول";
+          } else {
+            nameCell.innerText = "القسط الثاني";
+          }
+          Row.appendChild(nameCell);
+          const costCell = document.createElement("td");
+          costCell.innerText = install.InstallmentAmount;
+          Row.appendChild(costCell);
+          const DueDateCell = document.createElement("td");
+          DueDateCell.innerText = install.InstallmentDueDate;
+          Row.appendChild(DueDateCell);
+          const paidCell = document.createElement("td");
+          paidCell.innerText = install.InstallmentPaidAmount;
+          Row.appendChild(paidCell);
+          const remainingCell = document.createElement("td");
+          let remaining = install.InstallmentAmount - install.InstallmentPaidAmount
+          remainingCell.innerText = remaining;
+          Row.appendChild(remainingCell);
+          const goingToPayCell = document.createElement("td");
+          goingToPayCell.innerHTML = '<input id="fromlastyear-' + String(install.InstallmentId) + '" type="text">';
+          Row.appendChild(goingToPayCell);
+          const payButtonCell = document.createElement("td");
+          payButtonCell.innerHTML = '<button class="btn btn-primary">ادفع</button>';
+          payButtonCell.addEventListener("click", () => {
+            const payAmount = document.getElementById("fromlastyear-" + String(install.InstallmentId)).value;
+            if (payAmount.length === 0) {
+              window.api.send("ShowDialogBox", { messages: ['من فضلك ادخل مبلغ'], type: 'error', title: 'خطأ' });
+            } else {
+              window.api.send("PayFromLastYearInstallment", { InstallmentId: install.InstallmentId, newAmount: payAmount });
+            }
+          });
+          Row.appendChild(payButtonCell);
+          FromLastyearInstallmentsTable.appendChild(Row);
+          totalAmount += install.InstallmentAmount;
+          paidTotalAmount += install.InstallmentPaidAmount;
+        });
+        document.getElementById("TotalFromLastYearInstallmentAmount").innerText = totalAmount;
+        document.getElementById("TotalFromLastYearInstallmentPaidAmount").innerText = paidTotalAmount;
+        document.getElementById("RemainingFromLastYearInstallmentAmount").innerText = totalAmount - paidTotalAmount;
+      } else {
+        document.getElementById("fromLastYearTabButton").hidden = true;
+      }
+      //hundle pay buttons 
+      document.getElementById("payForSecondInstallment").addEventListener("click", (ev) => {
+        let { errors, catsMoney } = checkCategoriesTable("SecondCategories");
+        if (errors.length === 0) {
+          window.api.send("addPaymentAndUpdateInstallments", { StudentId: data.StudentId, catsMoney });
         } else {
-          nameCell.innerText = "القسط الثاني";
+          window.api.send("ShowDialogBox", { messages: errors, type: 'error', title: 'خطأ' });
         }
-        Row.appendChild(nameCell);
-        const costCell = document.createElement("td");
-        costCell.innerText = install.InstallmentAmount;
-        Row.appendChild(costCell);
-        const DueDateCell = document.createElement("td");
-        DueDateCell.innerText = install.InstallmentDueDate;
-        Row.appendChild(DueDateCell);
-        const paidCell = document.createElement("td");
-        paidCell.innerText = install.InstallmentPaidAmount;
-        Row.appendChild(paidCell);
-        const remainingCell = document.createElement("td");
-        let remaining = install.InstallmentAmount - install.InstallmentPaidAmount
-        remainingCell.innerText = remaining;
-        Row.appendChild(remainingCell);
-        const goingToPayCell = document.createElement("td");
-        goingToPayCell.innerHTML = '<input type="text">';
-        Row.appendChild(goingToPayCell);
-        const payButtonCell = document.createElement("td");
-        payButtonCell.innerHTML = '<button class="btn btn-primary">ادفع</button>';
-        Row.appendChild(payButtonCell);
-        FromLastyearInstallmentsTable.appendChild(Row);
-        totalAmount += install.InstallmentAmount;
-        paidTotalAmount += install.InstallmentPaidAmount;
       });
-      document.getElementById("TotalFromLastYearInstallmentAmount").innerText = totalAmount;
-      document.getElementById("TotalFromLastYearInstallmentPaidAmount").innerText = paidTotalAmount;
-      document.getElementById("RemainingFromLastYearInstallmentAmount").innerText = totalAmount - paidTotalAmount;
+      document.getElementById("payForFirstInstallment").addEventListener("click", (ev) => {
+        let { errors, catsMoney } = checkCategoriesTable("FirstCategories");
+        if (errors.length === 0) {
+          window.api.send("addPaymentAndUpdateInstallments", { StudentId: data.StudentId, catsMoney });
+        } else {
+          window.api.send("ShowDialogBox", { messages: errors, type: 'error', title: 'خطأ' });
+        }
+      });
     });
     window.api.send("ScriptLoaded");
   </script>
+  <script src="js/fieldsValidation.js"></script>
   <script src="js/loadSideBar.js"></script>
   <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
   <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>

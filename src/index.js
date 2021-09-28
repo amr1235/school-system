@@ -7,6 +7,8 @@ const absent = require("./queries/absent");
 const grade = require("./queries/grade");
 const CLASS = require("./queries/class");
 const parent = require("./queries/parent");
+const payment = require("./queries/payment");
+const installment = require("./queries/installment");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
@@ -93,6 +95,25 @@ const getEssentialData = async () => {
 // listen for dialogboxes 
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
+});
+// add Payment And Update Installments
+ipcMain.on("addPaymentAndUpdateInstallments", (err, { StudentId, catsMoney }) => {
+  payment.addCategoryPaymentAndUpdateInstallments(catsMoney, StudentId).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم اضافة المبلغ بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
+});
+ipcMain.on("PayFromLastYearInstallment", (err, {InstallmentId, newAmount}) => {
+  installment.PayFromLastYearInstallment(InstallmentId,newAmount).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم اضافة المبلغ بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
 });
 //add New Class
 ipcMain.on("addNewClass", (err, GradeId) => {

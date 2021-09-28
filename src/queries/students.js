@@ -450,15 +450,19 @@ const getFinancialData = async (StudentId) => {
       for (let j = 0; j < paidCats.length; j++) {
         const paidCat = paidCats[j];
         if (cat.CategoryId === paidCat.CategoryId) {
-          finalCats.push({
-            CategoryId: cat.CategoryId,
-            CategoryName: cat.CategoryName,
-            CategoryCost: cat.CategoryCost,
-            AcademicYear: cat.AcademicYear,
-            paidAmount: paidCat.Amount
-          });
+          let catIndex = finalCats.findIndex(el => el.CategoryId === cat.CategoryId);
+          if(catIndex === -1) {
+            finalCats.push({
+              CategoryId: cat.CategoryId,
+              CategoryName: cat.CategoryName,
+              CategoryCost: cat.CategoryCost,
+              AcademicYear: cat.AcademicYear,
+              paidAmount: paidCat.Amount
+            });
+          }else {
+            finalCats[catIndex].paidAmount += paidCat.Amount;
+          }
           found = true;
-          break;
         }
       }
       if (!found) {

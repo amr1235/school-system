@@ -7,13 +7,13 @@ contextBridge.exposeInMainWorld(
       let validChannels = ["sendStudentIdToMain", "ScriptLoaded", "UpdateStudentData", "getEssentialData",
         "addNewStudentRequest", "feedBackMessages", "addStudentAbsent", "updateStudentAbsent",
         "deleteStudentAbsent", "transferStudent", "ShowDialogBox", "addNewClass", "addNewParentJob"
-        , "addAbsentType"];
+        , "addAbsentType","addPaymentAndUpdateInstallments","PayFromLastYearInstallment"];
       if (validChannels.includes(channel)) {
         ipcRenderer.send(channel, data);
       }
     },
     receive: (channel, func) => {
-      let validChannels = ["getStudentDataFromMain", "sentEssentialData"];
+      let validChannels = ["getStudentDataFromMain", "sentEssentialData","reload","updateInstallmentTable"];
       if (validChannels.includes(channel)) {
       // Deliberately strip event as it includes `sender` 
         ipcRenderer.on(channel, (event, ...args) => func(...args));

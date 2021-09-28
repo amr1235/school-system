@@ -320,3 +320,40 @@ const checkTransferStudentData = () => {
         };
     }
 }
+// check categories table
+const checkCategoriesTable = (parentId) => {
+    const Rows = document.getElementById(parentId).children
+    let isEmpty = true;
+    let catsMoney = [];
+    let errors = [];
+    for (let i = 0; i < Rows.length; i++) {
+        const catId = Rows[i].dataset.categoryid;
+        const CategoryName = Rows[i].dataset.categoryname;
+        const remainingCost = Number(Rows[i].dataset.remainingcost);
+        const amount = Number(Rows[i].children[5].children[0].value);
+        if (amount > remainingCost) {
+            errors.push("المبلغ المتبقي من " + CategoryName + "هو " + remainingCost + " \n لا يمكن الاضافه اكثر من ذلك");
+        }
+        if (amount !== 0) {
+            isEmpty = false;
+            catsMoney.push({
+                CategoryId: catId,
+                amount
+            });
+        }
+    }
+    if (isEmpty) {
+        errors.push("من فضلك ادخل مبلغ في اي خدمه ليتم دفعه");
+    }
+    if(errors.length === 0) {
+        return {
+            errors : [],
+            catsMoney
+        };
+    }else {
+        return {
+            errors,
+            catsMoney : {}
+        };
+    }
+}
