@@ -176,6 +176,12 @@ ipcMain.on("getEssentialData", function (err, destination) {
           mainWindow.webContents.send("sentEssentialData", data.students);
           ipcMain.removeListener("ScriptLoaded", cb);
         });
+      }else if(destination === "ExpensesSettings"){
+        mainWindow.loadFile(path.join(__dirname, "views/ExpensesSettings.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data.students);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
       }
     });
   }
