@@ -75,14 +75,16 @@ const getEssentialData = async () => {
     include: {
       model: db["Grade"],
       attributes: ["GradeId", "GradeName"],
-      order: [["GradeId", "ASC"]],
       include: {
         model: db["Class"],
         attributes: ["ClassId"],
-        order: [["ClassId", "ASC"]],
       },
     },
-    order: [["StageId", "ASC"]],
+    order: [
+      ["StageId", "ASC"],
+      [db["Grade"], "GradeId", "ASC"],
+      [db["Grade"], db["Class"], "ClassId", "ASC"],
+    ],
   });
   stagesData = mapToJSON(stagesData);
   //get all jobs
