@@ -1,5 +1,5 @@
 const { studentsInGrade } = require("../queries/seats");
-const { getClasses } = require("../queries/class");
+// const { getClasses } = require("../queries/class");
 const { getAbsenceBetween } = require("../queries/absent");
 const { getGrades } = require("../queries/grade");
 const db = require("../db/models");
@@ -44,22 +44,22 @@ const getSeatsData = async (gradeId) => {
     });
 };
 
-const getClassStats = async (classId) => {
-  return db["StudentClass"].count({ where: { ClassId: classId } });
-};
+// const getClassStats = async (classId) => {
+//   return db["StudentClass"].count({ where: { ClassId: classId } });
+// };
 
-const getCapacityStats = async () => {
-  const classes = await getClasses();
+// const getCapacityStats = async () => {
+//   const classes = await getClasses();
 
-  let stats = [];
-  for (let [classId, gradeId] of classes) {
-    const classCount = await getClassStats(classId);
-    stats[gradeId] ? false : (stats[gradeId] = { total: 0 });
-    stats[gradeId]["total"] += classCount;
-    stats[gradeId][classId] = classCount;
-  }
-  return stats;
-};
+//   let stats = [];
+//   for (let [classId, gradeId] of classes) {
+//     const classCount = await getClassStats(classId);
+//     stats[gradeId] ? false : (stats[gradeId] = { total: 0 });
+//     stats[gradeId]["total"] += classCount;
+//     stats[gradeId][classId] = classCount;
+//   }
+//   return stats;
+// };
 
 const getGradeCapacity = async (gradeId) => {
   return db.sequelize.transaction(async (t) => {
@@ -90,7 +90,13 @@ const getGradeCapacity = async (gradeId) => {
     }
     return Promise.all(promises).then((c) => {
       const total = c.reduce((sum, clas) => sum + clas[1], 0);
-      c.unshift([classes[0]["Grade"]["GradeName"], total]);
+      let classs = 1;
+      c = c.map((clas) => {
+        clas[0] = classs;
+        classs = classs + 1;
+        return clas;
+      });
+      c.unshift([`مجموع ${classes[0]["Grade"]["GradeName"]}`, total]);
       return c;
     });
   });
@@ -306,7 +312,7 @@ const AbsentDays = async () => {
 
 module.exports = {
   getSeatsData,
-  getCapacityStats,
+  // getCapacityStats,
   getGradeCapacity,
   studentsOfColleagues,
   getStudentAbsenceRatio,

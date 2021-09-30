@@ -35,7 +35,7 @@ const Reports = {
     },
     GradeCapacity: {
       query: getGradeCapacity,
-      headers: ["الصف/الفصل", "الكثافة"],
+      headers: ["الفصل", "الكثافة"],
       title: "كثافة الفصول والمراحل",
     },
     AllAbsents: {
