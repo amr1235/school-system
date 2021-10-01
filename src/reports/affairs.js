@@ -103,41 +103,206 @@ const getGradeCapacity = async (gradeId) => {
 };
 
 const studentsOfColleagues = async () => {
-  return db["Student"]
-    .findAll({
-      required: true,
-      attributes: ["StudentName"],
-      include: [
+  return db.sequelize.transaction(async (t) => {
+    const otherResponsible = await db["Student"]
+      .findAll(
         {
-          model: db["Parent"],
-          attributes: ["ParentName"],
           required: true,
-          as: "Responsible",
-          include: {
-            required: true,
-            model: db["ParentJob"],
-            include: {
-              required: true,
-              model: db["Job"],
-              where: {
-                JobName: "Employee",
-              },
+          attributes: [
+            "StudentId",
+            "StudentName",
+            "StudentResponsibleRelation",
+          ],
+          where: {
+            StudentResponsibleRelation: {
+              [Op.notIn]: ["FATHER", "MOTHER"],
             },
           },
+          include: [
+            {
+              model: db["Parent"],
+              attributes: ["ParentName"],
+              as: "Responsible",
+              required: true,
+              include: {
+                required: true,
+                model: db["ParentJob"],
+                include: {
+                  required: true,
+                  model: db["Job"],
+                  where: {
+                    JobName: "Employee",
+                  },
+                },
+              },
+            },
+            {
+              model: db["StudentClass"],
+              required: true,
+              include: {
+                model: db["Class"],
+                required: true,
+                include: {
+                  model: db["Grade"],
+                  required: true,
+                  attributes: ["GradeName"],
+                },
+              },
+            },
+          ],
         },
+        { transaction: t },
+      )
+      .then((students) => students.map((student) => student.toJSON()));
+
+    const fatherResponsible = await db["Student"]
+      .findAll(
         {
           required: true,
-          model: db["StudentClass"],
-          attributes: [],
-          include: {
-            required: true,
-            model: db["Class"],
-          },
+          attributes: [
+            "StudentId",
+            "StudentName",
+            "StudentResponsibleRelation",
+          ],
+          include: [
+            {
+              model: db["Parent"],
+              attributes: ["ParentName"],
+              as: "Father",
+              required: true,
+              include: {
+                required: true,
+                model: db["ParentJob"],
+                include: {
+                  required: true,
+                  model: db["Job"],
+                  where: {
+                    JobName: "Employee",
+                  },
+                },
+              },
+            },
+            {
+              model: db["StudentClass"],
+              required: true,
+              include: {
+                model: db["Class"],
+                required: true,
+                include: {
+                  model: db["Grade"],
+                  required: true,
+                  attributes: ["GradeName"],
+                },
+              },
+            },
+          ],
         },
-      ],
-    })
-    .then((students) => students.map((student) => student.toJSON()));
+        { transaction: t },
+      )
+      .then((students) => students.map((student) => student.toJSON()));
+
+    const motherResponsible = await db["Student"]
+      .findAll(
+        {
+          required: true,
+          attributes: [
+            "StudentId",
+            "StudentName",
+            "StudentResponsibleRelation",
+          ],
+          include: [
+            {
+              model: db["Parent"],
+              attributes: ["ParentName"],
+              as: "Mother",
+              required: true,
+              include: {
+                required: true,
+                model: db["ParentJob"],
+                include: {
+                  required: true,
+                  model: db["Job"],
+                  where: {
+                    JobName: "Employee",
+                  },
+                },
+              },
+            },
+            {
+              model: db["StudentClass"],
+              required: true,
+              include: {
+                model: db["Class"],
+                required: true,
+                include: {
+                  model: db["Grade"],
+                  required: true,
+                  attributes: ["GradeName"],
+                },
+              },
+            },
+          ],
+        },
+        { transaction: t },
+      )
+      .then((students) => students.map((student) => student.toJSON()));
+    let studentsData = {};
+    otherResponsible.forEach((student) => {
+      studentsData[student["StudentId"]] = [
+        student["StudentName"],
+        student["StudentClass"]["Class"]["Grade"]["GradeName"],
+        student["StudentResponsibleRelation"],
+        null,
+        null,
+        student["Responsible"]["ParentName"],
+      ];
+    });
+    fatherResponsible.forEach((student) => {
+      studentsData[student["StudentId"]]
+        ? false
+        : (studentsData[student["StudentId"]] = []);
+      studentsData[student["StudentId"]][0] = student["StudentName"];
+      studentsData[student["StudentId"]][1] =
+        student["StudentClass"]["Class"]["Grade"]["GradeName"];
+      studentsData[student["StudentId"]][2] =
+        student["StudentResponsibleRelation"];
+      studentsData[student["StudentId"]][3] = student["Father"]["ParentName"];
+    });
+    motherResponsible.forEach((student) => {
+      studentsData[student["StudentId"]]
+        ? false
+        : (studentsData[student["StudentId"]] = []);
+      studentsData[student["StudentId"]][0] = student["StudentName"];
+      studentsData[student["StudentId"]][1] =
+        student["StudentClass"]["Class"]["Grade"]["GradeName"];
+      studentsData[student["StudentId"]][2] =
+        student["StudentResponsibleRelation"];
+      studentsData[student["StudentId"]][4] = student["Mother"]["ParentName"];
+    });
+
+    let allData = [];
+    for (const student of Object.values(studentsData)) {
+      let data = [student[0], student[1]];
+      if (student[3] && student[4]) {
+        data.push("الأب والأم");
+        data.push(`${student[3]} و ${student[4]}`);
+      } else if (student[3]) {
+        data.push("الأب");
+        data.push(student[3]);
+      } else if (student[4]) {
+        data.push("الأم");
+        data.push(student[4]);
+      } else {
+        data.push(student[2]);
+        data.push(student[5]);
+      }
+      allData.push(data);
+    }
+    return Promise.resolve(allData);
+  });
 };
+
+studentsOfColleagues().then(console.log);
 
 const getStudentAbsenceRatio = async (StudentId, startingData, endingDate) => {
   const student = await db["Student"].findAll({

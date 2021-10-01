@@ -16,7 +16,7 @@ const Reports = {
     },
     StudentsOfColleagues: {
       query: studentsOfColleagues,
-      headers: ["الوالد", "اسم الطالب", "المرحلة", "الفصل"],
+      headers: ["اسم الطالب", "الصف", "صلة قرابة العامل بالمعهد", "اسم العامل"],
       title: "أبناء العاملين بالمعهد",
     },
     AbsenceRate: {
