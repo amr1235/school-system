@@ -332,8 +332,10 @@ const upgradeStudentsToNextGrade = async () => {
       }
     });
     Grades = Grades.map(g => g.dataValues.GradeId).sort();
-    let firstGradeId = Grades[0];
-    await db["Class"].bulkCreate([{ GradeId: firstGradeId }, { GradeId: firstGradeId }], { transaction: t });
+    if (Grades.length !== 0) {
+      let firstGradeId = Grades[0];
+      await db["Class"].bulkCreate([{ GradeId: firstGradeId }, { GradeId: firstGradeId }], { transaction: t });
+    }
     return "Students have been upgraded";
   });
 };
@@ -361,13 +363,23 @@ const transferStudent = (StudentId, SchoolName) => {
 // get financial Data 
 const getFinancialData = async (StudentId) => {
   let proms = [];
+  //get current academic year 
+  let CurrentAcademicYear = await db["GlobalValues"].findOne({
+    where: {
+      GlobalName: "AcademicYear"
+    }
+  }).then(res => res.toJSON().GlobalValue);
+  let firstYear = CurrentAcademicYear.split("/")[0];
+  let secondYear = CurrentAcademicYear.split("/")[1];
+  let firstInstallmentDueDate = (new Date((new Date()).setFullYear(Number(firstYear), 11, 31))).toISOString()
+  let secondInstallmentDueDate = (new Date((new Date()).setFullYear(Number(secondYear), 7, 31))).toISOString()
   // get first installment Data
   proms.push(db["Installment"].findOne({
     where: {
       StudentId,
       InstallmentName: 'first-install',
       InstallmentType: 'Category',
-      Status: 'DUE'
+      InstallmentDueDate: firstInstallmentDueDate
     }
   }).then(inst => {
     if (inst) {
@@ -382,7 +394,7 @@ const getFinancialData = async (StudentId) => {
       StudentId,
       InstallmentName: 'second-install',
       InstallmentType: 'Category',
-      Status: 'DUE'
+      InstallmentDueDate: secondInstallmentDueDate
     }
   }).then(inst => {
     if (inst) {
@@ -411,6 +423,9 @@ const getFinancialData = async (StudentId) => {
   proms.push((async () => {
     let p = [];
     p.push(db["Category"].findAll({
+      where: {
+        AcademicYear: CurrentAcademicYear
+      },
       include: {
         model: db["Grade"],
         attributes: ["GradeId"],
@@ -451,7 +466,7 @@ const getFinancialData = async (StudentId) => {
         const paidCat = paidCats[j];
         if (cat.CategoryId === paidCat.CategoryId) {
           let catIndex = finalCats.findIndex(el => el.CategoryId === cat.CategoryId);
-          if(catIndex === -1) {
+          if (catIndex === -1) {
             finalCats.push({
               CategoryId: cat.CategoryId,
               CategoryName: cat.CategoryName,
@@ -459,7 +474,7 @@ const getFinancialData = async (StudentId) => {
               AcademicYear: cat.AcademicYear,
               paidAmount: paidCat.Amount
             });
-          }else {
+          } else {
             finalCats[catIndex].paidAmount += paidCat.Amount;
           }
           found = true;

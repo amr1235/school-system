@@ -32,9 +32,8 @@
             اﻻعدادات
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" href="./installments.html">اقساط</a></li>
+            <li><a class="dropdown-item" onclick='window.api.send("getEssentialData", "ExpensesSettings");' href="#">بدء سنة جديدة</a></li>
             <li><a class="dropdown-item" href="#">خصومات </a></li>
-            <li><a class="dropdown-item" href="#">بدء سنه جديده</a></li>
             <li><a class="dropdown-item" href="#"> خطوط الباص </a></li>
           </ul>
         </div>
@@ -126,7 +125,6 @@
         <div class="col-md-3 col-12">
           <div class="input-group mb-3">
             <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الحاله</span>
-
             <div class="w-25 d-flex mx-3 justify-content-center rounded-pill exp-label">
               <span class="text-center pt-1" id="FirstInstallmentStatus"></span>
             </div>

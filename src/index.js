@@ -9,6 +9,7 @@ const CLASS = require("./queries/class");
 const parent = require("./queries/parent");
 const payment = require("./queries/payment");
 const installment = require("./queries/installment");
+const {StartNewYear} = require("./queries/newYear");
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) { // eslint-disable-line global-require
@@ -96,6 +97,15 @@ const getEssentialData = async () => {
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
 });
+//Start New Year
+ipcMain.on("StartNewYear",(err,allExpensesData) => {
+  StartNewYear(allExpensesData).then(() => {
+    DialogBox(["تم بدء السنة الجديدة بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
+});
 // add Payment And Update Installments
 ipcMain.on("addPaymentAndUpdateInstallments", (err, { StudentId, catsMoney }) => {
   payment.addCategoryPaymentAndUpdateInstallments(catsMoney, StudentId).then(() => {
@@ -106,8 +116,8 @@ ipcMain.on("addPaymentAndUpdateInstallments", (err, { StudentId, catsMoney }) =>
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
   });
 });
-ipcMain.on("PayFromLastYearInstallment", (err, {InstallmentId, newAmount}) => {
-  installment.PayFromLastYearInstallment(InstallmentId,newAmount).then(() => {
+ipcMain.on("PayFromLastYearInstallment", (err, { InstallmentId, newAmount }) => {
+  installment.PayFromLastYearInstallment(InstallmentId, newAmount).then(() => {
     mainWindow.webContents.send("reload", null);
     DialogBox(["تم اضافة المبلغ بنجاح"], "info", "تم");
   }).catch(err => {
@@ -171,13 +181,23 @@ ipcMain.on("getEssentialData", function (err, destination) {
           ipcMain.removeListener("ScriptLoaded", cb);
         });
       } else if (destination === "Expenses") {
+
         mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
         ipcMain.on("ScriptLoaded", function cb() {
           mainWindow.webContents.send("sentEssentialData", data.students);
           ipcMain.removeListener("ScriptLoaded", cb);
         });
+      } else if (destination === "ExpensesSettings") {
+        grade.getGrades().then(grades => {
+          mainWindow.loadFile(path.join(__dirname, "views/ExpensesSettings.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", { students: data.students, allGrades: grades });
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
+        });
       }
     });
+
   }
 
 });
