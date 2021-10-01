@@ -2,29 +2,59 @@ const db = require("../db/models/index");
 // const { Op } = require("sequelize");
 const { mapToJSON } = require("./utlis");
 
-const getCurrentFirstInstallment = (StudentId) => {
+const getCurrentFirstInstallment = async (StudentId) => {
+    let CurrentAcademicYear = await db["GlobalValues"].findOne({
+        where: {
+            GlobalName: "AcademicYear"
+        }
+    }).then(res => res.toJSON().GlobalValue);
+    let firstYear = CurrentAcademicYear.split("/")[0];
+    let firstInstallmentDueDate = (new Date((new Date()).setFullYear(Number(firstYear), 11, 31))).toISOString()
+    // get first installment Data
     return db["Installment"].findOne({
         where: {
+            StudentId,
             InstallmentName: 'first-install',
-            Status: 'DUE',
-            StudentId
+            InstallmentType: 'Category',
+            InstallmentDueDate: firstInstallmentDueDate
         }
-    }).then(res => res.toJSON());
+    }).then(inst => {
+        if (inst) {
+            return inst.toJSON();
+        } else {
+            return {};
+        }
+    });
 };
 
-const getCurrentSecondInstallment = (StudentId) => {
+const getCurrentSecondInstallment = async (StudentId) => {
+    let CurrentAcademicYear = await db["GlobalValues"].findOne({
+        where: {
+            GlobalName: "AcademicYear"
+        }
+    }).then(res => res.toJSON().GlobalValue);
+    let secondYear = CurrentAcademicYear.split("/")[1];
+    let secondInstallmentDueDate = (new Date((new Date()).setFullYear(Number(secondYear), 7, 31))).toISOString()
+    // get second installment Data 
     return db["Installment"].findOne({
         where: {
+            StudentId,
             InstallmentName: 'second-install',
-            Status: 'DUE',
-            StudentId
+            InstallmentType: 'Category',
+            InstallmentDueDate: secondInstallmentDueDate
         }
-    }).then(res => res.toJSON());
+    }).then(inst => {
+        if (inst) {
+            return inst.toJSON();
+        } else {
+            return {};
+        }
+    });
 };
 
 const PayFromLastYearInstallment = (InstallmentId, newAmount) => {
     // get installment 
-    return db.sequelize.transaction(async(t) => {
+    return db.sequelize.transaction(async (t) => {
         let currentDate = new Date();
         currentDate = currentDate.toISOString();
         let install = await db["Installment"].findOne({
@@ -36,26 +66,26 @@ const PayFromLastYearInstallment = (InstallmentId, newAmount) => {
             console.log("here");
             await db["Installment"].update({
                 InstallmentFullyPaidDate: currentDate
-            },{
-                where : {
+            }, {
+                where: {
                     InstallmentId
                 },
-                transaction : t
+                transaction: t
             });
             await db["Installment"].increment('InstallmentPaidAmount', {
                 by: Number(newAmount),
                 where: {
                     InstallmentId
                 },
-                transaction : t
+                transaction: t
             });
-        }else {
+        } else {
             await db["Installment"].increment('InstallmentPaidAmount', {
                 by: Number(newAmount),
                 where: {
                     InstallmentId
                 },
-                transaction : t
+                transaction: t
             });
         }
     });
