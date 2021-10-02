@@ -3,55 +3,58 @@ const { mapToJSON } = require("./utlis");
 
 const generateStudentSeats = async (gradeId, start, step) => {
   return db.sequelize.transaction(async (t) => {
-        
     const { count, students } = await studentsInGrade(gradeId);
 
     let seats = [];
     for (let i = 0; i < count; i++) {
       seats[i] = {
         StudentId: students[i].StudentId,
-        SeatNumber: start + i * step
+        SeatNumber: start + i * step,
       };
     }
-        
-    return db["StudentSeat"].bulkCreate(seats, { transaction: t })
+
+    return db["StudentSeat"]
+      .bulkCreate(seats, { transaction: t })
       .then(mapToJSON);
   });
 };
 
 const studentsInGrade = (gradeId) => {
-  return db["Student"].findAndCountAll({
-    attributes: ["StudentId"],
-    include: {
-      attributes: [],
-      model: db["StudentClass"],
+  return db["Student"]
+    .findAndCountAll({
+      attributes: ["StudentId"],
       include: {
         attributes: [],
-        model: db["Class"],
-        where: {
-          GradeId: gradeId
+        model: db["StudentClass"],
+        include: {
+          attributes: [],
+          model: db["Class"],
+          where: {
+            GradeId: gradeId,
+          },
+          required: true,
         },
-        required: true
+        required: true,
       },
-      required: true
-    },
-    order: [
-      ["StudentName", "ASC"]
-    ],
-    required: true
-  }).then(res => {
-    return { students: mapToJSON(res.rows), count: res.count };
-  });
+      order: [["StudentName", "ASC"]],
+      required: true,
+    })
+    .then((res) => {
+      return { students: mapToJSON(res.rows), count: res.count };
+    });
 };
 
 const getStudentSeat = async (StudentId) => {
-  return db["StudentSeat"].findOne({
-    where: {
-      StudentId: StudentId
-    }
-  }).then(res => res.toJSON());
+  return db["StudentSeat"]
+    .findOne({
+      where: {
+        StudentId: StudentId,
+      },
+    })
+    .then((res) => res.toJSON());
 };
 module.exports = {
   generateStudentSeats,
-  getStudentSeat
+  getStudentSeat,
+  studentsInGrade,
 };

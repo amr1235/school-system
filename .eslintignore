@@ -1,2 +1,4 @@
 node_modules/**
 *.json
+src/views/js/lib/jquery.table2excel.min.js
+src/views/js/fieldsValidation.js

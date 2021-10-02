@@ -56,103 +56,101 @@
               <i class="bi bi-search"></i>
             </button>
           </form>
-          <div class="dropdown mx-5" >
-            <button class="btn  btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                التقارير
+          <div class="dropdown mx-5">
+            <button
+              class="btn btn-warning rounded-pill dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton1"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              التقارير
             </button>
-            <ul class="dropdown-menu"  aria-labelledby="dropdownMenuButton1">
-              <li><a class="dropdown-item btn"  href="#">  نسبه  الغياب&raquo;</a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li>
+                <a class="dropdown-item btn" href="#"> نسبه الغياب&raquo;</a>
                 <ul class="dropdown-menu dropdown-submenu">
                   <li class="mx-1">
                     <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1"> من </span>
-                      <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                      <span class="input-group-text" id="basic-addon1">
+                        من
+                      </span>
+                      <input
+                        id="absentFrom"
+                        type="date"
+                        class="form-control"
+                        placeholder="Username"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                      />
                     </div>
                     <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1"> الي </span>
-                      <input type="date" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
+                      <span class="input-group-text" id="basic-addon1">
+                        الي
+                      </span>
+                      <input
+                        id="absentTo"
+                        type="date"
+                        class="form-control"
+                        placeholder="Username"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                      />
                     </div>
-                     <a href="#" class="btn btn-warning rounded-pill"> تاكيد التاريخ و الذهاب للتقرير </a>
+                    <a
+                      href="#"
+                      class="btn btn-warning rounded-pill"
+                      onclick='window.api.send("sendAffairsReportData", ["AbsenceRate", [document.querySelector("#absentFrom").value, document.querySelector("#absentTo").value]])'
+                    >
+                      تاكيد التاريخ و الذهاب للتقرير
+                    </a>
                   </li>
                 </ul>
               </li>
-              <li><a class="dropdown-item btn"  href="#"> المحذوفين </a>
+              <li>
+                <a
+                  class="dropdown-item btn"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["TransferredStudents", []])'
+                >
+                  المحذوفين
+                </a>
               </li>
-              <li><a class="dropdown-item btn"  href="#"> طﻻب العاملين </a>
+              <li>
+                <a
+                  class="dropdown-item btn"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["StudentsOfColleagues", []])'
+                >
+                  طﻻب العاملين
+                </a>
               </li>
-              <li><a class="dropdown-item btn"  href="#"> Class, Stage, Grade cap </a>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["GradeCapacity", [1]])'
+                >
+                  كثافة الفصول &raquo;
+                </a>
+                <ul class="dropdown-menu dropdown-submenu" id="Capacities"></ul>
               </li>
-              <li><a class="dropdown-item btn"  href="#"> غياب الطالب </a>
+              <li>
+                <a
+                  class="dropdown-item btn"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["AllAbsents", []])'
+                >
+                  غياب الطالب
+                </a>
               </li>
-              <li><a class="dropdown-item "  href="#"> ارقام الجلوس &raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu">
-                  <li>
-                    <a class="dropdown-item" href="#"> ابتدائى &raquo; </a>
-                    <ul class="dropdown-menu dropdown-submenu">
-                      <li>
-                        <a class="dropdown-item btn" href="#"> الصف الاول الابتدائي </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#"> الصف الثانى الابتدائي</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#"> الصف الثالث الابتدائي</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item" href="#"> الصف الرابع الابتدائي</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#"> الصف الخامس الابتدائي</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#"> الصف السادس الابتدائي</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#"> اعدادي &raquo; </a>
-                    <ul class="dropdown-menu dropdown-submenu">
-                      <li>
-                        <a class="dropdown-item btn" href="#">  الصف الاول الاعدادي </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#">الصف الثانى الاعدادي</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#">الصف الثالث الاعدادي</a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#"> ثانوي &raquo; </a>
-                    <ul class="dropdown-menu dropdown-submenu">
-                      <li>
-                        <a class="dropdown-item btn" href="#">  الصف الاول الثانوي </a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#">الصف الثانى الثانوي</a>
-                      </li>
-                      <li>
-                        <a class="dropdown-item btn" href="#">الصف الثالث الثانوي</a>
-                      </li>
-                    </ul>
-                  </li>
-                </ul>
+              <li>
+                <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
+                <ul class="dropdown-menu dropdown-submenu" id="SeatsId"></ul>
               </li>
             </ul>
           </div>
           <div class="mx-5 nav">
-            <!-- <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-            >
-              <a class="text-decoration-none text-dark" href="#">التقارير</a>
-            </button> -->
             <button
               class="
                 btn btn-warning
@@ -227,15 +225,15 @@
     <!--register section-->
     <main class="mt-5 pt-3 tab-content" id="register"></main>
     <script>
-      window.api.receive("getStudentDataFromMain",data => {
-        console.log("received");
-      });
-      window.api.receive("sentEssentialData", (students) => {
-        loadSideBar(students);
+      window.api.receive("sentEssentialData", (data) => {
+        console.log(data);
+        loadSideBar(data.students);
+        ReportsNav(data);
       });
       window.api.send("ScriptLoaded");
     </script>
     <script src="../views/js/loadSideBar.js"></script>
+    <script src="../views/js/ReportsNav.js"></script>
     <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
