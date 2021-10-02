@@ -147,9 +147,11 @@ ipcMain.on("getEssentialData", function (err, destination) {
     grade
       .getGrades()
       .then((grades) => {
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", grades);
-          ipcMain.removeListener("ScriptLoaded", cb);
+        getEssentialData().then((data) => {
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", [grades, data]);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
       })
       .catch((err) => {

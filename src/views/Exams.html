@@ -33,7 +33,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <div class="me-auto">
-            <button
+            <!-- <button
               class="
                 btn btn-warning
                 mx-md-3 mx-4
@@ -43,11 +43,11 @@
               "
             >
               <a class="text-decoration-none text-dark" href="#">التقارير</a>
-            </button>
+            </button> -->
             <button class="d-inline-block btn btn-warning rounded-pill mx-md-3">
               <a
                 class="text-decoration-none text-dark"
-                href="./affairsHome.html"
+                onclick='window.api.send("getEssentialData", "affairsHome");'
                 >شؤون الطلاب</a
               >
             </button>
