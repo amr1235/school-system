@@ -370,3 +370,127 @@ const checkTransferStudentData = () => {
     };
   }
 };
+// check categories table
+const checkCategoriesTable = (parentId) => {
+  const Rows = document.getElementById(parentId).children;
+  let isEmpty = true;
+  let catsMoney = [];
+  let errors = [];
+  for (let i = 0; i < Rows.length; i++) {
+    const catId = Rows[i].dataset.categoryid;
+    const CategoryName = Rows[i].dataset.categoryname;
+    const remainingCost = Number(Rows[i].dataset.remainingcost);
+    const amount = Number(Rows[i].children[5].children[0].value);
+    if (amount > remainingCost) {
+      errors.push(
+        "المبلغ المتبقي من " +
+          CategoryName +
+          "هو " +
+          remainingCost +
+          " \n لا يمكن الاضافه اكثر من ذلك",
+      );
+    }
+    if (amount !== 0) {
+      isEmpty = false;
+      catsMoney.push({
+        CategoryId: catId,
+        amount,
+      });
+    }
+  }
+  if (isEmpty) {
+    errors.push("من فضلك ادخل مبلغ في اي خدمه ليتم دفعه");
+  }
+  if (errors.length === 0) {
+    return {
+      errors: [],
+      catsMoney,
+    };
+  } else {
+    return {
+      errors,
+      catsMoney: {},
+    };
+  }
+};
+
+const checkNewExpenses = () => {
+  let errors = [];
+  const totalCost = document.getElementById("totalCost").value;
+  const GradeId = document.getElementById("add-AllGradesSelect").value;
+  const GradeName = document.getElementById("add-AllGradesSelect")[
+    document.getElementById("add-AllGradesSelect").selectedIndex
+  ].dataset.gradename;
+  const firstInstallmentPortion = document.getElementById(
+    "firstInstallmentPortion",
+  ).value;
+  if (
+    String(totalCost.length) === 0 ||
+    String(GradeId).length === 0 ||
+    String(firstInstallmentPortion).length === 0
+  ) {
+    errors.push("يجب ملء جميع الخانات");
+  }
+  if (Number(totalCost) <= 0) {
+    errors.push("تكلفة المصاريف يجب ان تكون اكبر من 0");
+  }
+  if (
+    Number(firstInstallmentPortion) === 0 ||
+    Number(firstInstallmentPortion) >= 100
+  ) {
+    errors.push("نسبة الترم الاأول يجب ان تكون بين 1 و 99 في الميه");
+  }
+  // get services
+  const servicesDiv = document.getElementById("services");
+  const Categories = [];
+  for (let i = 0; i < servicesDiv.children.length; i++) {
+    const Row = servicesDiv.children[i];
+    let CategoryName = Row.children[0].children[0].children[1].value;
+    let CategoryCost = Number(Row.children[1].children[0].children[1].value);
+    if (CategoryName.length === 0) {
+      errors.push("يجب ادخال اسم الخدمه");
+      break;
+    }
+    if (String(CategoryCost).length === 0) {
+      errors.push("يجب إدخال قيمه الخدمه");
+      break;
+    }
+    if (CategoryCost <= 0) {
+      errors.push("تكلفة الخدمة يجب ان تكون اكبر من 0");
+      break;
+    }
+    Categories.push({
+      CategoryName,
+      CategoryCost,
+    });
+  }
+  // check the sum of all cats cost == total cost
+  let CategoriesSum = 0;
+  Categories.forEach((cat) => {
+    CategoriesSum += cat.CategoryCost;
+  });
+  if (CategoriesSum !== Number(totalCost)) {
+    errors.push("مجموع تكلفة الخدمات يجيب ان يساوي التكلفة الكلية للمصاريف");
+  }
+  if (errors.length === 0) {
+    return {
+      errors: [],
+      data: {
+        totalCost: Number(totalCost),
+        GradeId: Number(GradeId),
+        GradeName,
+        firstInstallmentPortion: Number(firstInstallmentPortion),
+        Categories,
+      },
+    };
+  } else {
+    return {
+      errors,
+      data: {},
+    };
+  }
+
+  // servicesDiv.children.forEach(Row => {
+  //     console.log(Row.children.children);
+  // });
+};

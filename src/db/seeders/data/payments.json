@@ -1,0 +1,26 @@
+[
+    {
+        "StudentId" : 1,
+        "PaymentType" : "Category",
+        "PaymentAmount" : 200,
+        "PaymentDate" : "3-4-2010"
+    },
+    {
+        "StudentId" : 1,
+        "PaymentType" : "Category",
+        "PaymentAmount" : 400,
+        "PaymentDate" : "3-4-2010"
+    },
+    {
+        "StudentId" : 1,
+        "PaymentType" : "Bus",
+        "PaymentAmount" : 400,
+        "PaymentDate" : "3-4-2010"
+    },
+    {
+        "StudentId" : 2,
+        "PaymentType" : "Category",
+        "PaymentAmount" : 200,
+        "PaymentDate" : "3-4-2010"
+    }
+]

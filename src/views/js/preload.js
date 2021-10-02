@@ -9,10 +9,6 @@ contextBridge.exposeInMainWorld("api", {
       "UpdateStudentData",
       "getEssentialData",
       "addNewStudentRequest",
-      "addStudentAbsentfeedBackMessages",
-      "updateStudentAbsent",
-      "deleteStudentAbsent",
-      "sendAffairsReportData",
       "feedBackMessages",
       "addStudentAbsent",
       "updateStudentAbsent",
@@ -22,6 +18,11 @@ contextBridge.exposeInMainWorld("api", {
       "addNewClass",
       "addNewParentJob",
       "addAbsentType",
+      "addPaymentAndUpdateInstallments",
+      "PayFromLastYearInstallment",
+      "addNewExpenses",
+      "StartNewYear",
+      "sendAffairsReportData",
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
@@ -31,6 +32,8 @@ contextBridge.exposeInMainWorld("api", {
     let validChannels = [
       "getStudentDataFromMain",
       "sentEssentialData",
+      "reload",
+      "updateInstallmentTable",
       "getReportDataFromMain",
     ];
     if (validChannels.includes(channel)) {

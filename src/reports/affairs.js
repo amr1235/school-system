@@ -302,8 +302,6 @@ const studentsOfColleagues = async () => {
   });
 };
 
-studentsOfColleagues().then(console.log);
-
 const getStudentAbsenceRatio = async (StudentId, startingData, endingDate) => {
   const student = await db["Student"].findAll({
     where: {

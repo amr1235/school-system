@@ -4,14 +4,16 @@ const student = require("./queries/students");
 const db = require("./db/models/index");
 const { mapToJSON } = require("./queries/utlis");
 const absent = require("./queries/absent");
-const reports = require("./reports/reports");
-// Enable live reload for Electron too
-require("electron-reload")(__dirname, {
-  electron: require("../node_modules/electron"),
-});
 const grade = require("./queries/grade");
 const CLASS = require("./queries/class");
 const parent = require("./queries/parent");
+const payment = require("./queries/payment");
+const installment = require("./queries/installment");
+const { StartNewYear } = require("./queries/newYear");
+const reports = require("./reports/reports");
+require("electron-reload")(__dirname, {
+  electron: require("../node_modules/electron"),
+});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -35,7 +37,7 @@ const createWindow = () => {
   // and load the index.html of the app.
   mainWindow.loadFile(path.join(__dirname, "views/login.html"));
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 };
 
 // create dialog box for notifications
@@ -105,6 +107,48 @@ const getEssentialData = async () => {
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
 });
+//Start New Year
+ipcMain.on("StartNewYear", (err, allExpensesData) => {
+  StartNewYear(allExpensesData)
+    .then(() => {
+      DialogBox(["تم بدء السنة الجديدة بنجاح"], "info", "تم");
+    })
+    .catch((err) => {
+      console.log(err);
+      DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+    });
+});
+// add Payment And Update Installments
+ipcMain.on(
+  "addPaymentAndUpdateInstallments",
+  (err, { StudentId, catsMoney }) => {
+    payment
+      .addCategoryPaymentAndUpdateInstallments(catsMoney, StudentId)
+      .then(() => {
+        mainWindow.webContents.send("reload", null);
+        DialogBox(["تم اضافة المبلغ بنجاح"], "info", "تم");
+      })
+      .catch((err) => {
+        console.log(err);
+        DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      });
+  },
+);
+ipcMain.on(
+  "PayFromLastYearInstallment",
+  (err, { InstallmentId, newAmount }) => {
+    installment
+      .PayFromLastYearInstallment(InstallmentId, newAmount)
+      .then(() => {
+        mainWindow.webContents.send("reload", null);
+        DialogBox(["تم اضافة المبلغ بنجاح"], "info", "تم");
+      })
+      .catch((err) => {
+        console.log(err);
+        DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      });
+  },
+);
 //add New Class
 ipcMain.on("addNewClass", (err, GradeId) => {
   CLASS.addClass(GradeId)
@@ -161,7 +205,6 @@ ipcMain.on("getEssentialData", function (err, destination) {
   } else {
     // get all stages , grades and classes
     getEssentialData().then((data) => {
-      console.log(data);
       if (destination === "addStudent") {
         mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
         ipcMain.on("ScriptLoaded", function cb() {
@@ -173,6 +216,25 @@ ipcMain.on("getEssentialData", function (err, destination) {
         ipcMain.on("ScriptLoaded", function cb() {
           mainWindow.webContents.send("sentEssentialData", data);
           ipcMain.removeListener("ScriptLoaded", cb);
+        });
+      } else if (destination === "Expenses") {
+        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data.students);
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
+      } else if (destination === "ExpensesSettings") {
+        grade.getGrades().then((grades) => {
+          mainWindow.loadFile(
+            path.join(__dirname, "views/ExpensesSettings.html"),
+          );
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", {
+              students: data.students,
+              allGrades: grades,
+            });
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
       }
     });
@@ -270,10 +332,7 @@ ipcMain.on(
                   path.join(__dirname, "views/updateStudent.html"),
                 );
                 ipcMain.on("ScriptLoaded", function cb() {
-                  mainWindow.webContents.send(
-                    "feedBackMessages",
-                    "تم تسجيل الطالب بنجاح",
-                  );
+                  mainWindow.webContents.send("getStudentDataFromMain", data);
                   ipcMain.removeListener("ScriptLoaded", cb);
                 });
               })
@@ -300,6 +359,7 @@ ipcMain.on(
       });
   },
 );
+
 // update absent reason
 ipcMain.on(
   "updateStudentAbsent",
@@ -312,65 +372,13 @@ ipcMain.on(
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
   absent.deleteAbsence(studentId, absentDate).catch(console.log);
 });
-// update student
+// update absent reason
 ipcMain.on(
-  "UpdateStudentData",
-  function (err, { studentId, studentData, fatherData, motherData, resData }) {
-    mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
-    //update student
-    // console.log(studentData);
-    student
-      .updateStudentByStudentId(
-        studentId,
-        fatherData,
-        motherData,
-        resData,
-        studentData.studentData,
-        studentData.StudentClassId,
-      )
-      .then(() => {
-        student
-          .getStudentData(studentId)
-          .then((data) => {
-            student
-              .getAllStudents()
-              .then((students) => {
-                data = {
-                  ...data,
-                  students,
-                };
-                mainWindow.loadFile(
-                  path.join(__dirname, "views/updateStudent.html"),
-                );
-                ipcMain.on("ScriptLoaded", function cb() {
-                  mainWindow.webContents.send(
-                    "feedBackMessages",
-                    " حدث خطأ اثناء الأدخال برجاء مراجعه البيانات وحاول مجددا",
-                  );
-                  ipcMain.removeListener("ScriptLoaded", cb);
-                });
-              })
-              .catch(console.log);
-          })
-          .catch(console.log);
-      })
-      .catch((err) => {
-        console.log(err);
-        student.getAllStudents().then((students) => {
-          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", students);
-            DialogBox(
-              [
-                "حصل خلل اثناء تحديث البيانات الرجاء التاكد من البيانات وحاول مجددا",
-              ],
-              "error",
-              "خطأ",
-            );
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
-        });
-      });
+  "updateStudentAbsent",
+  (err, { studentId, absentDate, newReasonId }) => {
+    absent
+      .updateAbsenceReason(studentId, absentDate, newReasonId)
+      .catch(console.log);
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
@@ -417,30 +425,54 @@ ipcMain.on(
       })
       .catch((err) => {
         console.log(err);
+        student.getAllStudents().then((students) => {
+          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", students);
+            DialogBox(
+              [
+                "حصل خلل اثناء تحديث البيانات الرجاء التاكد من البيانات وحاول مجددا",
+              ],
+              "error",
+              "خطأ",
+            );
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
+        });
       });
   },
 );
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
+let CurrentWindow = null;
 ipcMain.on("login", function (event, args) {
   console.log(args[0], args[1]);
   // load Students
   switch (args[0]) {
-  case "1":
-    if (args[1] === "1234") {
-      mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-    }
-    break;
-  case "2":
-    if (args[1] === "2468") {
-      getEssentialData().then((data) => {
-        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
+    case "1":
+      if (args[1] === "1234") {
+        CurrentWindow = "expenses";
+        student.getAllStudents().then((students) => {
+          mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", students);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    } else break;
+      }
+      break;
+    case "2":
+      if (args[1] === "2468") {
+        CurrentWindow = "affairs";
+        getEssentialData().then((data) => {
+          console.log(data);
+          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
+        });
+      } else break;
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {
@@ -454,11 +486,29 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
           ...data,
           students,
         };
-        mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("getStudentDataFromMain", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
-        });
+        if (CurrentWindow === "affairs") {
+          mainWindow.loadFile(path.join(__dirname, "views/updateStudent.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("getStudentDataFromMain", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
+        } else {
+          student.getFinancialData(studentId).then((finData) => {
+            data = {
+              ...data,
+              financialData: {
+                ...finData,
+              },
+            };
+            mainWindow.loadFile(
+              path.join(__dirname, "views/studentInstallments.html"),
+            );
+            ipcMain.on("ScriptLoaded", function cb() {
+              mainWindow.webContents.send("getStudentDataFromMain", data);
+              ipcMain.removeListener("ScriptLoaded", cb);
+            });
+          });
+        }
       })
       .catch(console.log);
   });
@@ -487,7 +537,6 @@ ipcMain.on("sendAffairsReportData", (err, args) => {
         title: reports["Affairs"][ReportType]["title"],
         headers: reports["Affairs"][ReportType]["headers"],
       };
-      console.log(data);
       newWindow.loadFile(path.join(__dirname, "./views/ReportTemplate.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         newWindow.webContents.send("getReportDataFromMain", data);

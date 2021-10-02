@@ -226,6 +226,7 @@
     <main class="mt-5 pt-3 tab-content" id="register"></main>
     <script>
       window.api.receive("sentEssentialData", (data) => {
+        console.log(data);
         loadSideBar(data.students);
         ReportsNav(data);
       });

@@ -7,29 +7,45 @@ module.exports = {
           autoIncrement: true,
           primaryKey: true,
         },
+        StudentId: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          references: {
+            model: "Student",
+            key: "StudentId"
+          }
+        },
         InstallmentName: {
           type: Sequelize.STRING,
           allowNull: false,
         },
         InstallmentAmount: {
-          type: Sequelize.FLOAT,
-          allowNull: false,
-        },
-        InstallmentStartDate: {
-          type: Sequelize.DATEONLY,
-          allowNull: false
-        },
-        InstallmentEndDate: {
-          type: Sequelize.DATEONLY,
-          allowNull: false
-        },
-        GradeId: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          references: {
-            model: "Grade",
-            key: "GradeId"
-          }
+        },
+        InstallmentPaidAmount: {
+          type: Sequelize.INTEGER,
+          allowNull: false,
+          defaultValue: 0
+        },
+        InstallmentDueDate: {
+          type: Sequelize.DATEONLY,
+          allowNull: false
+        },
+        InstallmentFullyPaidDate: {
+          type: Sequelize.DATEONLY,
+          allowNull: true
+        },
+        InstallmentType: {
+          type: Sequelize.ENUM,
+          values: ["Category", "Bus"],
+          allowNull: false
+        },
+        Status: {
+          type: Sequelize.ENUM,
+          allowNull: false,
+          values: ["PAID", "DUE", "LATE", "FROMLASTYEAR"],
+          defaultValue: "DUE"
         }
       }, { transaction: t });
     });

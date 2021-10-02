@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
       Payment.belongsTo(models["Student"], {
         foreignKey: "StudentId"
       });
-      Payment.belongsTo(models["Installment"], {
-        foreignKey: "InstallmentId"
+      Payment.hasMany(models["PaymentCategory"], {
+        foreignKey: "PaymentId"
       });
     }
   }
@@ -26,28 +26,19 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    InstallmentId: {
-      type: DataTypes.INTEGER,
+    PaymentType: {
+      type: DataTypes.ENUM,
+      values: ["Category","Bus"],
       allowNull: false
-    },
-    PaymentName: {
-      type: DataTypes.STRING,
-      allowNull: false,
     },
     PaymentAmount: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    PaymentDueDate: {
+    PaymentDate: {
       type: DataTypes.DATEONLY,
-      allowNull: false
+      allowNull: false,
     },
-    PaymentPaidDate: {
-      type: DataTypes.DATEONLY,
-    },
-    PaidAmount: {
-      type: DataTypes.FLOAT,
-    }
   }, {
     sequelize,
     updatedAt: false,

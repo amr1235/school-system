@@ -101,12 +101,13 @@
 
 
     function addExpenses(){
-      let newExpenses = document.getElementById("newExpenses1");
+      let newExpenses = document.getElementById("services");
+      let id = String(Math.floor(Math.random() * (50000 - 10000) ) + 10000);
       let New_div = document.createElement("div");
       New_div.setAttribute("class","row my-3");
-      New_div.setAttribute("id","delete-Expenses1");
+      New_div.setAttribute("id",id);
       New_div.setAttribute("dir","rtl");
-      New_div.innerHTML = '                  <div class="col-md-3 col-12">                    <div class="input-group mb-3">                        <span class="input-group-text" id="inputGroup-sizing-default">  اسم القسط</span>                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                      </div>                  </div>                  <div class="col-md-3 col-12">                    <div class="input-group mb-3">                      <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">التكلفه </span>                      <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                    </div>                  </div>                  <div class="col-md-3 col-12">                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                      <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpenses()">اضافه مصاريف</button>                    </div>                  </div>                  <div class="col-md-3 col-12">                      <button class="btn btn-danger" onclick="removeExpenses()"> <i class="bi bi-x-octagon"></i> </button>                  </div>                </div>                <div id="newExpenses1">                      </div>';
+      New_div.innerHTML = '<div class="col-md-3 col-12"><div class="input-group mb-3"><span class="input-group-text" id="inputGroup-sizing-default">  اسم الخدمة</span>                        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                      </div>                  </div>                  <div class="col-md-3 col-12">                    <div class="input-group mb-3">                      <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">التكلفه </span>                      <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                    </div>                  </div>                  <div class="col-md-3 col-12">                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                      <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpenses()">اضافه خدمة</button>                    </div>                  </div>                  <div class="col-md-3 col-12">                      <button class="btn btn-danger" onclick="removeExpenses(' + id + ')"> <i class="bi bi-x-octagon"></i> </button>                  </div>                </div>                <div id="newExpenses1">                      </div>';
       newExpenses.appendChild(New_div);
     }
 
@@ -120,8 +121,8 @@
       New_div.innerHTML = '                            <div class="row my-3">                                <div class="input-group mb-3">                                    <span class="input-group-text" id="inputGroup-sizing-default">  اسم القسط</span>                                    <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                                  </div>                            </div>                            <div class="row my-3">                                <div class="input-group mb-3">                                    <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">التكلفه </span>                                    <input type="number" class="form-control rounded-pill mx-1" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">                                  </div>                            </div>                            <div class="row my-3">                                <div class="col-6">                                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                                        <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpensesModal()">اضافه مصاريف</button>                                    </div>                                </div>                                <div class="col-6">                                    <div class="input-group mb-3 justify-content-center justify-content-md-start">                                        <button class="btn btn-danger mx-3 rounded-pill" onclick="removeExpensesModal()"> <i class="bi bi-x-octagon"></i></button>                                    </div>                                </div>                            </div>';
       newExpenses.appendChild(New_div);
     }
-    function removeExpenses(){
-      document.getElementById("delete-Expenses1").remove();
+    function removeExpenses(id){
+      document.getElementById(id).remove();
     }
     function removeExpensesModal(){
       document.getElementById("delete-Expenses2").remove();

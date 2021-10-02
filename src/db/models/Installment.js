@@ -8,11 +8,8 @@ module.exports = (sequelize, DataTypes) => {
              */
     static associate(models) {
       // define association here
-      Installment.belongsTo(models["Grade"], {
-        foreignKey: "GradeId"
-      });
-      Installment.hasMany(models["Payment"], {
-        foreignKey: "InstallmentId"
+      Installment.belongsTo(models["Student"], {
+        foreignKey: "StudentId"
       });
     }
   }
@@ -22,25 +19,41 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true,
     },
+    StudentId: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     InstallmentName: {
       type: DataTypes.STRING,
       allowNull: false,
     },
     InstallmentAmount: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
       allowNull: false,
     },
-    InstallmentStartDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    InstallmentEndDate: {
-      type: DataTypes.DATEONLY,
-      allowNull: false
-    },
-    GradeId: {
+    InstallmentPaidAmount: {
       type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0
+    },
+    InstallmentDueDate: {
+      type: DataTypes.DATEONLY,
       allowNull: false
+    },
+    InstallmentFullyPaidDate: {
+      type: DataTypes.DATEONLY,
+      allowNull: true
+    },
+    InstallmentType: {
+      type: DataTypes.ENUM,
+      values: ["Category","Bus"],
+      allowNull: false
+    },
+    Status: {
+      type: DataTypes.ENUM,
+      allowNull: false,
+      values: ["PAID", "DUE", "LATE","FROMLASTYEAR"],
+      defaultValue: "DUE"
     }
   }, {
     sequelize,

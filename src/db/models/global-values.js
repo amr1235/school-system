@@ -1,41 +1,32 @@
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class Discount extends Model {
+  class GlobalValues extends Model {
     /**
          * Helper method for defining associations.
          * This method is not a part of Sequelize lifecycle.
          * The `models/index` file will call this method automatically.
          */
-    static associate(models) {
-      Discount.hasMany(models["Student"], {
-        foreignKey: "StudentId"
-      });
-    }
   }
-  Discount.init({
-    DiscountId: {
+  GlobalValues.init({
+    GlobalValuesId: {
       type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true,
     },
-    DiscountName: {
+    GlobalName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isAlphanumeric: true
-      }
     },
-    DiscountCost: {
-      type: DataTypes.INTEGER,
+    GlobalValue: {
+      type: DataTypes.STRING,
       allowNull: false,
     }
   }, {
     sequelize,
     updatedAt: false,
     createdAt: false,
-    modelName: "Discount",
+    modelName: "GlobalValues",
     freezeTableName: true,
   });
-  return Discount;
+  return GlobalValues;
 };

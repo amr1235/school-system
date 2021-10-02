@@ -393,11 +393,13 @@ const upgradeStudentsToNextGrade = async () => {
       },
     });
     Grades = Grades.map((g) => g.dataValues.GradeId).sort();
-    let firstGradeId = Grades[0];
-    await db["Class"].bulkCreate(
-      [{ GradeId: firstGradeId }, { GradeId: firstGradeId }],
-      { transaction: t },
-    );
+    if (Grades.length !== 0) {
+      let firstGradeId = Grades[0];
+      await db["Class"].bulkCreate(
+        [{ GradeId: firstGradeId }, { GradeId: firstGradeId }],
+        { transaction: t },
+      );
+    }
     return "Students have been upgraded";
   });
 };
@@ -429,6 +431,172 @@ const transferStudent = (StudentId, SchoolName) => {
     return Promise.all(proms);
   });
 };
+// get financial Data
+const getFinancialData = async (StudentId) => {
+  let proms = [];
+  //get current academic year
+  let CurrentAcademicYear = await db["GlobalValues"]
+    .findOne({
+      where: {
+        GlobalName: "AcademicYear",
+      },
+    })
+    .then((res) => res.toJSON().GlobalValue);
+  let firstYear = CurrentAcademicYear.split("/")[0];
+  let secondYear = CurrentAcademicYear.split("/")[1];
+  let firstInstallmentDueDate = new Date(
+    new Date().setFullYear(Number(firstYear), 11, 31),
+  ).toISOString();
+  let secondInstallmentDueDate = new Date(
+    new Date().setFullYear(Number(secondYear), 7, 31),
+  ).toISOString();
+  // get first installment Data
+  proms.push(
+    db["Installment"]
+      .findOne({
+        where: {
+          StudentId,
+          InstallmentName: "first-install",
+          InstallmentType: "Category",
+          InstallmentDueDate: firstInstallmentDueDate,
+        },
+      })
+      .then((inst) => {
+        if (inst) {
+          return inst.toJSON();
+        } else {
+          return {};
+        }
+      }),
+  );
+  // get second installment Data
+  proms.push(
+    db["Installment"]
+      .findOne({
+        where: {
+          StudentId,
+          InstallmentName: "second-install",
+          InstallmentType: "Category",
+          InstallmentDueDate: secondInstallmentDueDate,
+        },
+      })
+      .then((inst) => {
+        if (inst) {
+          return inst.toJSON();
+        } else {
+          return {};
+        }
+      }),
+  );
+  // get all installments that FROMLASTYEARED
+  proms.push(
+    db["Installment"]
+      .findAll({
+        where: {
+          StudentId,
+          Status: "FROMLASTYEAR",
+          InstallmentType: "Category",
+          InstallmentFullyPaidDate: null,
+        },
+      })
+      .then((insts) => {
+        if (insts) {
+          return mapToJSON(insts);
+        } else {
+          return [];
+        }
+      }),
+  );
+
+  // get all cats that students have to pay
+  proms.push(
+    (async () => {
+      let p = [];
+      p.push(
+        db["Category"]
+          .findAll({
+            where: {
+              AcademicYear: CurrentAcademicYear,
+            },
+            include: {
+              model: db["Grade"],
+              attributes: ["GradeId"],
+              required: true,
+              include: {
+                model: db["Class"],
+                required: true,
+                include: {
+                  model: db["StudentClass"],
+                  required: true,
+                  include: {
+                    model: db["Student"],
+                    required: true,
+                    where: {
+                      StudentId,
+                    },
+                  },
+                },
+              },
+            },
+          })
+          .then(mapToJSON),
+      );
+      p.push(
+        db["PaymentCategory"]
+          .findAll({
+            include: {
+              model: db["Payment"],
+              where: {
+                StudentId,
+              },
+              required: true,
+            },
+          })
+          .then(mapToJSON),
+      );
+
+      const [allCats, paidCats] = await Promise.all(p);
+      let finalCats = [];
+      for (let i = 0; i < allCats.length; i++) {
+        const cat = allCats[i];
+        let found = false;
+        for (let j = 0; j < paidCats.length; j++) {
+          const paidCat = paidCats[j];
+          if (cat.CategoryId === paidCat.CategoryId) {
+            let catIndex = finalCats.findIndex(
+              (el) => el.CategoryId === cat.CategoryId,
+            );
+            if (catIndex === -1) {
+              finalCats.push({
+                CategoryId: cat.CategoryId,
+                CategoryName: cat.CategoryName,
+                CategoryCost: cat.CategoryCost,
+                AcademicYear: cat.AcademicYear,
+                paidAmount: paidCat.Amount,
+              });
+            } else {
+              finalCats[catIndex].paidAmount += paidCat.Amount;
+            }
+            found = true;
+          }
+        }
+        if (!found) {
+          finalCats.push({
+            CategoryId: cat.CategoryId,
+            CategoryName: cat.CategoryName,
+            CategoryCost: cat.CategoryCost,
+            AcademicYear: cat.AcademicYear,
+            paidAmount: 0,
+          });
+        }
+      }
+      return finalCats;
+    })(),
+  );
+  let [firsInstall, secondInstall, fromLastYearInstall, Categories] =
+    await Promise.all(proms);
+  return { firsInstall, secondInstall, fromLastYearInstall, Categories };
+};
 module.exports = {
   getAllStudents,
   addNewStudent,
@@ -436,5 +604,6 @@ module.exports = {
   upgradeStudentsToNextGrade,
   getStudentsByColumnMultipleVals,
   getStudentData,
+  getFinancialData,
   transferStudent,
 };

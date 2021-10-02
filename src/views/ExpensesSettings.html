@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./scss/installments.css">
+    <title>اﻻقساط</title>
+</head>
+
+<body>
+    <!--start of navbar-->
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+        <div class="container-fluid">
+            <a class="navbar-brand mx-5" href="#">معهد الوفاء</a>
+            <button class="navbar-toggler rounded-pill text-warning mx-auto" type="button" data-bs-toggle="offcanvas"
+                data-bs-target="#sidebar" aria-controls="sidebar">
+                <i class="bi bi-arrow-right-circle"></i>
+            </button>
+            <button class="navbar-toggler mx-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="dropdown mx-1" dir="rtl">
+                    <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        اﻻعدادات
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">خصومات </a></li>
+                        <li><a class="dropdown-item" href="#"> خطوط الباص </a></li>
+                    </ul>
+                </div>
+                <div class="mx-2">
+                    <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"
+                        onclick='window.api.send("getEssentialData", "Expenses");'>الرئيسية</button>
+                </div>
+                <div class="dropdown">
+                    <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        التقارير
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/daily-income.html">التوريد
+                                اليومى</a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/monthly-income.html"> التوريد
+                                الشهرى </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/siblings-expenses.html"> الأشقاء
+                                وموقفهم من المصروفات </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/installments-residue.html"> الباقى
+                                على الطلبة قسط اول وقسط ثانى </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/paid-the-installments.html">
+                                المسددين من القسط الأول بالكامل وكذلك القسط الثانى </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/payments.html"> دفتر التسديدات </a>
+                        </li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/car-payments.html"> المسددين سيارة
+                            </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/car-payments-residue.html"> الباقى
+                                عليهم سيارة </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/collected-extra-payments.html">
+                                المحصل من الملازم والرعاية والملف والهدايا </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/extra-payments-overdue.html"> تقرير
+                                لغير المسددين ملازم ورعاية وملف وهدايا وتاسيس </a></li>
+                        <li><a class="dropdown-item" target="_blank" href="./Reports/delayed-payments.html"> تقرير
+                                المسددين مرحل والباقى عليهم مرحل </a></li>
+                    </ul>
+                </div>
+                <form class="d-flex  me-auto  mt-3 mt-md-0 ">
+                    <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث"
+                        aria-label="Search">
+                    <button class="btn btn-outline-warning rounded-circle" type="submit"><i
+                            class="bi bi-search"></i></button>
+                </form>
+
+
+            </div>
+        </div>
+    </nav>
+    <!--end of navbar-->
+
+    <!--start of sidebar-->
+    <aside>
+        <div class="offcanvas offcanvas-start container sidebar-nav me-auto" data-bs-scroll="true"
+            data-bs-backdrop="false" tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+            <div class="offcanvas-header justify-content-center">
+                <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset"
+                    data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body justify-content-center" dir="rtl">
+                <ul class="nav nav-tabs" id="pills-tab" role="tablist">
+                </ul>
+                <div class="tab-content mt-2" id="pills-tabContent">
+                </div>
+            </div>
+        </div>
+    </aside>
+    <!--end of sidebar-->
+
+    <!--main content-->
+    <main dir="rtl" class="tab-content mt-5 pt-3">
+        <nav class="bg-dark text-center fixed-bottom">
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#add-install"
+                    type="button" role="tab" aria-controls="nav-home" aria-selected="true">اضافة مصروفات</button>
+                <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#existing-install"
+                    type="button" role="tab" aria-controls="nav-profile" aria-selected="false"> المصروفات
+                    المدخلة</button>
+            </div>
+        </nav>
+        <!--add new category-->
+        <section class="tab-pane container  py-2 mb-5 fade show active" id="add-install" role="tabpanel"
+            aria-labelledby="nav-home-tab">
+            <h2 class="mt-3 mx-2 border-bottom border-3 border-dark pb-3">إضافة مصروفات جديدة</h2>
+            <div class="row my-3">
+                <div class="col-md-5 col-12">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text rounded-3" id="inputGroup-sizing-default"> تكلفة المصاريف</span>
+                        <div class="d-flex mx-2 justify-content-center rounded-pill exp-label">
+                            <input id="totalCost" min="1" type="number" class="form-control"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-12">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">السنة الدراسية</span>
+
+                        <div class="d-flex mx-2 justify-content-center rounded-pill exp-label">
+                            <select class="form-select" id="add-AllGradesSelect" aria-label="Default select example">
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-12">
+                    <div class="input-group mb-3">
+                        <span class="input-group-text rounded-3" id="inputGroup-sizing-default">النسبة المئوية للقسط
+                            الأول</span>
+                        <div class="d-flex mx-2 rounded-pill exp-label">
+                            <input type="number" id="firstInstallmentPortion" min="1" max="99" class="form-control"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class=" py-2 border-bottom border-3 mb-5 border-dark">الخدمات</h2>
+            <div id="services">
+                <div class="row my-3">
+                    <div class="col-md-4 col-12">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="inputGroup-sizing-default">اسم الخدمة</span>
+                            <input type="text" class="form-control" aria-label="Sizing example input"
+                                aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">التكلفه</span>
+                            <input type="number" class="form-control rounded-pill mx-1"
+                                aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="input-group mb-3 justify-content-center justify-content-md-start">
+                            <button class="btn btn-primary mx-3 rounded-pill" onclick="addExpenses()">اضافه
+                                خدمة</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <button type="submit" onclick="addNewExpenses()" class="btn btn-success text-center rounded-pill">اضافه
+                    المصروفات</button>
+            </div>
+        </section>
+
+        <!--entered expenses -->
+        <section class="tab-pane fade container py-2 mb-5" id="existing-install" role="tabpanel">
+            <h2 class="mt-3 border-bottom border-3 border-dark pb-3">تعليمات قبل بدأ السنة الجديدة</h2>
+            <div class="row my-3">
+                <div>
+                    <div class="input-group">
+                        <div class="d-flex justify-content-center rounded-pill exp-label">
+                            <ol class="container">
+                                <li>مع بداية السنة الدراسية الجديدة سيتم ترحيل الطلاب تلقائيا</li>
+                                <li>تأكد من إدخال جميع المصاريف لجميع المراحل الدراسية</li>
+                                <li>يمكنك حذف المصاريف وإدخالها من جديده من الجزء الخاص بإضافة المصروفات</li>
+                                <li>تأكد من خانة السنة التعليمية وإن كان هناك مشكله بها تواصل مع مطوري البرنامج (مع
+                                    العلم ان السنة الظاهرة هيا السنة القادمة )</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <table class="table table-hover table-borderless table-striped" dir="rtl">
+                    <thead>
+                        <tr>
+                            <th scope="col">السنة الدراسية</th>
+                            <th scope="col"> قيمة المصاريف</th>
+                            <th scope="col"> النسبة للقسط الأول</th>
+                            <th scope="col"> السنة التعليمية</th>
+                            <th scope="col"> حذف </th>
+                        </tr>
+                    </thead>
+                    <tbody id="ExpensesTable">
+                        <!-- <tr id="added-Absence">
+                            <th scope="row" class="pt-3"> -->
+                        <!--اسم القسط-->
+                        <!-- </th>
+                            <td> -->
+                        <!-- قيمه القسط-->
+                        <!-- </td>
+                            <td> -->
+                        <!-- السنه الدراسيه-->
+                        <!-- </td>
+                            <td> -->
+                        <!-- السنه التعليمية-->
+                        <!-- </td>
+                            <td><button class="btn btn-danger">احذف</button></td>
+                        </tr> -->
+                    </tbody>
+                </table>
+
+                <div class="row">
+                    <button type="submit" onclick="startNewYear()"
+                        class="btn btn-success text-center rounded-pill">تأكيد المصاريف وابدأ سنة
+                        جديدة</button>
+                </div>
+        </section>
+    </main>
+    <script>
+        let allExpensesData = [];
+        let grades = null;
+        function startNewYear() {
+            // check if the user entered all grades
+            if(allExpensesData.length === 0){
+                window.api.send("ShowDialogBox", { messages: ['من فضلك ادخل مصروفات اولا'], type: 'error', title: 'خطأ' });
+            }else if (allExpensesData.length !== grades.length) {
+                window.api.send("ShowDialogBox", { messages: ['تأكد من ادخال المصروفات لجميع المراحل الدراسية'], type: 'error', title: 'خطأ' });
+            }else {
+                window.api.send("StartNewYear",allExpensesData);
+            }
+        }
+        // hundle expensess table
+        const fillExpensesTable = (data) => {
+            const ExpensesTable = document.getElementById("ExpensesTable");
+            data.forEach(expense => {
+                let id = String(Math.floor(Math.random() * (50000 - 10000)) + 10000);
+                const Row = document.createElement("tr");
+                Row.setAttribute("id", String(id));
+                const nameCell = document.createElement("th");
+                nameCell.innerText = expense.GradeName;
+                Row.appendChild(nameCell);
+                const costCell = document.createElement("td");
+                costCell.innerText = expense.totalCost;
+                Row.appendChild(costCell);
+                const portionCell = document.createElement("td");
+                portionCell.innerText = expense.firstInstallmentPortion;
+                Row.appendChild(portionCell);
+                const yearCell = document.createElement("td");
+                yearCell.innerText = "test";
+                Row.appendChild(yearCell);
+                const deleteCell = document.createElement("td");
+                deleteCell.innerHTML = '<button onclick="removeGradeFromExpensesTable(' + String(id) + ')" class="btn btn-danger">احذف</button>';
+                Row.appendChild(deleteCell);
+                ExpensesTable.appendChild(Row);
+            });
+        };
+        const updateExpensesTable = () => {
+            //delete all rows 
+            const ExpensesTable = document.getElementById("ExpensesTable");
+            for (let i = ExpensesTable.children.length - 1; i >= 0; i--) {
+                ExpensesTable.children[i].remove();
+            }
+            // fill data again
+            fillExpensesTable(allExpensesData);
+        };
+        const isGradeAlreadyInTheTable = (GradeId) => {
+            let exp = allExpensesData.find(el => el.GradeId === GradeId);
+            if (exp) return true;
+            return false;
+        };
+        const removeGradeFromExpensesTable = (id) => {
+            document.getElementById(id).remove();
+        };
+        function addNewExpenses() {
+            const { errors, data } = checkNewExpenses();
+            if (errors.length === 0) {
+                // window.api.send("addNewExpenses", data);
+                if (isGradeAlreadyInTheTable(data.GradeId)) {
+                    window.api.send("ShowDialogBox", { messages: ['لقد أدخلت هذه المرحلة الدراسية من قبل'], type: 'error', title: 'خطأ' });
+                    return 0;
+                }
+                allExpensesData.push(data);
+                updateExpensesTable();
+                window.api.send("ShowDialogBox", { messages: ['تم ادخال المصروفات بنجاح'], type: 'info', title: 'تم' });
+            } else {
+                window.api.send("ShowDialogBox", { messages: errors, type: 'error', title: 'خطأ' });
+            }
+        }
+        window.api.receive("sentEssentialData", ({ students, allGrades }) => {
+            // fille grades 
+            grades = allGrades;
+            const AllGradesSelect = document.getElementById("add-AllGradesSelect");
+            console.log(allGrades);
+            allGrades.forEach(grade => {
+                const option = document.createElement("option");
+                option.setAttribute("value", String(grade[0]));
+                option.setAttribute("data-gradeName", grade[1]);
+                option.innerText = grade[1];
+                AllGradesSelect.appendChild(option);
+            });
+            loadSideBar(students);
+        });
+        window.api.receive("reload", () => {
+            window.api.send("getEssentialData", "ExpensesSettings");
+        });
+        window.api.send("ScriptLoaded", null);
+    </script>
+    <script src="../views//js/loadSideBar.js"></script>
+    <script src="./js/fieldsValidation.js"></script>
+    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
