@@ -3,12 +3,15 @@
   "productName": "school-system",
   "version": "1.0.0",
   "description": "My Electron application description",
+  "repository": {
+    "url": "https://github.com/zeyad-kay/school-system"
+  },
   "main": "src/index.js",
   "scripts": {
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
-    "publish": "electron-forge publish",
+    "publish": "electron-forge publish --dry-run && electron-forge publish --from-dry-run",
     "prepare": "husky install",
     "db:create": "sequelize-cli db:create",
     "db:migrate:generate": "sequelize-cli migration:generate --name",
@@ -18,31 +21,38 @@
     "db:clean": "sequelize-cli db:drop"
   },
   "keywords": [],
-  "author": "zeyad",
+  "author": "zeyad-kay",
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "ignore": [
+          "src/db/seeders/*",
+          "src/db/migrations/*"
+        ],
+        "asar": true
+      },
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "platforms":[
+            "win32"
+          ],
+          "config": {
+            "repository": {
+              "owner": "zeyad-kay",
+              "name": "school-system"
+            },
+            "prerelease": false
+          }
+        }
+      ],
       "makers": [
         {
           "name": "@electron-forge/maker-squirrel",
           "config": {
-            "name": "school_system"
+            "name": "school-system"
           }
-        },
-        {
-          "name": "@electron-forge/maker-zip",
-          "platforms": [
-            "darwin"
-          ]
-        },
-        {
-          "name": "@electron-forge/maker-deb",
-          "config": {}
-        },
-        {
-          "name": "@electron-forge/maker-rpm",
-          "config": {}
         }
       ]
     }
@@ -61,10 +71,8 @@
   },
   "devDependencies": {
     "@electron-forge/cli": "^6.0.0-beta.59",
-    "@electron-forge/maker-deb": "^6.0.0-beta.59",
-    "@electron-forge/maker-rpm": "^6.0.0-beta.59",
+    "@electron-forge/publisher-github": "^6.0.0-beta.61",
     "@electron-forge/maker-squirrel": "^6.0.0-beta.59",
-    "@electron-forge/maker-zip": "^6.0.0-beta.59",
     "electron": "13.1.7",
     "eslint": "^7.32.0",
     "husky": "^7.0.1",
