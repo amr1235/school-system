@@ -21,10 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     BusRouteName: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
-      validate: {
-        isAlphanumeric: true
-      }
     },
     BusRouteDriverName: {
       type: DataTypes.STRING,

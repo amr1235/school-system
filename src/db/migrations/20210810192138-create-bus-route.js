@@ -9,7 +9,6 @@ module.exports = {
       BusRouteName: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true
       },
       BusRouteDriverName: {
         type: Sequelize.STRING,

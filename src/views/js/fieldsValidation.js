@@ -384,10 +384,10 @@ const checkCategoriesTable = (parentId) => {
     if (amount > remainingCost) {
       errors.push(
         "المبلغ المتبقي من " +
-          CategoryName +
-          "هو " +
-          remainingCost +
-          " \n لا يمكن الاضافه اكثر من ذلك",
+        CategoryName +
+        "هو " +
+        remainingCost +
+        " \n لا يمكن الاضافه اكثر من ذلك",
       );
     }
     if (amount !== 0) {
@@ -493,4 +493,73 @@ const checkNewExpenses = () => {
   // servicesDiv.children.forEach(Row => {
   //     console.log(Row.children.children);
   // });
+};
+const getRoutesDataFromTable = () => {
+  let errors = [];
+  let finalRoutes = [];
+  const table = document.getElementById("ٌRoutesTable");
+  for (let i = 0; i < table.children.length; i++) {
+    const row = table.children[i];
+    let BusRouteId = null;
+    if (row.dataset.routeid) {
+      BusRouteId = Number(row.dataset.routeid);
+    }
+    let BusRouteName = row.children[0].children[0].value;
+    let BusRouteDriverName = row.children[1].children[0].value;
+    let BusRouteCost = Number(row.children[2].children[0].value);
+    if (BusRouteName.length === 0 || BusRouteDriverName.length === 0) {
+      errors.push(['من فضلك تاكد من أن جميع الخانات في الجدول مدخله']);
+      break;
+    }
+    if (BusRouteCost <= 0) {
+      errors.push(['يجب أن تكون تكلفة الخط اكبر من 0']);
+      break;
+    }
+    finalRoutes.push({
+      BusRouteId,
+      BusRouteName,
+      BusRouteDriverName,
+      BusRouteCost
+    });
+  }
+  if (errors.length === 0) {
+    return {
+      errors: [],
+      finalRoutes
+    };
+  } else {
+    return {
+      errors,
+      finalRoutes: []
+    };
+  }
+};
+
+const checkNewRoute = () => {
+  let errors = []
+  const BusRouteName = document.getElementById("BusRouteName").value;
+  const BusRouteDriverName = document.getElementById("BusRouteDriverName").value;
+  const BusRouteCost = Number(document.getElementById("BusRouteCost").value);
+  if (BusRouteName.length === 0 || BusRouteDriverName.length === 0) {
+    errors.push(['من فضلك تاكد من أن جميع الخانات مدخلة']);
+  }
+  if (BusRouteCost <= 0) {
+    errors.push(['يجب أن تكون تكلفة الخط اكبر من 0']);
+  }
+  if (errors.length === 0) {
+    return {
+      errors: [],
+      newRoute: {
+        BusRouteId : null,
+        BusRouteName,
+        BusRouteDriverName,
+        BusRouteCost
+      }
+    };
+  }else {
+    return {
+      errors,
+      newRoute : {}
+    };
+  }
 };

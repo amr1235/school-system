@@ -11,6 +11,7 @@ const payment = require("./queries/payment");
 const installment = require("./queries/installment");
 const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
+const Bus = require("./queries/BusRoutes");
 require("electron-reload")(__dirname, {
   electron: require("../node_modules/electron"),
 });
@@ -107,6 +108,16 @@ const getEssentialData = async () => {
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
 });
+// update Bus Routes
+ipcMain.on("updateBusRoutes", (err, { goingtoBeUpdated, deletedRoutes, newRoutes }) => {
+  Bus.updateBusRoutes(newRoutes, deletedRoutes, goingtoBeUpdated).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم تعديل الخطوط بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
+});
 //Start New Year
 ipcMain.on("StartNewYear", (err, allExpensesData) => {
   StartNewYear(allExpensesData)
@@ -202,7 +213,19 @@ ipcMain.on("getEssentialData", function (err, destination) {
         console.log(err);
         DialogBox("حدث خطأ ما برجاء المحاولة مجددا", "error", "خطأ");
       });
-  } else {
+  } else if (destination === "BusRouts") {
+    mainWindow.loadFile(path.join(__dirname, "views/BusRoutes.html"));
+    // get student and all busRoutes
+    student.getAllStudents().then(students => {
+      Bus.getBusRoutes().then(BusRoutes => {
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", { students, BusRoutes });
+          ipcMain.removeListener("ScriptLoaded", cb);
+        });
+      });
+    });
+  }
+  else {
     // get all stages , grades and classes
     getEssentialData().then((data) => {
       if (destination === "addStudent") {
