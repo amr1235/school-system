@@ -1,8 +1,144 @@
 const db = require("../db/models/index");
 const installment = require("../queries/installment");
-// const { Op } = require("sequelize");
-const { mapToJSON } = require("./utlis");
 
+const addBusPaymentAndUpdateInstallments = (StudentId, totalAmount) => {
+  return db.sequelize.transaction(async (t) => {
+    let currentDate = new Date();
+    let PaymentDate = currentDate.toISOString();
+    let proms = [];
+    proms.push(db["Payment"]
+      .create(
+        {
+          StudentId,
+          PaymentType: "Bus",
+          PaymentAmount: totalAmount,
+          PaymentDate,
+        },
+        {
+          transaction: t,
+        },
+      ));
+    // update installments
+    // get first,second installment
+    const firstInstallment = await installment.getCurrentFirstBusInstallment(
+      StudentId,
+    );
+    const secondInstallment = await installment.getCurrentSecondBusInstallment(
+      StudentId,
+    );
+    if (
+      totalAmount ===
+      firstInstallment.InstallmentAmount -
+      firstInstallment.InstallmentPaidAmount
+    ) {
+      // 1-> totalAmount == first installmentRemainingAmount
+      // update first installment paid amount
+      let newAmount = firstInstallment.InstallmentPaidAmount + totalAmount;
+      proms.push(
+        db["Installment"].update(
+          {
+            InstallmentPaidAmount: newAmount,
+            Status: "PAID",
+            InstallmentFullyPaidDate: PaymentDate,
+          },
+          {
+            where: {
+              InstallmentId: firstInstallment.InstallmentId,
+            },
+            transaction: t,
+          },
+        ),
+      );
+    } else if (
+      totalAmount <
+      firstInstallment.InstallmentAmount -
+      firstInstallment.InstallmentPaidAmount
+    ) {
+      let newAmount = firstInstallment.InstallmentPaidAmount + totalAmount;
+      proms.push(
+        db["Installment"].update(
+          {
+            InstallmentPaidAmount: newAmount,
+          },
+          {
+            where: {
+              InstallmentId: firstInstallment.InstallmentId,
+            },
+            transaction: t,
+          },
+        ),
+      );
+    } else {
+      // 2-> totalAmount > first installmentRemainingAmount
+      // check if the first installment not complete if so complete it first
+      let amountPaidForFirstInstallment = 0;
+      if (
+        firstInstallment.InstallmentAmount -
+        firstInstallment.InstallmentPaidAmount !==
+        0
+      ) {
+        let newAmount =
+          firstInstallment.InstallmentAmount -
+          firstInstallment.InstallmentPaidAmount;
+        proms.push(
+          db["Installment"].update(
+            {
+              InstallmentPaidAmount: firstInstallment.InstallmentAmount,
+              Status: "PAID",
+              InstallmentFullyPaidDate: PaymentDate,
+            },
+            {
+              where: {
+                InstallmentId: firstInstallment.InstallmentId,
+              },
+              transaction: t,
+            },
+          ),
+        );
+        amountPaidForFirstInstallment = newAmount;
+      }
+      // update the remaining to the second installment
+      let newAmount = totalAmount - amountPaidForFirstInstallment;
+      if (
+        newAmount ===
+        secondInstallment.InstallmentAmount -
+        secondInstallment.InstallmentPaidAmount
+      ) {
+        proms.push(
+          db["Installment"].update(
+            {
+              InstallmentPaidAmount: secondInstallment.InstallmentAmount,
+              Status: "PAID",
+              InstallmentFullyPaidDate: PaymentDate,
+            },
+            {
+              where: {
+                InstallmentId: secondInstallment.InstallmentId,
+              },
+              transaction: t,
+            },
+          ),
+        );
+      } else {
+        newAmount += secondInstallment.InstallmentPaidAmount;
+        proms.push(
+          db["Installment"].update(
+            {
+              InstallmentPaidAmount: newAmount,
+            },
+            {
+              where: {
+                InstallmentId: secondInstallment.InstallmentId,
+              },
+              transaction: t,
+            },
+          ),
+        );
+      }
+    }
+    return Promise.all(proms);
+  });
+};
 const addCategoryPaymentAndUpdateInstallments = (CatsMoney, StudentId) => {
   return db.sequelize.transaction(async (t) => {
     let currentDate = new Date();
@@ -55,7 +191,7 @@ const addCategoryPaymentAndUpdateInstallments = (CatsMoney, StudentId) => {
     if (
       totalAmount ===
       firstInstallment.InstallmentAmount -
-        firstInstallment.InstallmentPaidAmount
+      firstInstallment.InstallmentPaidAmount
     ) {
       // 1-> totalAmount == first installmentRemainingAmount
       // update first installment paid amount
@@ -78,7 +214,7 @@ const addCategoryPaymentAndUpdateInstallments = (CatsMoney, StudentId) => {
     } else if (
       totalAmount <
       firstInstallment.InstallmentAmount -
-        firstInstallment.InstallmentPaidAmount
+      firstInstallment.InstallmentPaidAmount
     ) {
       let newAmount = firstInstallment.InstallmentPaidAmount + totalAmount;
       proms.push(
@@ -100,7 +236,7 @@ const addCategoryPaymentAndUpdateInstallments = (CatsMoney, StudentId) => {
       let amountPaidForFirstInstallment = 0;
       if (
         firstInstallment.InstallmentAmount -
-          firstInstallment.InstallmentPaidAmount !==
+        firstInstallment.InstallmentPaidAmount !==
         0
       ) {
         let newAmount =
@@ -128,7 +264,7 @@ const addCategoryPaymentAndUpdateInstallments = (CatsMoney, StudentId) => {
       if (
         newAmount ===
         secondInstallment.InstallmentAmount -
-          secondInstallment.InstallmentPaidAmount
+        secondInstallment.InstallmentPaidAmount
       ) {
         proms.push(
           db["Installment"].update(
@@ -168,4 +304,5 @@ const addCategoryPaymentAndUpdateInstallments = (CatsMoney, StudentId) => {
 
 module.exports = {
   addCategoryPaymentAndUpdateInstallments,
+  addBusPaymentAndUpdateInstallments
 };

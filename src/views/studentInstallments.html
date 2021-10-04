@@ -32,7 +32,8 @@
             اﻻعدادات
           </button>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-            <li><a class="dropdown-item" onclick='window.api.send("getEssentialData", "ExpensesSettings");' href="#">بدء سنة جديدة</a></li>
+            <li><a class="dropdown-item" onclick='window.api.send("getEssentialData", "ExpensesSettings");' href="#">بدء
+                سنة جديدة</a></li>
             <li><a class="dropdown-item" href="#">خصومات </a></li>
             <li><a class="dropdown-item" href="#"> خطوط الباص </a></li>
           </ul>
@@ -50,7 +51,6 @@
             aria-label="Search">
           <button class="btn btn-outline-warning rounded-circle" type="submit"><i class="bi bi-search"></i></button>
         </form>
-
       </div>
     </div>
   </nav>
@@ -240,7 +240,6 @@
         <div class="col-md-3 col-12">
           <div class="input-group mb-3">
             <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">المبلغ المدفوع</span>
-
             <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
               <span class="text-center  pt-1" id="TotalFromLastYearInstallmentPaidAmount"></span>
             </div>
@@ -249,7 +248,6 @@
         <div class="col-md-3 col-12">
           <div class="input-group mb-3">
             <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">الباقي</span>
-
             <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
               <span class="text-center  pt-1" id="RemainingFromLastYearInstallmentAmount"></span>
             </div>
@@ -283,18 +281,125 @@
                 </tr>
               </thead>
               <tbody id="FromLastyearInstallmentsTable">
-
               </tbody>
             </table>
           </div>
         </div>
+      </div>
     </section>
     <!--bus subscribtion-->
-    <section class="tab-pane fade container py-2 mb-5" id="bus-sub" role="tabpanel">peoryir</section>
+    <section class="tab-pane fade container py-2 mb-5" id="bus-sub" role="tabpanel">
+      <div id="subscribed">
+        <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">اشتراك الباص</h1>
+        <div class="row my-3">
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">نظام الأشتراك</span>
+              <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
+                <span class="text-center  pt-1" id="BusRouteWaySpan"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <h2 class=" border-1 border-bottom border-dark pb-2"> الأقساط </h2>
+          <div class="row my-3">
+            <table class="table table-hover table-borderless table-striped" dir="rtl">
+              <thead>
+                <tr>
+                  <th scope="col">اسم القسط</th>
+                  <th scope="col"> قيمه القسط</th>
+                  <th scope="col"> تاريخ الدفع الأساسي</th>
+                  <th scope="col"> المدفوع</th>
+                  <th scope="col"> الباقي</th>
+                </tr>
+              </thead>
+              <tbody id="BusInstallmentsTable">
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 col-12">
+            <input type="number" id="BusPayAmount" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-default">
+          </div>
+          <div class="col-md-3 col-12">
+            <button onclick="PayBusInstallments()" id="PayBusInstallmentsButton" class="btn btn-success">إدفع</button>
+          </div>
+        </div>
+        <h2 class="mt-3 mx-2 border-bottom border-3 border-dark pb-3">إلغاء الأشتراك</h2>
+        <div class="row my-3">
+          <div class="col-md-5 col-12">
+            <div class="input-group mb-3">
+              <span class="input-group-text rounded-3" id="inputGroup-sizing-default">المبلغ نظير الإلغاء</span>
+              <div class="d-flex mx-2 justify-content-center rounded-pill exp-label">
+                <input id="unSubscribeFees" type="number" class="form-control" aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3 col-12">
+            <button onclick="unSubscribeBusRoute()" class="btn btn-danger">إالغاء</button>
+          </div>
+        </div>
+      </div>
+      <div id="unSubscribed">
+        <h2 class="mt-3 mx-2 border-bottom border-3 border-dark pb-3">إشتراك الباص</h2>
+        <div class="row my-3">
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span class="input-group-text rounded-3" id="inputGroup-sizing-default">اختر الخط</span>
+              <div class="d-flex mx-2 justify-content-center rounded-pill exp-label">
+                <select class="form-select" id="BusRoutesSelect">
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span class="input-group-text rounded-3" id="inputGroup-sizing-default">اختر النظام</span>
+              <div class="d-flex mx-2 rounded-pill exp-label">
+                <select class="form-select" id="BusRouteWay">
+                  <option value="FullRoute">دورة كاملة</option>
+                  <option value="halfRoute">نص دورة</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 col-12">
+            <div class="input-group mb-3">
+              <span class="input-group-text rounded-3" id="inputGroup-sizing-default">التكلفة</span>
+              <div class="d-flex mx-2 rounded-pill exp-label">
+                <input id="newRouteCost" type="number" class="form-control" aria-label="Sizing example input"
+                  aria-describedby="inputGroup-sizing-default">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6 col-12">
+            <div class="input-group mb-3">
+              <span class="input-group-text rounded-3" id="inputGroup-sizing-default">نسبة القسط الأول</span>
+              <div class="d-flex mx-2 rounded-pill exp-label">
+                <input id="firstBusInstallmentPortion" type="number" class="form-control"
+                  aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <button onclick="subscribeToNewBusRoute()" class="btn btn-success">إشترك الأن</button>
+        </div>
+      </div>
+    </section>
 
   </main>
 
   <script>
+    let StudentId = null;
+    let BusFirstInstallment = null;
+    let BusSecondInstallment = null;
     const fillCatsTable = (categories, parentId) => {
       const tableBody = document.getElementById(parentId);
       categories.forEach(cat => {
@@ -330,12 +435,13 @@
       });
     }
 
+    window.api.receive("reload", () => {
+      window.api.send("sendStudentIdToMain", StudentId);
+    });
     window.api.receive("getStudentDataFromMain", data => {
-      window.api.receive("reload", () => {
-        window.api.send("sendStudentIdToMain", data.StudentId)
-      });
+      StudentId = data.StudentId;
+      console.log(data);
       loadSideBar(data.students);
-      console.log(data.financialData);
       // hundle first installment
       document.getElementById("FirstInstallmentAmount").innerText = data.financialData.firsInstall.InstallmentAmount;
       document.getElementById("FirstInstallmentPaidAmount").innerText = data.financialData.firsInstall.InstallmentPaidAmount;
@@ -434,7 +540,147 @@
           window.api.send("ShowDialogBox", { messages: errors, type: 'error', title: 'خطأ' });
         }
       });
+      // hundle bus data
+      let BusData = data.financialData.BusData.data;
+      if (data.financialData.BusData.isSubscribed) {
+        document.getElementById("subscribed").hidden = false;
+        document.getElementById("unSubscribed").hidden = true;
+        if (BusData.firstInstalllment.InstallmentPaidAmount === BusData.firstInstalllment.InstallmentAmount &&
+          BusData.secondInstallment.InstallmentPaidAmount === BusData.secondInstallment.InstallmentAmount) {
+          document.getElementById("BusPayAmount").disabled = true;
+          document.getElementById("PayBusInstallmentsButton").disabled = true;
+        }
+        BusFirstInstallment = {
+          ...BusData.firstInstalllment
+        };
+        BusSecondInstallment = {
+          ...BusData.secondInstallment
+        }
+        if (BusData.IsFullRoute) {
+          document.getElementById("BusRouteWaySpan").innerText = "دورة كاملة";
+        } else {
+          document.getElementById("BusRouteWaySpan").innerText = "نص دورة";
+        }
+        // fill bus installments table 
+        const BusInstallmentsTable = document.getElementById("BusInstallmentsTable");
+        const firstRow = document.createElement("tr");
+        const firstNameCell = document.createElement("th");
+        firstNameCell.innerText = "القسط الأول";
+        firstRow.appendChild(firstNameCell);
+        const firstCostCell = document.createElement("td");
+        firstCostCell.innerText = BusData.firstInstalllment.InstallmentAmount;
+        firstRow.appendChild(firstCostCell);
+        const firstDateCell = document.createElement("td");
+        firstDateCell.innerText = BusData.firstInstalllment.InstallmentDueDate;
+        firstRow.appendChild(firstDateCell);
+        const firstPaidCell = document.createElement("td");
+        firstPaidCell.innerText = BusData.firstInstalllment.InstallmentPaidAmount;
+        firstRow.appendChild(firstPaidCell);
+        const firstRemainCell = document.createElement("td");
+        firstRemainCell.innerText = BusData.firstInstalllment.InstallmentAmount - BusData.firstInstalllment.InstallmentPaidAmount;
+        firstRow.appendChild(firstRemainCell);
+        const firstStatusCell = document.createElement("td");
+        if (BusData.firstInstalllment.Status === "Due") {
+          firstStatusCell.innerText = "لم يأتي بعد";
+        } else if (BusData.firstInstalllment.Status === "Paid") {
+          firstStatusCell.innerText = "تم الدفع";
+        }
+        firstRow.appendChild(firstStatusCell);
+        BusInstallmentsTable.appendChild(firstRow);
+        // second row
+        const secondRow = document.createElement("tr");
+        const secondNameCell = document.createElement("th");
+        secondNameCell.innerText = "القسط الثاني";
+        secondRow.appendChild(secondNameCell);
+        const secondCostCell = document.createElement("td");
+        secondCostCell.innerText = BusData.secondInstallment.InstallmentAmount;
+        secondRow.appendChild(secondCostCell);
+        const secondDateCell = document.createElement("td");
+        secondDateCell.innerText = BusData.secondInstallment.InstallmentDueDate;
+        secondRow.appendChild(secondDateCell);
+        const secondPaidCell = document.createElement("td");
+        secondPaidCell.innerText = BusData.secondInstallment.InstallmentPaidAmount;
+        secondRow.appendChild(secondPaidCell);
+        const secondRemainCell = document.createElement("td");
+        secondRemainCell.innerText = BusData.secondInstallment.InstallmentAmount - BusData.secondInstallment.InstallmentPaidAmount;
+        secondRow.appendChild(secondRemainCell);
+        const secondStatusCell = document.createElement("td");
+        if (BusData.secondInstallment.Status === "Due") {
+          secondStatusCell.innerText = "لم يأتي بعد";
+        } else if (BusData.secondInstallment.Status === "Paid") {
+          secondStatusCell.innerText = "تم الدفع";
+        }
+        secondRow.appendChild(secondStatusCell);
+        BusInstallmentsTable.appendChild(secondRow);
+      } else {
+        document.getElementById("subscribed").hidden = true;
+        document.getElementById("unSubscribed").hidden = false;
+        //fill routes 
+        const BusRoutesSelect = document.getElementById("BusRoutesSelect");
+        BusData.BusRoutes.forEach(route => {
+          const option = document.createElement("option");
+          option.value = route.BusRouteId;
+          option.setAttribute("data-BusRouteCost", route.BusRouteCost);
+          option.innerText = route.BusRouteName;
+          BusRoutesSelect.appendChild(option);
+        });
+        BusRoutesSelect.addEventListener("change", (ev) => {
+          let selectedItem = ev.target.options[ev.target.selectedIndex];
+          // get way 
+          const BusRouteWay = document.getElementById("BusRouteWay").value;
+          if (BusRouteWay === "FullRoute") {
+            document.getElementById("newRouteCost").value = Number(selectedItem.dataset.busroutecost);
+          } else {
+            document.getElementById("newRouteCost").value = Math.round(Number(selectedItem.dataset.busroutecost) / 2);
+          }
+        });
+        BusRoutesSelect.dispatchEvent(new Event("change"));
+        document.getElementById("BusRouteWay").addEventListener("change", (ev) => {
+          BusRoutesSelect.dispatchEvent(new Event("change"));
+        });
+      }
     });
+    function subscribeToNewBusRoute() {
+      let newRouteCost = Number(document.getElementById("newRouteCost").value);
+      const BusRouteWay = document.getElementById("BusRouteWay").value;
+      let IsFullRoute = false;
+      if (BusRouteWay === "FullRoute") {
+        IsFullRoute = true;
+      }
+      let firstBusInstallmentPortion = Number(document.getElementById("firstBusInstallmentPortion").value);
+      if (newRouteCost <= 0) {
+        window.api.send("ShowDialogBox", { messages: ['يجب أن تكون تكلفة الأشتراك اكبر من 0'], type: 'error', title: 'خطأ' });
+        return;
+      }
+      if (firstBusInstallmentPortion < 1 || firstBusInstallmentPortion > 99) {
+        window.api.send("ShowDialogBox", { messages: ['يجب ان تكون النسبة بين ال 0 و ال 99'], type: 'error', title: 'خطأ' });
+        return;
+      }
+      const BusRouteId = Number(document.getElementById("BusRoutesSelect").value);
+      window.api.send("subscribeToNewBusRoute", { StudentId, BusRouteId, newRouteCost, firstBusInstallmentPortion, IsFullRoute });
+    }
+    function PayBusInstallments() {
+      let payAmount = Number(document.getElementById("BusPayAmount").value);
+      let remaining = (BusFirstInstallment.InstallmentAmount - BusFirstInstallment.InstallmentPaidAmount)
+        + (BusSecondInstallment.InstallmentAmount - BusSecondInstallment.InstallmentPaidAmount);
+      if (payAmount < 1) {
+        window.api.send("ShowDialogBox", { messages: ['يجب أن تكون الدفعه اكبر من 0'], type: 'error', title: 'خطأ' });
+        return;
+      }
+      if (payAmount > remaining) {
+        window.api.send("ShowDialogBox", { messages: ['يجب أن تكون الدفعه اقل من المبلغ المتبقي لمجموع القسطين'], type: 'error', title: 'خطأ' });
+        return ;
+      }
+      window.api.send("PayBusInstallments", { StudentId, payAmount });
+    }
+    function unSubscribeBusRoute(){
+      const unSubscribeFees = Number(document.getElementById("unSubscribeFees").value);
+      if(unSubscribeFees < 0){
+        window.api.send("ShowDialogBox", { messages: ['يجب أن تكون تكلفة الالغاء علي الاققل 0'], type: 'error', title: 'خطأ' });
+        return ;
+      }
+      window.api.send("unSubscribeBusRoute",{StudentId,unSubscribeFees});
+    }
     window.api.send("ScriptLoaded");
   </script>
   <script src="js/fieldsValidation.js"></script>

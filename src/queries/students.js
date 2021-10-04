@@ -2,6 +2,8 @@ const { Op } = require("sequelize");
 const db = require("../db/models/index");
 const parent = require("./parent");
 const absent = require("./absent");
+const instal = require("./installment");
+const Bus = require("./BusRoutes");
 
 const { mapToJSON } = require("./utlis");
 
@@ -83,6 +85,7 @@ const getStudentData = async (Id) => {
   // get absent data
   let absentReasons = await absent.getAllReasons();
   let studentAbsent = await absent.getStudentAbsenceDays(Id);
+
   let data = {
     ...studentData,
     studentId: Id,
@@ -595,7 +598,45 @@ const getFinancialData = async (StudentId) => {
   );
   let [firsInstall, secondInstall, fromLastYearInstall, Categories] =
     await Promise.all(proms);
-  return { firsInstall, secondInstall, fromLastYearInstall, Categories };
+  // get bus data
+  // let BusData = {};
+  // check if the student is subscribed
+  let BusData = await db["StudentBusRoute"].findOne({
+    where: {
+      StudentId: StudentId
+    }
+  }).then((res) => {
+    if (res) {
+      let data = res.toJSON();
+      return {
+        isSubscribed: true,
+        data
+      };
+    } else {
+      return {
+        isSubscribed: false,
+        data: {}
+      };
+    }
+  });
+  // get bus Route
+  if (BusData.isSubscribed) {
+    let busRoute = await db["BusRoute"].findOne({
+      where: {
+        BusRouteId: BusData.data.BusRouteId
+      }
+    }).then(res => res.toJSON());
+    BusData.data["BusRoute"] = busRoute;
+    // get fist installment 
+    let firstBusInstallment = await instal.getCurrentFirstBusInstallment(StudentId);
+    let secondBusInstallment = await instal.getCurrentSecondBusInstallment(StudentId);
+    BusData.data["firstInstalllment"] = firstBusInstallment;
+    BusData.data["secondInstallment"] = secondBusInstallment;
+  }
+  // get all Routes 
+  let BusRoutes = await Bus.getBusRoutes();
+  BusData.data["BusRoutes"] = BusRoutes;
+  return { firsInstall, secondInstall, fromLastYearInstall, Categories, BusData };
 };
 module.exports = {
   getAllStudents,
