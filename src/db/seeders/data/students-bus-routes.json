@@ -1,10 +1,5 @@
 [
     {
-        "StudentId": 1,
-        "BusRouteId": 1,
-        "IsFullRoute": true
-    },
-    {
         "StudentId": 2,
         "BusRouteId": 1,
         "IsFullRoute": true

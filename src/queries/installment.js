@@ -2,6 +2,29 @@ const db = require("../db/models/index");
 // const { Op } = require("sequelize");
 const { mapToJSON } = require("./utlis");
 
+const getCurrentFirstBusInstallment = async (StudentId) => {
+    let CurrentAcademicYear = await db["GlobalValues"].findOne({
+        where: {
+            GlobalName: "AcademicYear"
+        }
+    }).then(res => res.toJSON().GlobalValue);
+    let firstYear = CurrentAcademicYear.split("/")[0];
+    let firstInstallmentDueDate = (new Date((new Date()).setFullYear(Number(firstYear), 11, 31))).toISOString();
+    return db["Installment"].findOne({
+        where: {
+            StudentId,
+            InstallmentName: 'first-install',
+            InstallmentType: 'Bus',
+            InstallmentDueDate: firstInstallmentDueDate
+        }
+    }).then(inst => {
+        if (inst) {
+            return inst.toJSON();
+        } else {
+            return {};
+        }
+    });
+}
 const getCurrentFirstInstallment = async (StudentId) => {
     let CurrentAcademicYear = await db["GlobalValues"].findOne({
         where: {
@@ -26,7 +49,30 @@ const getCurrentFirstInstallment = async (StudentId) => {
         }
     });
 };
-
+const getCurrentSecondBusInstallment = async (StudentId) => {
+    let CurrentAcademicYear = await db["GlobalValues"].findOne({
+        where: {
+            GlobalName: "AcademicYear"
+        }
+    }).then(res => res.toJSON().GlobalValue);
+    let secondYear = CurrentAcademicYear.split("/")[1];
+    let secondInstallmentDueDate = (new Date((new Date()).setFullYear(Number(secondYear), 7, 31))).toISOString()
+    // get second installment Data 
+    return db["Installment"].findOne({
+        where: {
+            StudentId,
+            InstallmentName: 'second-install',
+            InstallmentType: 'Bus',
+            InstallmentDueDate: secondInstallmentDueDate
+        }
+    }).then(inst => {
+        if (inst) {
+            return inst.toJSON();
+        } else {
+            return {};
+        }
+    });
+};
 const getCurrentSecondInstallment = async (StudentId) => {
     let CurrentAcademicYear = await db["GlobalValues"].findOne({
         where: {
@@ -93,5 +139,7 @@ const PayFromLastYearInstallment = (InstallmentId, newAmount) => {
 module.exports = {
     getCurrentFirstInstallment,
     getCurrentSecondInstallment,
-    PayFromLastYearInstallment
+    PayFromLastYearInstallment,
+    getCurrentFirstBusInstallment,
+    getCurrentSecondBusInstallment
 };

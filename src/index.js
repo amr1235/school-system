@@ -108,11 +108,31 @@ const getEssentialData = async () => {
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
 });
+//
+ipcMain.on("PayBusInstallments", (err, { StudentId, payAmount }) => {
+  payment.addBusPaymentAndUpdateInstallments(StudentId, payAmount).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم دفع الدفعة بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
+});
 // update Bus Routes
 ipcMain.on("updateBusRoutes", (err, { goingtoBeUpdated, deletedRoutes, newRoutes }) => {
   Bus.updateBusRoutes(newRoutes, deletedRoutes, goingtoBeUpdated).then(() => {
     mainWindow.webContents.send("reload", null);
     DialogBox(["تم تعديل الخطوط بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
+});
+// subscribe To New Bus Route 
+ipcMain.on("subscribeToNewBusRoute", (err, { StudentId, BusRouteId, newRouteCost, firstBusInstallmentPortion, IsFullRoute }) => {
+  Bus.subscribeToNewBusRoute(StudentId, BusRouteId, newRouteCost, firstBusInstallmentPortion, IsFullRoute).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم الأشتراك بنجاح"], "info", "تم");
   }).catch(err => {
     console.log(err);
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
@@ -407,6 +427,15 @@ ipcMain.on(
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
   absent.deleteAbsence(studentId, absentDate).catch(console.log);
 });
+ipcMain.on("unSubscribeBusRoute", (err, { StudentId, unSubscribeFees }) => {
+  Bus.unSubscribeBusRoute(StudentId, unSubscribeFees).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم الغاء الأشتراك بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox("حدث خطأ ما برجاء المحاولة مجددا", "error", "خطأ");
+  });
+});
 // update student
 ipcMain.on(
   "UpdateStudentData",
@@ -500,7 +529,6 @@ ipcMain.on("login", function (event, args) {
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {
   // load screen
-  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   student.getStudentData(Number(studentId)).then((data) => {
     student
       .getAllStudents()
