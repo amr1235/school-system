@@ -5,7 +5,7 @@ function loadSideBar(students) {
     const stages = students.map(elem => {
         return { name: elem.StageName, id: elem.StageId, grades: elem.Grades };
     });
-    stages.forEach((stage,i) => {
+    stages.forEach((stage, i) => {
         const stageLi = document.createElement("li");
         stageLi.classList.add("nav-item");
         stageLi.setAttribute("role", "presentation");
@@ -19,19 +19,19 @@ function loadSideBar(students) {
         stageButton.setAttribute("type", "button");
         stageButton.setAttribute("role", "tab");
         stageButton.setAttribute("aria-controls", stageDataBsTarget);
-        if(i === 0) {
+        if (i === 0) {
             stageButton.setAttribute("aria-selected", "true");
             stageButton.classList.add("active");
-        }else {
+        } else {
             stageButton.setAttribute("aria-selected", "true");
         }
         stageButton.innerText = stage.name;
         stageLi.appendChild(stageButton);
         pillsTab.appendChild(stageLi);
         const stageDiv = document.createElement("div");
-        if(i === 0) {
-            stageDiv.classList.add("tab-pane", "fade","show", "active" ,"text-warning");
-        }else {
+        if (i === 0) {
+            stageDiv.classList.add("tab-pane", "fade", "show", "active", "text-warning");
+        } else {
             stageDiv.classList.add("tab-pane", "fade", "text-warning");
         }
         stageDiv.setAttribute("id", stageDataBsTarget);
@@ -116,5 +116,40 @@ function loadSideBar(students) {
         });
         pillsTabContent.appendChild(stageDiv);
         // <div class="tab-pane fade show active text-warning" id="prim" role="tabpanel" aria-labelledby="pills-home-tab">
+    });
+    // put names inton datalist 
+    const Datalist = document.getElementById("StudentListForSearch");
+    students.forEach(stage => {
+        stage.Grades.forEach(grade => {
+            grade.Classes.forEach(cls => {
+                cls.StudentClasses.forEach(std => {
+                    const option = document.createElement("option");
+                    option.setAttribute("id", std.StudentId);
+                    option.value = std.Student.StudentName;
+                    option.innerText = grade.GradeName;
+                    Datalist.appendChild(option);
+                });
+            });
+        });
+    });
+    // hundle search input 
+    document.getElementById("Search").addEventListener("input", (ev) => {
+        document.getElementById("Search").setAttribute("list", "StudentListForSearch");
+    });
+    document.getElementById("Search").addEventListener("focusout", (ev) => {
+        document.getElementById("Search").removeAttribute("list");
+    });
+    document.getElementById("Search").addEventListener("click", (ev) => {
+        document.getElementById("Search").removeAttribute("list");
+    });
+    document.getElementById("Search").addEventListener("change", (ev) => {
+        const dataList = document.getElementById("StudentListForSearch");
+        for (let i = 0; i < dataList.options.length; i++) {
+            const option = dataList.options[i];
+            if (option.value === ev.target.value) {
+                window.api.send("sendStudentIdToMain", option.id);
+                break;
+            }
+        }
     });
 };
