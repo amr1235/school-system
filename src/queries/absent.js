@@ -27,7 +27,7 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
   const warnings = student.dataValues.StudentWarnings.length;
   const perWarning = 10;
 
-  if (absenceDays - warnings * perWarning >= perWarning) {
+  if (absenceDays - warnings * perWarning >= perWarning - 1) {
     return await db.sequelize.transaction(async (t) => {
       const absent = await db["StudentAbsent"].create(absenceData, { transaction: t });
       const newWarning = await db["StudentWarning"].create({
@@ -40,7 +40,6 @@ const addNewAbsenceDay = async (StudentId, AbsentReasonName, AbsentDate) => {
     return db["StudentAbsent"].create(absenceData).then(date => date.toJSON());
   }
 };
-
 const updateAbsenceReason = (StudentId, AbsentDate, newReasonId) => {
   return db["StudentAbsent"].update({
     AbsentReasonId: newReasonId
@@ -52,18 +51,30 @@ const updateAbsenceReason = (StudentId, AbsentDate, newReasonId) => {
   });
 };
 const deleteAbsence = (StudentId, AbsentDate) => {
-  return db["StudentAbsent"].destroy({
-    where : {
-      StudentId,
-      AbsentDate
-    }
+  // destroy any warning 
+  return db.sequelize.transaction((t) => {
+    let proms = [];
+    proms.push(db["StudentWarning"].destroy({
+      where : {
+        StudentId,
+        WarningDate : AbsentDate
+      }
+    }));
+    proms.push(db["StudentAbsent"].destroy({
+      where : {
+        StudentId,
+        AbsentDate
+      }
+    }));
+    return Promise.all(proms);
   });
 };
 const getStudentAbsenceDays = async (StudentId) => {
   return db["StudentAbsent"].findAll({
     where: {
       StudentId
-    }
+    },
+    order : [['AbsentDate',"DESC"]]
   }).then(dates => dates.map(date => date.toJSON()));
 };
 
@@ -82,7 +93,8 @@ const getAllWarnings = async (StudentId) => {
   return db["StudentWarning"].findAll({
     where: {
       StudentId
-    }
+    },
+    order : [['WarningDate',"DESC"]]
   }).then(warnings => warnings.map(warning => warning.toJSON()));
 };
 
@@ -94,7 +106,16 @@ const sendWarning = async (StudentId, WarningDate) => {
     }
   });
 };
-
+const receiveWarning = (StudentId, WarningDate) => {
+  return db["StudentWarning"].update({
+    IsRecieved : true
+  },{
+    where : {
+      StudentId,
+      WarningDate
+    }
+  });
+}
 const deleteWarning = async (StudentId, WarningDate) => {
   return db["StudentWarning"].destroy({
     where: {
@@ -121,5 +142,6 @@ module.exports = {
   getAllReasons,
   updateAbsenceReason,
   deleteAbsence,
-  addAbsentReason
+  addAbsentReason,
+  receiveWarning
 };
