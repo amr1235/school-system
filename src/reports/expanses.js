@@ -37,12 +37,18 @@ exports.getDailyReport = async (date) => {
         return [
           pay["Student"]["StudentName"],
           pay["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
-          pay["PaymentType"],
+          pay["PaymentType"] === "Bus" ? "باص" : "خدمات",
           pay["PaymentAmount"],
           pay["PaymentDate"],
         ];
       }),
     )
+    .then((payments) => {
+      const total = payments.reduce((sum, payment) => (sum += payment[3]), 0);
+      payments.push(["المجموع", "", "", total, ""]);
+      console.log(payments);
+      return payments;
+    })
     .catch(console.err);
 };
 
@@ -95,16 +101,25 @@ exports.getMonthlyReport = async (date) => {
       },
     })
     .then((payments) =>
-      payments.map((payment) => {
-        const pay = payment.toJSON();
-        return [
-          pay["Student"]["StudentName"],
-          pay["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
-          pay["PaymentType"],
-          pay["PaymentAmount"],
-          pay["PaymentDate"],
-        ];
-      }),
+      payments
+        .map((payment) => {
+          const pay = payment.toJSON();
+          return [
+            pay["Student"]["StudentName"],
+            pay["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
+            pay["PaymentType"] === "Bus" ? "باص" : "خدمات",
+            pay["PaymentAmount"],
+            pay["PaymentDate"],
+          ];
+        })
+        .then((payments) => {
+          const total = payments.reduce(
+            (sum, payment) => (sum += payment[3]),
+            0,
+          );
+          payments.push(["المجموع", "", "", total, ""]);
+          return payments;
+        }),
     )
     .catch(console.err);
 };
