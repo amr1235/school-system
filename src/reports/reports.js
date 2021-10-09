@@ -7,6 +7,8 @@ const {
   AbsentDays,
 } = require("./affairs");
 
+const { getDailyReport, getMonthlyReport } = require("./expanses");
+
 const Reports = {
   Affairs: {
     Seats: {
@@ -42,6 +44,30 @@ const Reports = {
       query: AbsentDays,
       headers: ["الصف", "الفصل", "اسم الطالب", "سبب الغياب", "تاريخ الغياب"],
       title: "الغياب",
+    },
+  },
+  Expanses: {
+    DailyExpanses: {
+      query: getDailyReport,
+      headers: [
+        "اسم الطالب",
+        "الصف",
+        "نوع المصاريف",
+        "المبلغ المدفوع",
+        "تاريخ الدفع",
+      ],
+      title: "التوريد اليومي",
+    },
+    MonthlyExpanses: {
+      query: getMonthlyReport,
+      headers: [
+        "اسم الطالب",
+        "الصف",
+        "نوع المصاريف",
+        "المبلغ المدفوع",
+        "تاريخ الدفع",
+      ],
+      title: "التوريد الشهري",
     },
   },
 };
