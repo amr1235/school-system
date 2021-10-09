@@ -7,7 +7,12 @@ const {
   AbsentDays,
 } = require("./affairs");
 
-const { getDailyReport, getMonthlyReport } = require("./expanses");
+const {
+  getDailyReport,
+  getMonthlyReport,
+  RemainingFirstOrSecond,
+  FullyFirstOrSecond,
+} = require("./expanses");
 
 const Reports = {
   Affairs: {
@@ -68,6 +73,40 @@ const Reports = {
         "تاريخ الدفع",
       ],
       title: "التوريد الشهري",
+    },
+    RemainingFirst: {
+      query: RemainingFirstOrSecond,
+      headers: [
+        "اسم الطالب",
+        "اسم ولي الأمر",
+        "رقم تليفون ولي الأمر",
+        "القسط الأول",
+        "المسدد",
+        "الباقي",
+      ],
+      title: "الباقي قسط أول",
+    },
+    RemainingSecond: {
+      query: RemainingFirstOrSecond,
+      headers: [
+        "اسم الطالب",
+        "اسم ولي الأمر",
+        "رقم تليفون ولي الأمر",
+        "القسط الثاني",
+        "المسدد",
+        "الباقي",
+      ],
+      title: "الباقي قسط ثاني",
+    },
+    FullyFirst: {
+      query: FullyFirstOrSecond,
+      headers: ["اسم الطالب", "الصف", "القسط الأول", "المسدد"],
+      title: "مسددين قسط أول",
+    },
+    FullySecond: {
+      query: FullyFirstOrSecond,
+      headers: ["اسم الطالب", "الصف", "القسط الثاني", "المسدد"],
+      title: "مسددين قسط ثاني",
     },
   },
 };
