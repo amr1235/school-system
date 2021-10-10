@@ -85,7 +85,8 @@ const getStudentData = async (Id) => {
   // get absent data
   let absentReasons = await absent.getAllReasons();
   let studentAbsent = await absent.getStudentAbsenceDays(Id);
-
+  // get warnings
+  let StudentWarnings = await absent.getAllWarnings(Id);
   let data = {
     ...studentData,
     studentId: Id,
@@ -99,6 +100,7 @@ const getStudentData = async (Id) => {
     jobs,
     absentReasons,
     studentAbsent,
+    StudentWarnings
   };
   // get absent data
   return data;
@@ -419,6 +421,42 @@ const transferStudent = (StudentId, SchoolName) => {
         transaction: t,
       }),
     );
+    // destroy studentApsent
+    proms.push(db["StudentAbsent"].destroy({
+      where: {
+        StudentId
+      },
+      transaction: t
+    }));
+    // destroy from studentBusRoute 
+    proms.push(db["StudentBusRoute"].destroy({
+      where: {
+        StudentId
+      },
+      transaction: t
+    }));
+    // studentSeat
+    proms.push(db["StudentSeat"].destroy({
+      where: {
+        StudentId
+      },
+      transaction: t
+    }));
+    // studentDiscount
+    proms.push(db["StudentDiscount"].destroy({
+      where: {
+        StudentId
+      },
+      transaction: t
+    }));
+    // student warning 
+    proms.push(db["StudentWarning"].destroy({
+      where: {
+        StudentId
+      },
+      transaction: t
+    }));
+
     proms.push(
       db["TransferredStudent"].create(
         {
