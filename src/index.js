@@ -439,11 +439,17 @@ ipcMain.on(
   (err, { studentId, absentDate, newReasonId }) => {
     absent
       .updateAbsenceReason(studentId, absentDate, newReasonId)
-      .catch(console.log);
+      .catch(err => {
+        console.log(err);
+        DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      });
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
-  absent.deleteAbsence(studentId, absentDate).catch(console.log);
+  absent.deleteAbsence(studentId, absentDate).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
 });
 // update absent reason
 ipcMain.on(
@@ -451,11 +457,17 @@ ipcMain.on(
   (err, { studentId, absentDate, newReasonId }) => {
     absent
       .updateAbsenceReason(studentId, absentDate, newReasonId)
-      .catch(console.log);
+      .catch(err => {
+        console.log(err);
+        DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      });
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
-  absent.deleteAbsence(studentId, absentDate).catch(console.log);
+  absent.deleteAbsence(studentId, absentDate).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
 });
 ipcMain.on("unSubscribeBusRoute", (err, { StudentId, unSubscribeFees }) => {
   Bus.unSubscribeBusRoute(StudentId, unSubscribeFees)
@@ -596,25 +608,32 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
       .catch(console.log);
   });
 });
-
+ipcMain.on("receiveWarning", (err, { StudentId, WarningDate }) => {
+  absent.receiveWarning(StudentId, WarningDate).then(() => {
+    mainWindow.webContents.send("reload", null);
+    DialogBox(["تم تعديل الإنذار بنجاح"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(['حدث خطأ برجاء المحاولة مجددا'], "error", "خطأ");
+  });
+});
 ipcMain.on("sendAffairsReportData", (err, args) => {
   // load screen
   const ReportType = args[0];
   const params = args[1];
-  let newWindow = new BrowserWindow({
-    width: 1920,
-    height: 1080,
-    webPreferences: {
-      nodeIntegration: false, // is default value after Electron v5
-      contextIsolation: true, // protect against prototype pollution
-      enableRemoteModule: false, // turn off remote
-      preload: path.join(__dirname, "views/js/preload.js"),
-    },
-  });
-  newWindow.loadFile(path.join(__dirname, "views/loading.html"));
-  newWindow.webContents.openDevTools();
   reports["Affairs"][ReportType]["query"](...params)
     .then((results) => {
+      let newWindow = new BrowserWindow({
+        width: 1920,
+        height: 1080,
+        webPreferences: {
+          nodeIntegration: false, // is default value after Electron v5
+          contextIsolation: true, // protect against prototype pollution
+          enableRemoteModule: false, // turn off remote
+          preload: path.join(__dirname, "views/js/preload.js"),
+        },
+      });
+      newWindow.loadFile(path.join(__dirname, "views/loading.html"));
       const data = {
         rows: results,
         title: reports["Affairs"][ReportType]["title"],
@@ -626,7 +645,9 @@ ipcMain.on("sendAffairsReportData", (err, args) => {
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     })
-    .catch(console.log);
+    .catch(err => {
+      DialogBox(['حدث خطأ برجاء المحاولة مجددا'], "error", "خطأ");
+    });
 });
 
 ipcMain.on("sendExpansesReportData", (err, args) => {

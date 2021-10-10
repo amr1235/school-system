@@ -31,18 +31,63 @@
           <datalist id="StudentListForSearch">
           </datalist>
         </form>
+        <div class="dropdown mx-5">
+          <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1"
+            data-bs-toggle="dropdown" aria-expanded="false">
+            التقارير
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+            <li>
+              <a class="dropdown-item btn" href="#"> نسبه الغياب&raquo;</a>
+              <ul class="dropdown-menu dropdown-submenu">
+                <li class="mx-1">
+                  <div class="input-group mb-3 mt-3" dir="rtl">
+                    <span class="input-group-text" id="basic-addon1">
+                      من
+                    </span>
+                    <input id="absentFrom" type="date" class="form-control" placeholder="Username" aria-label="Username"
+                      aria-describedby="basic-addon1" />
+                  </div>
+                  <div class="input-group mb-3 mt-3" dir="rtl">
+                    <span class="input-group-text" id="basic-addon1">
+                      الي
+                    </span>
+                    <input id="absentTo" type="date" class="form-control" placeholder="Username" aria-label="Username"
+                      aria-describedby="basic-addon1" />
+                  </div>
+                  <a href="#" class="btn btn-warning rounded-pill"
+                    onclick='window.api.send("sendAffairsReportData", ["AbsenceRate", [document.querySelector("#absentFrom").value, document.querySelector("#absentTo").value]])'>
+                    تاكيد التاريخ و الذهاب للتقرير
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a class="dropdown-item btn" href="#"
+                onclick='window.api.send("sendAffairsReportData", ["TransferredStudents", []])'>
+                المحذوفين
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item btn" href="#"
+                onclick='window.api.send("sendAffairsReportData", ["StudentsOfColleagues", []])'>
+                طﻻب العاملين
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#"
+                onclick='window.api.send("sendAffairsReportData", ["GradeCapacity", [1]])'>
+                كثافة الفصول &raquo;
+              </a>
+              <ul class="dropdown-menu dropdown-submenu" id="Capacities"></ul>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
+              <ul class="dropdown-menu dropdown-submenu" id="SeatsId"></ul>
+            </li>
+          </ul>
+        </div>
         <div class="mx-5 nav">
-          <!-- <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-            >
-              <a class="text-decoration-none text-dark" href="#">التقارير</a>
-            </button> -->
           <button class="
                 btn btn-warning
                 mx-md-3 mx-4
@@ -142,12 +187,37 @@
         </button>
       </li>
       <li class="nav-item" role="presentation">
+        <button class="nav-link" id="pills-warning-tab" data-bs-toggle="pill" data-bs-target="#warnings" type="button"
+          role="tab" aria-controls="pills-warning" aria-selected="false">
+          إنذارات الغياب
+        </button>
+      </li>
+      <li class="nav-item" role="presentation">
         <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#transfer" type="button"
           role="tab" aria-controls="pills-contact" aria-selected="false">
           تحويل الطالب
         </button>
       </li>
     </ul>
+
+    <section id="warnings" class="container tab-pane fade" role="tabpanel" aria-labelledby="v-pills-home-tab" dir="rtl">
+      <div class="row">
+        <h2 class=" border-1 border-bottom border-dark pb-2"> الإنذارات </h2>
+        <div class="row my-3">
+          <table id="StudentWarningsTable" class="table table-hover table-borderless table-striped" dir="rtl">
+            <thead>
+              <tr>
+                <th scope="col">تاريخ الإنذار</th>
+                <th scope="col"> الحالة</th>
+                <th scope="col"> إستلم</th>
+              </tr>
+            </thead>
+            <tbody id="StudentWarnings">
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
 
     <section id="stud-data" class="container tab-pane fade show active" role="tabpanel"
       aria-labelledby="v-pills-home-tab" dir="rtl">
@@ -233,15 +303,10 @@
         </div>
       </div>
       <div class="row mb-2" dir="rtl">
-        <div class="col">
-          <select class="form-select" aria-label="Default select example" id="StudentFamilyStatus">
-            <option selected>الحاله العائليه</option>
-            <option value="ORPHAN">يتيم</option>
-            <option value="MARRIED">متزوج</option>
-            <option value="DIVORCED">مطلق</option>
-            <option value="DEAD MOTHER">الاب متوفي</option>
-            <option value="DEAD FATHER">اﻻم متوفيه</option>
-          </select>
+        <div class="input-group input-group mb-2 col">
+          <span class="input-group-text" id="inputGroup-sizing">الحالة العائلية</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm" id="StudentFamilyStatus" />
         </div>
       </div>
 
@@ -737,6 +802,42 @@
     }
     window.api.receive("getStudentDataFromMain", (data) => {
       loadSideBar(data.students);
+      ReportsNav(data);
+      window.api.receive("reload", () => {
+        window.api.send("sendStudentIdToMain", data.StudentId);
+      });
+      // hundle student warnings 
+      console.log(data.StudentWarnings);
+      if (data.StudentWarnings.length === 0) {
+        document.getElementById("StudentWarningsTable").hidden = true;
+      } else {
+        // fill table 
+        const StudentWarnings = document.getElementById("StudentWarnings");
+        data.StudentWarnings.forEach(warning => {
+          const Row = document.createElement("tr");
+          const dateCell = document.createElement("td");
+          dateCell.innerText = warning.WarningDate;
+          Row.appendChild(dateCell);
+          const statusCell = document.createElement("td");
+          const ButtonCell = document.createElement("td");
+          const doneButton = document.createElement("button");
+          doneButton.classList.add("btn", "btn-success");
+          doneButton.innerText = "استلم";
+          doneButton.addEventListener("click", (ev) => {
+            window.api.send("receiveWarning", { StudentId: data.studentId, WarningDate: warning.WarningDate });
+          });
+          ButtonCell.appendChild(doneButton);
+          if (warning.IsRecieved) {
+            statusCell.innerText = "تم الإستلام";
+            doneButton.disabled = true;
+          } else {
+            statusCell.innerText = "لم يتم الأستلام";
+          }
+          Row.appendChild(statusCell);
+          Row.appendChild(ButtonCell);
+          StudentWarnings.appendChild(Row);
+        });
+      }
       jobs = data.jobs;
       //set save data button event
       let SaveDataButton = document.getElementById("SaveDataButton");
@@ -1131,6 +1232,7 @@
     }
     window.api.send("ScriptLoaded", null);
   </script>
+  <script src="../views/js/ReportsNav.js"></script>
   <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
   <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
   <script src="./js/main.js"></script>

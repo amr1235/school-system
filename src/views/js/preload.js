@@ -28,6 +28,7 @@ contextBridge.exposeInMainWorld("api", {
       "subscribeToNewBusRoute",
       "PayBusInstallments",
       "unSubscribeBusRoute",
+      "receiveWarning"
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
