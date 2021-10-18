@@ -78,10 +78,17 @@ const getEssentialData = async () => {
     include: {
       model: db["Grade"],
       attributes: ["GradeId", "GradeName"],
-      include: {
-        model: db["Class"],
-        attributes: ["ClassId"],
-      },
+      include: [
+        {
+          model: db["Class"],
+          attributes: ["ClassId"],
+        },
+        {
+          model: db["Category"],
+          required: true,
+          attributes: ["CategoryName", "GradeId", "CategoryId"],
+        },
+      ],
     },
     order: [
       ["StageId", "ASC"],
@@ -90,6 +97,7 @@ const getEssentialData = async () => {
     ],
   });
   stagesData = mapToJSON(stagesData);
+  console.log(stagesData[3]["Grades"]);
   //get all jobs
   let jobs = await db["Job"].findAll();
   jobs = mapToJSON(jobs);
@@ -439,14 +447,14 @@ ipcMain.on(
   (err, { studentId, absentDate, newReasonId }) => {
     absent
       .updateAbsenceReason(studentId, absentDate, newReasonId)
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
       });
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
-  absent.deleteAbsence(studentId, absentDate).catch(err => {
+  absent.deleteAbsence(studentId, absentDate).catch((err) => {
     console.log(err);
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
   });
@@ -457,14 +465,14 @@ ipcMain.on(
   (err, { studentId, absentDate, newReasonId }) => {
     absent
       .updateAbsenceReason(studentId, absentDate, newReasonId)
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
       });
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
-  absent.deleteAbsence(studentId, absentDate).catch(err => {
+  absent.deleteAbsence(studentId, absentDate).catch((err) => {
     console.log(err);
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
   });
@@ -545,30 +553,30 @@ ipcMain.on("login", function (event, args) {
   console.log(args[0], args[1]);
   // load Students
   switch (args[0]) {
-  case "1":
-    if (args[1] === "1234") {
-      CurrentWindow = "expenses";
-      student.getAllStudents().then((students) => {
-        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", students);
-          ipcMain.removeListener("ScriptLoaded", cb);
+    case "1":
+      if (args[1] === "1234") {
+        CurrentWindow = "expenses";
+        getEssentialData().then((data) => {
+          mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    }
-    break;
-  case "2":
-    if (args[1] === "2468") {
-      CurrentWindow = "affairs";
-      getEssentialData().then((data) => {
-        console.log(data);
-        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
+      }
+      break;
+    case "2":
+      if (args[1] === "2468") {
+        CurrentWindow = "affairs";
+        getEssentialData().then((data) => {
+          console.log(data);
+          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    } else break;
+      } else break;
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {
@@ -609,13 +617,16 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
   });
 });
 ipcMain.on("receiveWarning", (err, { StudentId, WarningDate }) => {
-  absent.receiveWarning(StudentId, WarningDate).then(() => {
-    mainWindow.webContents.send("reload", null);
-    DialogBox(["تم تعديل الإنذار بنجاح"], "info", "تم");
-  }).catch(err => {
-    console.log(err);
-    DialogBox(['حدث خطأ برجاء المحاولة مجددا'], "error", "خطأ");
-  });
+  absent
+    .receiveWarning(StudentId, WarningDate)
+    .then(() => {
+      mainWindow.webContents.send("reload", null);
+      DialogBox(["تم تعديل الإنذار بنجاح"], "info", "تم");
+    })
+    .catch((err) => {
+      console.log(err);
+      DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+    });
 });
 ipcMain.on("sendAffairsReportData", (err, args) => {
   // load screen
@@ -645,8 +656,8 @@ ipcMain.on("sendAffairsReportData", (err, args) => {
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     })
-    .catch(err => {
-      DialogBox(['حدث خطأ برجاء المحاولة مجددا'], "error", "خطأ");
+    .catch((err) => {
+      DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
     });
 });
 

@@ -12,6 +12,8 @@ const {
   getMonthlyReport,
   RemainingFirstOrSecond,
   FullyFirstOrSecond,
+  ToBeCollected,
+  notPaidStudents,
 } = require("./expanses");
 
 const Reports = {
@@ -107,6 +109,31 @@ const Reports = {
       query: FullyFirstOrSecond,
       headers: ["اسم الطالب", "الصف", "القسط الثاني", "المسدد"],
       title: "مسددين قسط ثاني",
+    },
+    ToBeCollectedCategoriesFirstSemester: {
+      query: ToBeCollected,
+      headers: ["الصف", "عدد الطلاب في الصف", "المتوقع تحصيله"],
+      title: "المتوقع تحصيله من القسط الأول",
+    },
+    ToBeCollectedCategoriesSecondSemester: {
+      query: ToBeCollected,
+      headers: ["الصف", "عدد الطلاب في الصف", "المتوقع تحصيله"],
+      title: "المتوقع تحصيله من القسط الثاني",
+    },
+    ToBeCollectedCategoriesFullYear: {
+      query: ToBeCollected,
+      headers: ["الصف", "عدد الطلاب في الصف", "المتوقع تحصيله"],
+      title: "المتوقع تحصيله من القسطين معًا",
+    },
+    RemainingBusFirstSemester: {
+      query: notPaidStudents,
+      headers: ["اسم الطالب", "الصف", "قيمة القسط", "المدفوع", "الباقي"],
+      title: "الغير مسددين سيارة قسط أول",
+    },
+    RemainingBusSecondSemester: {
+      query: notPaidStudents,
+      headers: ["اسم الطالب", "الصف", "قيمة القسط", "المدفوع", "الباقي"],
+      title: "الغير مسددين سيارة قسط ثاني",
     },
   },
 };

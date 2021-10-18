@@ -72,9 +72,6 @@
               </li>
             </ul>
           </div>
-          <!-- <div class="mx-2">
-              <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
-            </div> -->
           <div class="dropdown mx-5">
             <button
               class="btn btn-warning rounded-pill dropdown-toggle"
@@ -140,11 +137,6 @@
                   </li>
                 </ul>
               </li>
-              <!-- <li>
-              <button class="dropdown-item" onclick='window.api.send("sendAffairsReportData", "AbsenceRate")'>
-                التوريد الشهرى
-              </button>
-            </li> -->
               <li>
                 <a
                   class="dropdown-item"
@@ -158,9 +150,9 @@
                 <a
                   class="dropdown-item"
                   href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["FullyFirst", ["first-install"]])'
+                  onclick='window.api.send("sendExpansesReportData", ["FullySecond", ["second-install"]])'
                 >
-                  المسددين قسط أول
+                  المسددين قسط ثاني
                 </a>
               </li>
               <li>
@@ -169,7 +161,7 @@
                   href="#"
                   onclick='window.api.send("sendExpansesReportData", ["RemainingFirst", ["first-install"]])'
                 >
-                  الباقى على الطلبة قسط ثاني
+                  الباقى على الطلبة قسط أول
                 </a>
               </li>
               <li>
@@ -179,6 +171,55 @@
                   onclick='window.api.send("sendExpansesReportData", ["RemainingSecond", ["second-install"]])'
                 >
                   الباقى على الطلبة قسط ثاني
+                </a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"> المسدد &raquo;</a>
+                <ul class="dropdown-menu dropdown-submenu" id="FullyPaidCategory"></ul>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesFirstSemester", ["first-install", "Category"]])'
+                >
+                  المتوقع تحصيله من القسط الأول
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesSecondSemester", ["second-install", "Category"]])'
+                >
+                  المتوقع تحصيله من القسط الثاني
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesFullYear", ["", "Category"]])'
+                >
+                  المتوقع تحصيله من القسطين معًا
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendExpansesReportData", ["RemainingBusFirstSemester", ["first-install", "Bus"]])'
+                >
+                  الغير مسددين سيارة قسط أول
+                </a>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendExpansesReportData", ["RemainingBusSecondSemester", ["second-install", "Bus"]])'
+                >
+                  الغير مسددين سيارة قسط ثاني
                 </a>
               </li>
               <li>
@@ -295,12 +336,14 @@
     <main dir="rtl" class="mt-5 pt-3 tab-content" id="Expenses-general"></main>
 
     <script>
-      window.api.receive("sentEssentialData", (students) => {
-        loadSideBar(students);
+      window.api.receive("sentEssentialData", (data) => {
+        loadSideBar(data.students);
+        ExpansesReportsNav(data);
       });
       window.api.send("ScriptLoaded", null);
     </script>
     <script src="../views/js/loadSideBar.js"></script>
+    <script src="../views/js/ExpansesReportNav.js"></script>
     <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
     <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="./js/main.js"></script>
