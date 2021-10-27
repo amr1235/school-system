@@ -7,6 +7,15 @@ const {
   AbsentDays,
 } = require("./affairs");
 
+const {
+  getDailyReport,
+  getMonthlyReport,
+  RemainingFirstOrSecond,
+  FullyFirstOrSecond,
+  ToBeCollected,
+  notPaidStudents,
+} = require("./expanses");
+
 const Reports = {
   Affairs: {
     Seats: {
@@ -42,6 +51,89 @@ const Reports = {
       query: AbsentDays,
       headers: ["الصف", "الفصل", "اسم الطالب", "سبب الغياب", "تاريخ الغياب"],
       title: "الغياب",
+    },
+  },
+  Expanses: {
+    DailyExpanses: {
+      query: getDailyReport,
+      headers: [
+        "اسم الطالب",
+        "الصف",
+        "نوع المصاريف",
+        "المبلغ المدفوع",
+        "تاريخ الدفع",
+      ],
+      title: "التوريد اليومي",
+    },
+    MonthlyExpanses: {
+      query: getMonthlyReport,
+      headers: [
+        "اسم الطالب",
+        "الصف",
+        "نوع المصاريف",
+        "المبلغ المدفوع",
+        "تاريخ الدفع",
+      ],
+      title: "التوريد الشهري",
+    },
+    RemainingFirst: {
+      query: RemainingFirstOrSecond,
+      headers: [
+        "اسم الطالب",
+        "اسم ولي الأمر",
+        "رقم تليفون ولي الأمر",
+        "القسط الأول",
+        "المسدد",
+        "الباقي",
+      ],
+      title: "الباقي قسط أول",
+    },
+    RemainingSecond: {
+      query: RemainingFirstOrSecond,
+      headers: [
+        "اسم الطالب",
+        "اسم ولي الأمر",
+        "رقم تليفون ولي الأمر",
+        "القسط الثاني",
+        "المسدد",
+        "الباقي",
+      ],
+      title: "الباقي قسط ثاني",
+    },
+    FullyFirst: {
+      query: FullyFirstOrSecond,
+      headers: ["اسم الطالب", "الصف", "القسط الأول", "المسدد"],
+      title: "مسددين قسط أول",
+    },
+    FullySecond: {
+      query: FullyFirstOrSecond,
+      headers: ["اسم الطالب", "الصف", "القسط الثاني", "المسدد"],
+      title: "مسددين قسط ثاني",
+    },
+    ToBeCollectedCategoriesFirstSemester: {
+      query: ToBeCollected,
+      headers: ["الصف", "عدد الطلاب في الصف", "المتوقع تحصيله"],
+      title: "المتوقع تحصيله من القسط الأول",
+    },
+    ToBeCollectedCategoriesSecondSemester: {
+      query: ToBeCollected,
+      headers: ["الصف", "عدد الطلاب في الصف", "المتوقع تحصيله"],
+      title: "المتوقع تحصيله من القسط الثاني",
+    },
+    ToBeCollectedCategoriesFullYear: {
+      query: ToBeCollected,
+      headers: ["الصف", "عدد الطلاب في الصف", "المتوقع تحصيله"],
+      title: "المتوقع تحصيله من القسطين معًا",
+    },
+    RemainingBusFirstSemester: {
+      query: notPaidStudents,
+      headers: ["اسم الطالب", "الصف", "قيمة القسط", "المدفوع", "الباقي"],
+      title: "الغير مسددين سيارة قسط أول",
+    },
+    RemainingBusSecondSemester: {
+      query: notPaidStudents,
+      headers: ["اسم الطالب", "الصف", "قيمة القسط", "المدفوع", "الباقي"],
+      title: "الغير مسددين سيارة قسط ثاني",
     },
   },
 };

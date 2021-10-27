@@ -23,6 +23,7 @@ contextBridge.exposeInMainWorld("api", {
       "addNewExpenses",
       "StartNewYear",
       "sendAffairsReportData",
+      "sendExpansesReportData",
       "updateBusRoutes",
       "subscribeToNewBusRoute",
       "PayBusInstallments",

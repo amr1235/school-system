@@ -12,9 +12,9 @@ const installment = require("./queries/installment");
 const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
-require("electron-reload")(__dirname, {
-  electron: require("../node_modules/electron"),
-});
+// require("electron-reload")(__dirname, {
+//   electron: require("../node_modules/electron"),
+// });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -78,10 +78,17 @@ const getEssentialData = async () => {
     include: {
       model: db["Grade"],
       attributes: ["GradeId", "GradeName"],
-      include: {
-        model: db["Class"],
-        attributes: ["ClassId"],
-      },
+      include: [
+        {
+          model: db["Class"],
+          attributes: ["ClassId"],
+        },
+        {
+          model: db["Category"],
+          required: true,
+          attributes: ["CategoryName", "GradeId", "CategoryId"],
+        },
+      ],
     },
     order: [
       ["StageId", "ASC"],
@@ -90,6 +97,7 @@ const getEssentialData = async () => {
     ],
   });
   stagesData = mapToJSON(stagesData);
+  console.log(stagesData[3]["Grades"]);
   //get all jobs
   let jobs = await db["Job"].findAll();
   jobs = mapToJSON(jobs);
@@ -110,34 +118,62 @@ ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
 });
 //
 ipcMain.on("PayBusInstallments", (err, { StudentId, payAmount }) => {
-  payment.addBusPaymentAndUpdateInstallments(StudentId, payAmount).then(() => {
-    mainWindow.webContents.send("reload", null);
-    DialogBox(["تم دفع الدفعة بنجاح"], "info", "تم");
-  }).catch(err => {
-    console.log(err);
-    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
-  });
+  payment
+    .addBusPaymentAndUpdateInstallments(StudentId, payAmount)
+    .then(() => {
+      mainWindow.webContents.send("reload", null);
+      DialogBox(["تم دفع الدفعة بنجاح"], "info", "تم");
+    })
+    .catch((err) => {
+      console.log(err);
+      DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+    });
 });
 // update Bus Routes
-ipcMain.on("updateBusRoutes", (err, { goingtoBeUpdated, deletedRoutes, newRoutes }) => {
-  Bus.updateBusRoutes(newRoutes, deletedRoutes, goingtoBeUpdated).then(() => {
-    mainWindow.webContents.send("reload", null);
-    DialogBox(["تم تعديل الخطوط بنجاح"], "info", "تم");
-  }).catch(err => {
-    console.log(err);
-    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
-  });
-});
-// subscribe To New Bus Route 
-ipcMain.on("subscribeToNewBusRoute", (err, { StudentId, BusRouteId, newRouteCost, firstBusInstallmentPortion, IsFullRoute }) => {
-  Bus.subscribeToNewBusRoute(StudentId, BusRouteId, newRouteCost, firstBusInstallmentPortion, IsFullRoute).then(() => {
-    mainWindow.webContents.send("reload", null);
-    DialogBox(["تم الأشتراك بنجاح"], "info", "تم");
-  }).catch(err => {
-    console.log(err);
-    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
-  });
-});
+ipcMain.on(
+  "updateBusRoutes",
+  (err, { goingtoBeUpdated, deletedRoutes, newRoutes }) => {
+    Bus.updateBusRoutes(newRoutes, deletedRoutes, goingtoBeUpdated)
+      .then(() => {
+        mainWindow.webContents.send("reload", null);
+        DialogBox(["تم تعديل الخطوط بنجاح"], "info", "تم");
+      })
+      .catch((err) => {
+        console.log(err);
+        DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      });
+  },
+);
+// subscribe To New Bus Route
+ipcMain.on(
+  "subscribeToNewBusRoute",
+  (
+    err,
+    {
+      StudentId,
+      BusRouteId,
+      newRouteCost,
+      firstBusInstallmentPortion,
+      IsFullRoute,
+    },
+  ) => {
+    Bus.subscribeToNewBusRoute(
+      StudentId,
+      BusRouteId,
+      newRouteCost,
+      firstBusInstallmentPortion,
+      IsFullRoute,
+    )
+      .then(() => {
+        mainWindow.webContents.send("reload", null);
+        DialogBox(["تم الأشتراك بنجاح"], "info", "تم");
+      })
+      .catch((err) => {
+        console.log(err);
+        DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      });
+  },
+);
 //Start New Year
 ipcMain.on("StartNewYear", (err, allExpensesData) => {
   StartNewYear(allExpensesData)
@@ -236,16 +272,18 @@ ipcMain.on("getEssentialData", function (err, destination) {
   } else if (destination === "BusRouts") {
     mainWindow.loadFile(path.join(__dirname, "views/BusRoutes.html"));
     // get student and all busRoutes
-    student.getAllStudents().then(students => {
-      Bus.getBusRoutes().then(BusRoutes => {
+    student.getAllStudents().then((students) => {
+      Bus.getBusRoutes().then((BusRoutes) => {
         ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", { students, BusRoutes });
+          mainWindow.webContents.send("sentEssentialData", {
+            students,
+            BusRoutes,
+          });
           ipcMain.removeListener("ScriptLoaded", cb);
         });
       });
     });
-  }
-  else {
+  } else {
     // get all stages , grades and classes
     getEssentialData().then((data) => {
       if (destination === "addStudent") {
@@ -409,14 +447,14 @@ ipcMain.on(
   (err, { studentId, absentDate, newReasonId }) => {
     absent
       .updateAbsenceReason(studentId, absentDate, newReasonId)
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
       });
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
-  absent.deleteAbsence(studentId, absentDate).catch(err => {
+  absent.deleteAbsence(studentId, absentDate).catch((err) => {
     console.log(err);
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
   });
@@ -427,26 +465,28 @@ ipcMain.on(
   (err, { studentId, absentDate, newReasonId }) => {
     absent
       .updateAbsenceReason(studentId, absentDate, newReasonId)
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
         DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
       });
   },
 );
 ipcMain.on("deleteStudentAbsent", (err, { studentId, absentDate }) => {
-  absent.deleteAbsence(studentId, absentDate).catch(err => {
+  absent.deleteAbsence(studentId, absentDate).catch((err) => {
     console.log(err);
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
   });
 });
 ipcMain.on("unSubscribeBusRoute", (err, { StudentId, unSubscribeFees }) => {
-  Bus.unSubscribeBusRoute(StudentId, unSubscribeFees).then(() => {
-    mainWindow.webContents.send("reload", null);
-    DialogBox(["تم الغاء الأشتراك بنجاح"], "info", "تم");
-  }).catch(err => {
-    console.log(err);
-    DialogBox("حدث خطأ ما برجاء المحاولة مجددا", "error", "خطأ");
-  });
+  Bus.unSubscribeBusRoute(StudentId, unSubscribeFees)
+    .then(() => {
+      mainWindow.webContents.send("reload", null);
+      DialogBox(["تم الغاء الأشتراك بنجاح"], "info", "تم");
+    })
+    .catch((err) => {
+      console.log(err);
+      DialogBox("حدث خطأ ما برجاء المحاولة مجددا", "error", "خطأ");
+    });
 });
 // update student
 ipcMain.on(
@@ -516,10 +556,10 @@ ipcMain.on("login", function (event, args) {
     case "1":
       if (args[1] === "1234") {
         CurrentWindow = "expenses";
-        student.getAllStudents().then((students) => {
+        getEssentialData().then((data) => {
           mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
           ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", students);
+            mainWindow.webContents.send("sentEssentialData", data);
             ipcMain.removeListener("ScriptLoaded", cb);
           });
         });
@@ -529,6 +569,7 @@ ipcMain.on("login", function (event, args) {
       if (args[1] === "2468") {
         CurrentWindow = "affairs";
         getEssentialData().then((data) => {
+          console.log(data);
           mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
           ipcMain.on("ScriptLoaded", function cb() {
             mainWindow.webContents.send("sentEssentialData", data);
@@ -576,13 +617,16 @@ ipcMain.on("sendStudentIdToMain", (err, studentId) => {
   });
 });
 ipcMain.on("receiveWarning", (err, { StudentId, WarningDate }) => {
-  absent.receiveWarning(StudentId, WarningDate).then(() => {
-    mainWindow.webContents.send("reload", null);
-    DialogBox(["تم تعديل الإنذار بنجاح"], "info", "تم");
-  }).catch(err => {
-    console.log(err);
-    DialogBox(['حدث خطأ برجاء المحاولة مجددا'], "error", "خطأ");
-  });
+  absent
+    .receiveWarning(StudentId, WarningDate)
+    .then(() => {
+      mainWindow.webContents.send("reload", null);
+      DialogBox(["تم تعديل الإنذار بنجاح"], "info", "تم");
+    })
+    .catch((err) => {
+      console.log(err);
+      DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+    });
 });
 ipcMain.on("sendAffairsReportData", (err, args) => {
   // load screen
@@ -612,7 +656,39 @@ ipcMain.on("sendAffairsReportData", (err, args) => {
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     })
-    .catch(err => {
-      DialogBox(['حدث خطأ برجاء المحاولة مجددا'], "error", "خطأ");
+    .catch((err) => {
+      DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
     });
+});
+
+ipcMain.on("sendExpansesReportData", (err, args) => {
+  // load screen
+  const ReportType = args[0];
+  const params = args[1];
+  let newWindow = new BrowserWindow({
+    width: 1920,
+    height: 1080,
+    webPreferences: {
+      nodeIntegration: false, // is default value after Electron v5
+      contextIsolation: true, // protect against prototype pollution
+      enableRemoteModule: false, // turn off remote
+      preload: path.join(__dirname, "views/js/preload.js"),
+    },
+  });
+  newWindow.loadFile(path.join(__dirname, "views/loading.html"));
+  newWindow.webContents.openDevTools();
+  reports["Expanses"][ReportType]["query"](...params)
+    .then((results) => {
+      const data = {
+        rows: results,
+        title: reports["Expanses"][ReportType]["title"],
+        headers: reports["Expanses"][ReportType]["headers"],
+      };
+      newWindow.loadFile(path.join(__dirname, "./views/ReportTemplate.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        newWindow.webContents.send("getReportDataFromMain", data);
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    })
+    .catch(console.log);
 });

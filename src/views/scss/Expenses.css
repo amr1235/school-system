@@ -1,7 +1,7 @@
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   scroll-behavior: smooth;
 }
 
@@ -75,7 +75,7 @@ a:hover {
 .dropdown-menu .dropdown-submenu {
   display: none;
   position: absolute;
-  left: 100%;
+  right: 100%;
   top: -7px;
 }
 
@@ -95,7 +95,7 @@ a:hover {
 * {
   margin: 0;
   padding: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 a:hover {
