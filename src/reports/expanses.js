@@ -99,27 +99,23 @@ exports.getMonthlyReport = async (date) => {
         },
       },
     })
-    .then((payments) =>
-      payments
-        .map((payment) => {
-          const pay = payment.toJSON();
-          return [
-            pay["Student"]["StudentName"],
-            pay["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
-            pay["PaymentType"] === "Bus" ? "باص" : "خدمات",
-            pay["PaymentAmount"],
-            pay["PaymentDate"],
-          ];
-        })
-        .then((payments) => {
-          const total = payments.reduce(
-            (sum, payment) => (sum += payment[3]),
-            0,
-          );
-          payments.push(["المجموع", "", "", total, ""]);
-          return payments;
-        }),
-    )
+    .then((payments) => {
+      return payments.map((payment) => {
+        const pay = payment.toJSON();
+        return [
+          pay["Student"]["StudentName"],
+          pay["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
+          pay["PaymentType"] === "Bus" ? "باص" : "خدمات",
+          pay["PaymentAmount"],
+          pay["PaymentDate"],
+        ];
+      });
+    })
+    .then((payments) => {
+      const total = payments.reduce((sum, payment) => (sum += payment[3]), 0);
+      payments.push(["المجموع", "", "", total, ""]);
+      return payments;
+    })
     .catch(console.err);
 };
 
@@ -272,7 +268,7 @@ exports.FullyFirstOrSecond = async (semester) => {
     .catch(console.error);
 };
 
-const fullyPaidCategory = async (gradeId, categories) => {
+exports.fullyPaidCategory = async (gradeId, categories) => {
   let CurrentAcademicYear = await db["GlobalValues"]
     .findOne({
       where: {
@@ -304,7 +300,7 @@ const fullyPaidCategory = async (gradeId, categories) => {
   ) AS "TOTAL"\
   WHERE ( ' +
         where +
-        ' ) AND ("Paid" < "CategoryCost")',
+        ' ) AND ("Paid" = "CategoryCost")',
     )
     .then((res) => res[0]);
 };
@@ -462,6 +458,78 @@ exports.notPaidStudents = async (semester, category) => {
         totalRemainder,
       ]);
       return students;
+    })
+    .catch(console.error);
+};
+
+exports.remainingFromPostponed = async () => {
+  return db["Installment"]
+    .findAll({
+      where: {
+        [Op.and]: {
+          Status: "FROMLASTYEAR",
+          InstallmentAmount: {
+            [Op.ne]: db.sequelize.col("InstallmentPaidAmount"),
+          },
+        },
+      },
+      attributes: [
+        "StudentId",
+        "InstallmentAmount",
+        "InstallmentPaidAmount",
+        "InstallmentType",
+      ],
+      include: {
+        model: db["Student"],
+        attributes: ["StudentName"],
+        required: true,
+        include: {
+          model: db["StudentClass"],
+          required: true,
+          include: {
+            model: db["Class"],
+            required: true,
+            include: {
+              model: db["Grade"],
+              attributes: ["GradeName"],
+              required: true,
+            },
+          },
+        },
+      },
+    })
+    .then((postponed) => {
+      return postponed.map((payment) => {
+        return [
+          payment["Student"]["StudentName"],
+          payment["Student"]["StudentClass"]["Class"]["Grade"]["GradeName"],
+          payment["InstallmentType"],
+          payment["InstallmentAmount"],
+          payment["InstallmentPaidAmount"],
+          parseInt(payment["InstallmentAmount"]) -
+            parseInt(payment["InstallmentPaidAmount"]),
+        ];
+      });
+    })
+    .then((payments) => {
+      const totalCategory = payments.reduce(
+        (sum, payment) => sum + payment[3],
+        0,
+      );
+      const totalPaid = payments.reduce((sum, payment) => sum + payment[4], 0);
+      const totalRemainder = payments.reduce(
+        (sum, payment) => sum + payment[5],
+        0,
+      );
+      payments.push([
+        "المجموع",
+        "",
+        "",
+        totalCategory,
+        totalPaid,
+        totalRemainder,
+      ]);
+      return payments;
     })
     .catch(console.error);
 };

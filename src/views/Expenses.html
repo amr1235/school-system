@@ -13,6 +13,70 @@
       href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
     />
     <link rel="stylesheet" href="./scss/Expenses.css" />
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+// make it as accordion for smaller screens
+if (window.innerWidth < 992) {
+
+  // close all inner dropdowns when parent is closed
+  document.querySelectorAll('.navbar .dropdown').forEach(function(everydropdown){
+    everydropdown.addEventListener('hidden.bs.dropdown', function () {
+      // after dropdown is hidden, then find all submenus
+        this.querySelectorAll('.submenu').forEach(function(everysubmenu){
+          // hide every submenu as well
+          everysubmenu.style.display = 'none';
+        });
+    })
+  });
+
+  document.querySelectorAll('.dropdown-menu a').forEach(function(element){
+    element.addEventListener('click', function (e) {
+        let nextEl = this.nextElementSibling;
+        if(nextEl && nextEl.classList.contains('submenu')) {	
+          // prevent opening link if link needs to open dropdown
+          e.preventDefault();
+          if(nextEl.style.display == 'block'){
+            nextEl.style.display = 'none';
+          } else {
+            nextEl.style.display = 'block';
+          }
+
+        }
+    });
+  })
+}
+// end if innerWidth
+}); 
+// DOMContentLoaded  end
+    </script>
+    <style>
+      .wide {
+        width: 200px;
+      }
+      /* ============ desktop view ============ */
+@media all and (min-width: 992px) {
+	.dropdown-menu li{ position: relative; 	}
+	.nav-item .submenu{ 
+		display: none;
+		position: absolute;
+		right:100%; top:-7px;
+	}
+	.nav-item .submenu-left{ 
+		right:100%; left:auto;
+	}
+	.dropdown-menu > li:hover{ background-color: #f1f1f1 }
+	.dropdown-menu > li:hover > .submenu{ display: block; }
+}	
+/* ============ desktop view .end// ============ */
+
+/* ============ small devices ============ */
+@media (max-width: 991px) {
+  .dropdown-menu .dropdown-menu{
+      margin-left:0.7rem; margin-right:0.7rem; margin-bottom: .5rem;
+  }
+}	
+/* ============ small devices .end// ============ */
+    </style>
   </head>
 
   <body>
@@ -72,228 +136,152 @@
               </li>
             </ul>
           </div>
-          <div class="dropdown mx-5">
-            <button
-              class="btn btn-warning rounded-pill dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              التقارير
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item btn" href="#">التوريد اليومى &raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu">
-                  <li class="mx-1">
-                    <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1">
-                        اليوم
-                      </span>
-                      <input
-                        id="dailyReportData"
-                        type="date"
-                        class="form-control"
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
+          <div class="collapse navbar-collapse" id="main_nav">
+            <ul class="navbar-nav">
+              <li class="nav-item dropdown" id="myDropdown">
+                <a class="nav-link dropdown-toggle btn btn-warning mx-2 rounded-pill text-black" href="#" data-bs-toggle="dropdown"><span class="mx-1">التقارير</span></a>
+                <ul class="dropdown-menu">
+                  <li>
+                    <a class="dropdown-item btn" href="#">التوريد اليومى &raquo;</a>
+                    <ul class="dropdown-menu dropdown-submenu">
+                      <li class="mx-1">
+                        <div class="input-group mb-3 mt-3" dir="rtl">
+                          <span class="input-group-text" id="basic-addon1">
+                            اليوم
+                          </span>
+                          <input
+                            id="dailyReportData"
+                            type="date"
+                            class="form-control"
+                            placeholder="Username"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                          />
+                        </div>
+                        <a
+                          href="#"
+                          class="btn btn-warning rounded-pill"
+                          onclick='window.api.send("sendExpansesReportData", ["DailyExpanses", [document.querySelector("#dailyReportData").value]])'
+                        >
+                          تاكيد التاريخ و الذهاب للتقرير
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
+                    <a class="dropdown-item btn" href="#">التوريد الشهري &raquo;</a>
+                    <ul class="dropdown-menu dropdown-submenu">
+                      <li class="mx-1">
+                        <div class="input-group mb-3 mt-3" dir="rtl">
+                          <span class="input-group-text" id="basic-addon1">
+                            اليوم
+                          </span>
+                          <input
+                            id="monthDate"
+                            type="month"
+                            class="form-control"
+                            placeholder="Username"
+                            aria-label="Username"
+                            aria-describedby="basic-addon1"
+                          />
+                        </div>
+                        <a
+                          href="#"
+                          class="btn btn-warning rounded-pill"
+                          onclick='window.api.send("sendExpansesReportData", ["MonthlyExpanses", [document.querySelector("#monthDate").value]])'
+                        >
+                          تاكيد التاريخ و الذهاب للتقرير
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>
                     <a
+                      class="dropdown-item"
                       href="#"
-                      class="btn btn-warning rounded-pill"
-                      onclick='window.api.send("sendExpansesReportData", ["DailyExpanses", [document.querySelector("#dailyReportData").value]])'
+                      onclick='window.api.send("sendExpansesReportData", ["FullyFirst", ["first-install"]])'
                     >
-                      تاكيد التاريخ و الذهاب للتقرير
+                      المسددين قسط أول
                     </a>
                   </li>
-                </ul>
-              </li>
-              <li>
-                <a class="dropdown-item btn" href="#">التوريد الشهري &raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu">
-                  <li class="mx-1">
-                    <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1">
-                        اليوم
-                      </span>
-                      <input
-                        id="monthDate"
-                        type="month"
-                        class="form-control"
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
+                  <li>
                     <a
+                      class="dropdown-item"
                       href="#"
-                      class="btn btn-warning rounded-pill"
-                      onclick='window.api.send("sendExpansesReportData", ["MonthlyExpanses", [document.querySelector("#monthDate").value]])'
+                      onclick='window.api.send("sendExpansesReportData", ["FullySecond", ["second-install"]])'
                     >
-                      تاكيد التاريخ و الذهاب للتقرير
+                      المسددين قسط ثاني
                     </a>
                   </li>
-                </ul>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["FullyFirst", ["first-install"]])'
-                >
-                  المسددين قسط أول
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["FullySecond", ["second-install"]])'
-                >
-                  المسددين قسط ثاني
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["RemainingFirst", ["first-install"]])'
-                >
-                  الباقى على الطلبة قسط أول
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["RemainingSecond", ["second-install"]])'
-                >
-                  الباقى على الطلبة قسط ثاني
-                </a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"> المسدد &raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu" id="FullyPaidCategory"></ul>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesFirstSemester", ["first-install", "Category"]])'
-                >
-                  المتوقع تحصيله من القسط الأول
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesSecondSemester", ["second-install", "Category"]])'
-                >
-                  المتوقع تحصيله من القسط الثاني
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesFullYear", ["", "Category"]])'
-                >
-                  المتوقع تحصيله من القسطين معًا
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["RemainingBusFirstSemester", ["first-install", "Bus"]])'
-                >
-                  الغير مسددين سيارة قسط أول
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendExpansesReportData", ["RemainingBusSecondSemester", ["second-install", "Bus"]])'
-                >
-                  الغير مسددين سيارة قسط ثاني
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/siblings-expenses.html"
-                >
-                  الأشقاء وموقفهم من المصروفات
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/paid-the-installments.html"
-                >
-                  المسددين من القسط الأول بالكامل وكذلك القسط الثانى
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/payments.html"
-                >
-                  دفتر التسديدات
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/car-payments.html"
-                >
-                  المسددين سيارة
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/car-payments-residue.html"
-                >
-                  الباقى عليهم سيارة
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/collected-extra-payments.html"
-                >
-                  المحصل من الملازم والرعاية والملف والهدايا
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/extra-payments-overdue.html"
-                >
-                  تقرير لغير المسددين ملازم ورعاية وملف وهدايا وتاسيس
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  target="_blank"
-                  href="./Reports/delayed-payments.html"
-                >
-                  تقرير المسددين مرحل والباقى عليهم مرحل
-                </a>
-              </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["RemainingFirst", ["first-install"]])'
+                    >
+                      الباقى على الطلبة قسط أول
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["RemainingSecond", ["second-install"]])'
+                    >
+                      الباقى على الطلبة قسط ثاني
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesFirstSemester", ["first-install", "Category"]])'
+                    >
+                      المتوقع تحصيله من القسط الأول
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesSecondSemester", ["second-install", "Category"]])'
+                    >
+                      المتوقع تحصيله من القسط الثاني
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["ToBeCollectedCategoriesFullYear", ["", "Category"]])'
+                    >
+                      المتوقع تحصيله من القسطين معًا
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["RemainingBusFirstSemester", ["first-install", "Bus"]])'
+                    >
+                      الغير مسددين سيارة قسط أول
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="#"
+                      onclick='window.api.send("sendExpansesReportData", ["RemainingBusSecondSemester", ["second-install", "Bus"]])'
+                    >
+                      الغير مسددين سيارة قسط ثاني
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" onclick='window.api.send("sendExpansesReportData", ["remainingFromPostponed", []])' href="#">الباقي من المرحل</a>
+                  </li>
+                  <li> <a class="dropdown-item" href="#"> المسددين &raquo; </a>
+                    <ul class="submenu dropdown-menu" id="fullyPaidCategories"></ul>
+                  </li>
             </ul>
           </div>
           <form class="d-flex me-auto mt-3 mt-md-0">

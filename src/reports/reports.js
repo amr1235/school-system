@@ -12,8 +12,10 @@ const {
   getMonthlyReport,
   RemainingFirstOrSecond,
   FullyFirstOrSecond,
+  fullyPaidCategory,
   ToBeCollected,
   notPaidStudents,
+  remainingFromPostponed,
 } = require("./expanses");
 
 const Reports = {
@@ -134,6 +136,23 @@ const Reports = {
       query: notPaidStudents,
       headers: ["اسم الطالب", "الصف", "قيمة القسط", "المدفوع", "الباقي"],
       title: "الغير مسددين سيارة قسط ثاني",
+    },
+    getFullyPaidSelectedCategories: {
+      query: fullyPaidCategory,
+      headers: [""],
+      title: "المسددين من الأقساط",
+    },
+    remainingFromPostponed: {
+      query: remainingFromPostponed,
+      headers: [
+        "اسم الطالب",
+        "الصف",
+        "نوع المصاريف",
+        "المطلوب",
+        "المدفوع",
+        "الباقي",
+      ],
+      title: "الباقي من المرحل",
     },
   },
 };
