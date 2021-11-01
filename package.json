@@ -1,7 +1,7 @@
 {
   "name": "school-system",
   "productName": "school-system",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "My Electron application description",
   "repository": {
     "url": "https://github.com/zeyad-kay/school-system"
