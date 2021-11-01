@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog, autoUpdater } = require("electron");
 const path = require("path");
 const student = require("./queries/students");
 const db = require("./db/models/index");
@@ -12,9 +12,40 @@ const installment = require("./queries/installment");
 const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
-// require("electron-reload")(__dirname, {
-//   electron: require("../node_modules/electron"),
-// });
+
+const server = "https://school-system-deploy.herokuapp.com/";
+
+autoUpdater.setFeedURL({ server });
+setInterval(() => {
+  autoUpdater.checkForUpdates();
+}, 60000);
+
+// eslint-disable-next-line no-unused-vars
+autoUpdater.on("update-downloaded", (event, releaseNotes, releaseName) => {
+  const dialogOpts = {
+    type: "info",
+    buttons: ["حدث الان", "حدث في وقت لاحق"],
+    title: "تحديث التطبيق",
+    message: process.platform === "win32" ? releaseNotes : releaseName,
+    detail: "تم تنزيل نسخة جديدة. أعد تشغيل التطبيق لتطبيق التحديثات"
+  };
+
+  dialog.showMessageBox(dialogOpts).then((returnValue) => {
+    if (returnValue.response === 0) autoUpdater.quitAndInstall();
+  });
+});
+
+autoUpdater.on("error", message => {
+  console.error(message);
+  const dialogOpts = {
+    type: "error",
+    title: "تحديث التطبيق",
+    detail: "حدثت مشكلة أثناء تحديث التطبيق"
+  };
+  dialog.showMessageBox(dialogOpts).then(() => {
+    app.quit();
+  });
+});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -553,30 +584,30 @@ ipcMain.on("login", function (event, args) {
   console.log(args[0], args[1]);
   // load Students
   switch (args[0]) {
-    case "1":
-      if (args[1] === "1234") {
-        CurrentWindow = "expenses";
-        getEssentialData().then((data) => {
-          mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", data);
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
+  case "1":
+    if (args[1] === "1234") {
+      CurrentWindow = "expenses";
+      getEssentialData().then((data) => {
+        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
         });
-      }
-      break;
-    case "2":
-      if (args[1] === "2468") {
-        CurrentWindow = "affairs";
-        getEssentialData().then((data) => {
-          console.log(data);
-          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", data);
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
+      });
+    }
+    break;
+  case "2":
+    if (args[1] === "2468") {
+      CurrentWindow = "affairs";
+      getEssentialData().then((data) => {
+        console.log(data);
+        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
         });
-      } else break;
+      });
+    } else break;
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {
@@ -658,6 +689,7 @@ ipcMain.on("sendAffairsReportData", (err, args) => {
     })
     .catch((err) => {
       DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+      console.error(err);
     });
 });
 
