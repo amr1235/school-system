@@ -23,7 +23,12 @@ contextBridge.exposeInMainWorld("api", {
       "addNewExpenses",
       "StartNewYear",
       "sendAffairsReportData",
-      "updateBusRoutes"
+      "sendExpansesReportData",
+      "updateBusRoutes",
+      "subscribeToNewBusRoute",
+      "PayBusInstallments",
+      "unSubscribeBusRoute",
+      "receiveWarning"
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);

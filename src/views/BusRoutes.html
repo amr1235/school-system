@@ -111,11 +111,9 @@
                 </div>
 
                 <form class="d-flex me-auto mt-3 mt-md-0">
-                    <input class="text-center form-control mx-3 rounded-pill" type="search" placeholder="ابحث"
-                        aria-label="Search" />
-                    <button class="btn btn-outline-warning rounded-circle" type="submit">
-                        <i class="bi bi-search"></i>
-                    </button>
+                    <input class="text-center form-control mx-3 rounded-pill" id="Search" placeholder="إبحث">
+                    <datalist id="StudentListForSearch">
+                    </datalist>
                 </form>
             </div>
         </div>
@@ -264,7 +262,7 @@
                 window.api.send("ShowDialogBox", { messages: errors, type: 'error', title: 'خطأ' });
             }
         }
-        window.api.receive("reload",() => {
+        window.api.receive("reload", () => {
             window.api.send("getEssentialData", "BusRouts");
         });
         const updateRoutesTable = (newRoutes) => {
