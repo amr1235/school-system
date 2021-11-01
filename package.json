@@ -28,8 +28,7 @@
       "packagerConfig": {
         "ignore": [
           "src/db/seeders/*",
-          "src/db/migrations/*",
-          "*.json"
+          "src/db/migrations/*"
         ],
         "asar": true
       },
