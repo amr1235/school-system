@@ -1,7 +1,7 @@
 {
   "name": "school-system",
   "productName": "school-system",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "My Electron application description",
   "repository": {
     "url": "https://github.com/zeyad-kay/school-system"
@@ -28,7 +28,8 @@
       "packagerConfig": {
         "ignore": [
           "src/db/seeders/*",
-          "src/db/migrations/*"
+          "src/db/migrations/*",
+          "*.json"
         ],
         "asar": true
       },
