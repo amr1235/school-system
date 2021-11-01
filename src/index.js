@@ -13,9 +13,9 @@ const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
 
-const server = "https://school-system-deploy.herokuapp.com/";
+const url = "https://school-system-deploy.herokuapp.com/";
 
-autoUpdater.setFeedURL({ server });
+autoUpdater.setFeedURL({ url });
 setInterval(() => {
   autoUpdater.checkForUpdates();
 }, 60000);
