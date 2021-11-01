@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain, dialog, autoUpdater } = require("electron");
+const { app, BrowserWindow, ipcMain, dialog } = require("electron");
 const path = require("path");
 const student = require("./queries/students");
 const db = require("./db/models/index");
@@ -12,40 +12,6 @@ const installment = require("./queries/installment");
 const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
-
-const url = "https://school-system-deploy.herokuapp.com/";
-
-autoUpdater.setFeedURL({ url });
-setInterval(() => {
-  autoUpdater.checkForUpdates();
-}, 60000);
-
-// eslint-disable-next-line no-unused-vars
-autoUpdater.on("update-downloaded", (event, releaseNotes, releaseName) => {
-  const dialogOpts = {
-    type: "info",
-    buttons: ["حدث الان", "حدث في وقت لاحق"],
-    title: "تحديث التطبيق",
-    message: process.platform === "win32" ? releaseNotes : releaseName,
-    detail: "تم تنزيل نسخة جديدة. أعد تشغيل التطبيق لتطبيق التحديثات"
-  };
-
-  dialog.showMessageBox(dialogOpts).then((returnValue) => {
-    if (returnValue.response === 0) autoUpdater.quitAndInstall();
-  });
-});
-
-autoUpdater.on("error", message => {
-  console.error(message);
-  const dialogOpts = {
-    type: "error",
-    title: "تحديث التطبيق",
-    detail: "حدثت مشكلة أثناء تحديث التطبيق"
-  };
-  dialog.showMessageBox(dialogOpts).then(() => {
-    app.quit();
-  });
-});
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
