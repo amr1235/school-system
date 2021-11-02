@@ -2,26 +2,20 @@ const db = require("../db/models/index");
 
 //get all grades
 const getGrades = () => {
-  return new Promise((res, rej) => {
-    db["Grade"]
-      .findAll({
-        attributes: ["GradeId", "GradeName", "StageId"],
-        order: [
-          ["GradeId", "ASC"],
-          ["StageId", "ASC"],
-        ],
-      })
-      .then((grades) =>
-        res(
-          grades.map((grade) => [
-            grade.dataValues.GradeId,
-            grade.dataValues.GradeName,
-            grade.dataValues.StageId,
-          ]),
-        ),
-      )
-      .catch((err) => rej(err));
-  });
+  return db["Grade"]
+    .findAll({
+      attributes: ["GradeId", "GradeName", "StageId"],
+      order: [
+        ["GradeId", "ASC"],
+        ["StageId", "ASC"],
+      ],
+    })
+    .then((grades) =>
+        grades.map((grade) => [
+          grade.dataValues.GradeId,
+          grade.dataValues.GradeName,
+          grade.dataValues.StageId,
+        ]) );
   //output [[GradeId,GradeName,StageId],[GradeId,GradeName,StageId],....]
 };
 // add grade

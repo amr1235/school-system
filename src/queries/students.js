@@ -536,7 +536,6 @@ const getFinancialData = async (StudentId) => {
         where: {
           StudentId,
           Status: "FROMLASTYEAR",
-          InstallmentType: "Category",
           InstallmentFullyPaidDate: null,
         },
       })
