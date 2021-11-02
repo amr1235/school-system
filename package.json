@@ -1,7 +1,7 @@
 {
   "name": "school-system",
   "productName": "school-system",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "My Electron application description",
   "repository": {
     "url": "https://github.com/zeyad-kay/school-system"
@@ -18,7 +18,7 @@
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:generate": "sequelize-cli seed:generate --name",
     "db:seed": "sequelize-cli db:seed:all",
-    "db:clean": "sequelize-cli db:drop"
+    "db:clean": "sequelize-cli db:migrate:undo:all"
   },
   "keywords": [],
   "author": "zeyad-kay",
