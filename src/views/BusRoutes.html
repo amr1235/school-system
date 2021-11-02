@@ -41,75 +41,10 @@
                 <!-- <div class="mx-2">
               <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"  href="#">التقارير</a></button>
             </div> -->
-                <div class="dropdown">
-                    <button class="btn btn-warning rounded-pill dropdown-toggle" type="button" id="dropdownMenuButton1"
-                        data-bs-toggle="dropdown" aria-expanded="false">
-                        التقارير
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li>
-                            <button onclick='window.api.send("sendAffairsReportData", "Seats")' class="dropdown-item">
-                                التوريد اليومى
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item"
-                                onclick='window.api.send("sendAffairsReportData", "AbsenceRate")'>
-                                التوريد الشهرى
-                            </button>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/siblings-expenses.html">
-                                الأشقاء وموقفهم من المصروفات
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/installments-residue.html">
-                                الباقى على الطلبة قسط اول وقسط ثانى
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/paid-the-installments.html">
-                                المسددين من القسط الأول بالكامل وكذلك القسط الثانى
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/payments.html">
-                                دفتر التسديدات
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/car-payments.html">
-                                المسددين سيارة
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/car-payments-residue.html">
-                                الباقى عليهم سيارة
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/collected-extra-payments.html">
-                                المحصل من الملازم والرعاية والملف والهدايا
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/extra-payments-overdue.html">
-                                تقرير لغير المسددين ملازم ورعاية وملف وهدايا وتاسيس
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" target="_blank" href="./Reports/delayed-payments.html">
-                                تقرير المسددين مرحل والباقى عليهم مرحل
-                            </a>
-                        </li>
-                    </ul>
-                </div>
                 <div class="mx-2">
                     <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"
                         onclick='window.api.send("getEssentialData", "Expenses");'>الرئيسية</button>
                 </div>
-
                 <form class="d-flex me-auto mt-3 mt-md-0">
                     <input class="text-center form-control mx-3 rounded-pill" id="Search" placeholder="إبحث">
                     <datalist id="StudentListForSearch">
@@ -151,7 +86,7 @@
                 <div class="col-md-4 col-12">
                     <div class="input-group mb-3">
                         <span class="input-group-text rounded-3" id="inputGroup-sizing-default">اسم الخط</span>
-                        <div class="d-flex mx-2 justify-content-center rounded-pill exp-label">
+                        <div class="d-flex mx-2 justify-content-center rounded-pill">
                             <input id="BusRouteName" type="text" class="form-control" aria-label="Sizing example input"
                                 aria-describedby="inputGroup-sizing-default">
                         </div>
@@ -161,7 +96,7 @@
                     <div class="input-group mb-3">
                         <span class="input-group-text rounded-3" id="inputGroup-sizing-default-1">اسم السواق</span>
 
-                        <div class="d-flex mx-2 justify-content-center rounded-pill exp-label">
+                        <div class="d-flex mx-2 justify-content-center rounded-pill">
                             <input id="BusRouteDriverName" type="text" class="form-control"
                                 aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         </div>
@@ -170,7 +105,7 @@
                 <div class="col-md-4 col-12">
                     <div class="input-group mb-3">
                         <span class="input-group-text rounded-3" id="inputGroup-sizing-default">تكلفة الخط</span>
-                        <div class="d-flex mx-2 rounded-pill exp-label">
+                        <div class="d-flex mx-2 rounded-pill">
                             <input type="number" id="BusRouteCost" min="1" class="form-control"
                                 aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default">
                         </div>
@@ -282,32 +217,24 @@
                 const nameCell = document.createElement("th");
                 const nameInput = document.createElement("input")
                 nameInput.setAttribute("type", "text");
+                nameInput.setAttribute("class", "form-control");
                 nameInput.value = route.BusRouteName;
                 nameCell.appendChild(nameInput);
                 Row.appendChild(nameCell);
                 const driverNameCell = document.createElement("td");
                 const driverNameInput = document.createElement("input")
                 driverNameInput.setAttribute("type", "text");
+                driverNameInput.setAttribute("class", "form-control");
                 driverNameInput.value = route.BusRouteDriverName;
                 driverNameCell.appendChild(driverNameInput);
                 Row.appendChild(driverNameCell);
                 const costCell = document.createElement("td");
                 const costInput = document.createElement("input")
                 costInput.setAttribute("type", "number");
+                costInput.setAttribute("class", "form-control");
                 costInput.value = route.BusRouteCost;
                 costCell.appendChild(costInput);
                 Row.appendChild(costCell);
-                // const deleteCell = document.createElement("td");
-                // const deleteButton = document.createElement("button")
-                // deleteButton.classList.add("btn", "btn-danger");
-                // deleteButton.innerText = "حذف";
-                // deleteButton.addEventListener("click", (ev) => {
-                //     //remove from bus routes list 
-                //     CurrentBusRoutesArray.splice(CurrentBusRoutesArray.findIndex(el => el.BusRouteId === route.BusRouteId), 1);
-                //     Row.remove();
-                // });
-                // deleteCell.appendChild(deleteButton);
-                // Row.appendChild(deleteCell);
                 table.appendChild(Row);
             });
         };

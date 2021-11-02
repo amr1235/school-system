@@ -20,7 +20,7 @@ const StartNewYear = (allExpensesData) => {
             transaction: t
         });
         // transfer all students
-        // await upgradeStudentsToNextGrade()
+        await upgradeStudentsToNextGrade()
         //get current academic year
         let CurrentAcademicYear = await db["GlobalValues"].findOne({
             where: {
@@ -99,6 +99,8 @@ const StartNewYear = (allExpensesData) => {
                     transaction: t
                 }));
             });
+            // delete bus subs 
+            proms.push(db["BusRoute"].destory());
         });
         return Promise.all(proms);
     });

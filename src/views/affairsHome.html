@@ -28,13 +28,7 @@
       <div></div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <form class="d-flex me-auto mt-3 mt-md-0">
-          <!-- <input
-              class="text-center form-control mx-3 rounded-pill"
-              type="search"
-              placeholder="ابحث"
-              aria-label="Search"
-            /> -->
-          <input class="text-center form-control mx-3 rounded-pill" id="Search" placeholder="Type to search...">
+          <input class="text-center form-control mx-3 rounded-pill" id="Search" placeholder="ابحث">
           <datalist id="StudentListForSearch">
           </datalist>
         </form>
@@ -101,8 +95,8 @@
                 my-2
                 d-inline-block
                 rounded-pill
-              ">
-            <a class="text-decoration-none text-dark" href="./Exams.html">ارقام الجلوس</a>
+              " onclick='window.api.send("getEssentialData", "studentsSeats")'>
+            ارقام الجلوس
           </button>
           <button class="
                 btn btn-warning

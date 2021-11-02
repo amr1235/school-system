@@ -39,10 +39,6 @@
           </ul>
         </div>
         <div class="mx-2">
-          <button class="btn btn-warning my-2 mx-2 me-auto rounded-pill"><a class="text-decoration-none text-dark"
-              href="#">التقارير</a></button>
-        </div>
-        <div class="mx-2">
           <button onclick='window.api.send("getEssentialData", "Expenses");'
             class="btn btn-warning my-2 mx-2 me-auto rounded-pill">الرئيسية</button>
         </div>
@@ -72,11 +68,9 @@
   </aside>
   <!--end of sidebar-->
 
-
-
   <!--main content-->
   <main dir="rtl" class="tab-content mt-5 pt-3">
-    <nav class="bg-dark text-center fixed-bottom">
+    <nav class="bg-dark fixed-bottom">
       <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#first-install"
           type="button" role="tab" aria-controls="nav-home" aria-selected="true">القسط اﻻول</button>
@@ -86,10 +80,16 @@
           type="button" role="tab" aria-controls="nav-profile" aria-selected="false">الأقساط المرحله</button>
         <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#bus-sub" type="button"
           role="tab" aria-controls="nav-contact" aria-selected="false">اشتراك الباص</button>
+        <button class="nav-link" id="nav-discount-tab" data-bs-toggle="tab" data-bs-target="#discount" type="button"
+          role="tab" aria-controls="discount" aria-selected="false">الخصومات</button>
       </div>
     </nav>
 
+    <!-- discount -->
+    <section class="tab-pane container  py-2 mb-5 fade" id="discount" role="tabpanel"
+      aria-labelledby="nav-discount-tab">
 
+    </section>
     <!--first term payment-->
     <section class="tab-pane container  py-2 mb-5 fade show active" id="first-install" role="tabpanel"
       aria-labelledby="nav-home-tab">
@@ -98,7 +98,6 @@
         <div class="col-md-3 col-12">
           <div class="input-group mb-3">
             <span class="input-group-text rounded-3" id="inputGroup-sizing-default"> قيمه القسط</span>
-
             <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
               <span class="text-center  pt-1" id="FirstInstallmentAmount"></span>
             </div>
@@ -150,7 +149,9 @@
               <tbody id="FirstCategories">
               </tbody>
             </table>
-            <button id="payForFirstInstallment" class="btn btn-primary">أدفع الأن</button>
+          </div>
+          <div class="d-flex flex-row justify-content-center">
+            <button id="payForFirstInstallment" class="btn w-50 btn-primary">أدفع الأن</button>
           </div>
         </div>
 
@@ -159,12 +160,11 @@
     <!--second term payment-->
     <section class="tab-pane container  py-2 mb-5 fade " id="second-install" role="tabpanel"
       aria-labelledby="nav-profile-tab">
-      <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">القسط اﻻول</h1>
+      <h1 class="text-center mx-2 border-bottom border-3 border-dark pb-3">القسط الثاني</h1>
       <div class="row my-3">
         <div class="col-md-3 col-12">
           <div class="input-group mb-3">
             <span class="input-group-text rounded-3" id="inputGroup-sizing-default"> قيمه القسط</span>
-
             <div class="w-25 d-flex mx-2 justify-content-center rounded-pill exp-label">
               <span class="text-center  pt-1" id="SecondInstallmentAmount"></span>
             </div>
@@ -215,10 +215,11 @@
                 </tr>
               </thead>
               <tbody id="SecondCategories">
-
               </tbody>
             </table>
-            <button id="payForSecondInstallment" class="btn btn-primary">أدفع الأن</button>
+          </div>
+          <div class="d-flex flex-row justify-content-center">
+            <button id="payForSecondInstallment" class="btn w-50 btn-primary">أدفع الأن</button>
           </div>
         </div>
     </section>
