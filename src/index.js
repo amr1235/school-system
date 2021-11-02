@@ -12,6 +12,10 @@ const installment = require("./queries/installment");
 const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
+const seats = require("./queries/seats");
+// require("electron-reload")(__dirname, {
+//   electron: require("../node_modules/electron"),
+// });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -248,14 +252,24 @@ ipcMain.on("addAbsentType", (err, AbsentReasonName) => {
       DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
     });
 });
+// Generate Students Seats 
+ipcMain.on("GenerateStudentsSeats", function (err, { gradeId, seatStart, seatStep }) {
+  seats.generateStudentSeats(gradeId, seatStart, seatStep).then((results) => {
+    console.log(results);
+    DialogBox(["تم توليد الأرقام الجلوس"], "info", "تم");
+  }).catch(err => {
+    console.log(err);
+    DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
+  });
+});
 // get essintial Data
 ipcMain.on("getEssentialData", function (err, destination) {
   if (destination === "affairsSettings") {
-    mainWindow.loadFile(path.join(__dirname, "views/affairsSettings.html"));
     grade
       .getGrades()
       .then((grades) => {
         getEssentialData().then((data) => {
+          mainWindow.loadFile(path.join(__dirname, "views/affairsSettings.html"));
           ipcMain.on("ScriptLoaded", function cb() {
             mainWindow.webContents.send("sentEssentialData", [grades, data]);
             ipcMain.removeListener("ScriptLoaded", cb);
@@ -267,10 +281,10 @@ ipcMain.on("getEssentialData", function (err, destination) {
         DialogBox("حدث خطأ ما برجاء المحاولة مجددا", "error", "خطأ");
       });
   } else if (destination === "BusRouts") {
-    mainWindow.loadFile(path.join(__dirname, "views/BusRoutes.html"));
     // get student and all busRoutes
     student.getAllStudents().then((students) => {
       Bus.getBusRoutes().then((BusRoutes) => {
+        mainWindow.loadFile(path.join(__dirname, "views/BusRoutes.html"));
         ipcMain.on("ScriptLoaded", function cb() {
           mainWindow.webContents.send("sentEssentialData", {
             students,
@@ -278,6 +292,17 @@ ipcMain.on("getEssentialData", function (err, destination) {
           });
           ipcMain.removeListener("ScriptLoaded", cb);
         });
+      });
+    });
+  }
+  else if (destination === "studentsSeats") {
+    grade.getGrades().then((grades) => {
+      mainWindow.loadFile(
+        path.join(__dirname, "views/Exams.html"),
+      );
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", grades);
+        ipcMain.removeListener("ScriptLoaded", cb);
       });
     });
   } else {
@@ -298,7 +323,7 @@ ipcMain.on("getEssentialData", function (err, destination) {
       } else if (destination === "Expenses") {
         mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
         ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data.students);
+          mainWindow.webContents.send("sentEssentialData", data);
           ipcMain.removeListener("ScriptLoaded", cb);
         });
       } else if (destination === "ExpensesSettings") {
@@ -674,7 +699,6 @@ ipcMain.on("sendExpansesReportData", (err, args) => {
     },
   });
   newWindow.loadFile(path.join(__dirname, "views/loading.html"));
-  newWindow.webContents.openDevTools();
   reports["Expanses"][ReportType]["query"](...params)
     .then((results) => {
       const data = {

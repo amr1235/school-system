@@ -1,142 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-    <link rel="stylesheet" href="./scss/exams.css" />
-    <title>ارقام الجلوس</title>
-  </head>
-  <body>
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
-      <div class="container">
-        <a class="navbar-brand" href="#">معهد الوفاء</a>
 
-        <button
-          class="navbar-toggler me-auto"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <div class="me-auto">
-            <!-- <button
-              class="
-                btn btn-warning
-                mx-md-3 mx-4
-                my-2
-                d-inline-block
-                rounded-pill
-              "
-            >
-              <a class="text-decoration-none text-dark" href="#">التقارير</a>
-            </button> -->
-            <button class="d-inline-block btn btn-warning rounded-pill mx-md-3">
-              <a
-                class="text-decoration-none text-dark"
-                onclick='window.api.send("getEssentialData", "affairsHome");'
-                >شؤون الطلاب</a
-              >
-            </button>
-          </div>
-        </div>
-      </div>
-    </nav>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="./scss/exams.css" />
+  <title>ارقام الجلوس</title>
+</head>
 
-    <main class="container mt-5 pt-5" dir="rtl">
-      <h1 class="text-center">ارقام الجلوس</h1>
-      <div class="row mt-5">
-        <div class="col-12 col-md-6">
-          <select
-            class="form-select rounded-pill"
-            aria-label="Default select example"
-          >
-            <option selected>المرحله</option>
-            <option value="1">ابتدائى</option>
-            <option value="2">اعدادي</option>
-            <option value="3">ثانوي</option>
-          </select>
-        </div>
-        <div class="col-12 col-md-6 mt-2">
-          <select
-            class="form-select rounded-pill"
-            aria-label="Default select example"
-          >
-            <option selected>السنه الدراسيه</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select>
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="co-12">
-          <select
-            class="form-select rounded-pill text-center"
-            aria-label="Default select example"
-          >
-            <option selected>الفصل</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-          </select>
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="co-12 col-md-6">
-          <div class="input-group mb-3">
-            <span class="mx-1 input-group-text rounded-pill" id="seat-num"
-              >البدء ب:</span
-            >
-            <input
-              type="number"
-              class="rounded-pill form-control"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-        <div class="co-12 col-md-6">
-          <div class="input-group mb-3">
-            <span class="mx-1 input-group-text rounded-pill" id="seat-num"
-              >الزياده :</span
-            >
-            <input
-              type="number"
-              class="rounded-pill form-control"
-              aria-label="Username"
-              aria-describedby="basic-addon1"
-            />
-          </div>
-        </div>
-      </div>
-      <div class="d-flex" dir="rtl">
-        <div class="col-12 my-5 text-center">
-          <button type="submit" class="rounded-pill btn btn-success w-50">
-            اظهار ارقام الجلوس
+<body>
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+    <div class="container">
+      <a class="navbar-brand" href="#">معهد الوفاء</a>
+
+      <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="me-auto">
+          <button class="d-inline-block btn btn-warning rounded-pill mx-md-3">
+            <a class="text-decoration-none text-dark" onclick='window.api.send("getEssentialData", "affairsHome");'>شؤون
+              الطلاب</a>
           </button>
         </div>
       </div>
-    </main>
+    </div>
+  </nav>
 
-    <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./js/main.js"></script>
-  </body>
+  <main class="container mt-5 pt-5" dir="rtl">
+    <h1 class="text-center">ارقام الجلوس</h1>
+    <div class="row mt-5">
+      <div class="col-12 col-md-6">
+        <select class="form-select rounded-pill" id="GradesList" aria-label="Default select example" aria-placeholder="المرحلة">
+        </select>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="co-12 col-md-6">
+        <div class="input-group mb-3">
+          <span class="mx-1 input-group-text rounded-pill" id="seat-num">البدء ب:</span>
+          <input type="number" id="seatStart" class="rounded-pill form-control" aria-label="Username"
+            aria-describedby="basic-addon1" />
+        </div>
+      </div>
+      <div class="co-12 col-md-6">
+        <div class="input-group mb-3">
+          <span class="mx-1 input-group-text rounded-pill" id="seat-num">الزياده :</span>
+          <input type="number" id="seatStep" class="rounded-pill form-control" aria-label="Username"
+            aria-describedby="basic-addon1" />
+        </div>
+      </div>
+    </div>
+    <div class="d-flex" dir="rtl">
+      <div class="col-12 my-5 text-center">
+        <button type="submit" class="rounded-pill btn btn-success w-50" onclick="GenerateStudentsSeats()">
+          اظهار ارقام الجلوس
+        </button>
+      </div>
+    </div>
+  </main>
+  <script>
+    function GenerateStudentsSeats() {
+      let gradeId = document.getElementById("GradesList").value;
+      let seatStart = Number(document.getElementById("seatStart").value);
+      let seatStep = Number(document.getElementById("seatStep").value);
+      let errors = [];
+      if(seatStart < 0 ){
+        errors.push("رقم البداية يجب أن يكون اكبر من او يساوي ال 0");
+      }
+      if(seatStep <= 0) {
+        errors.push("الزيادة يجب أن تكون اكبر من 0");
+      }
+      if(errors.length !== 0) {
+        window.api.send("ShowDialogBox", {
+          messages: errors,
+          type: "error",
+          title: "خطأ",
+        });
+        return ;
+      }
+      window.api.send("GenerateStudentsSeats",{gradeId,seatStart,seatStep});
+    }
+    window.api.receive("sentEssentialData", (grades) => {
+      const GradesList = document.getElementById("GradesList");
+      grades.forEach(grade => {
+        let option = document.createElement("option");
+        option.value = grade[0];
+        option.innerText = grade[1];
+        GradesList.appendChild(option);
+      });
+    });
+    window.api.send("ScriptLoaded", null);
+  </script>
+  <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+
 </html>

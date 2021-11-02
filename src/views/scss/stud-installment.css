@@ -5,7 +5,9 @@
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   scroll-behavior: smooth;
 }
-
+main {
+  overflow-x: hidden;
+}
 .sidebar-nav {
   width: 280px !important;
   background-color: #161925;
