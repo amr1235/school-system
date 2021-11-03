@@ -35,7 +35,7 @@
       "publishers": [
         {
           "name": "@electron-forge/publisher-github",
-          "platforms":[
+          "platforms": [
             "win32"
           ],
           "config": {
