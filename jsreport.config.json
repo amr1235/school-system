@@ -1,0 +1,39 @@
+{
+    "httpPort": 5488,
+    "store": {
+      "provider": "fs"
+    },
+    "blobStorage": {
+      "provider": "fs"
+    },
+    "allowLocalFilesAccess": true,
+    "templatingEngines": {
+      "timeout": 10000,
+      "strategy": "http-server"
+    },
+    "chrome": {
+      "timeout": 40000
+    },
+    "extensions": {
+      "assets": {
+        "allowedFiles": "**/local-assets/*.*",
+        "publicAccessEnabled": true,
+        "searchOnDiskIfNotFoundInStore": true,
+        "rootUrlForLinks": "http://localhost:5488"
+      },
+      "authentication": {
+        "cookieSession": {
+          "secret": "mysecret"
+        },
+        "admin": {
+          "username": "admin",
+          "password": "password"
+        },
+        "enabled": false
+      },
+      "scripts": {
+        "timeout": 40000,
+        "strategy": "http-server"
+      }
+    }
+  }

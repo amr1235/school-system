@@ -29,7 +29,8 @@ contextBridge.exposeInMainWorld("api", {
       "PayBusInstallments",
       "unSubscribeBusRoute",
       "receiveWarning",
-      "GenerateStudentsSeats"
+      "GenerateStudentsSeats",
+      "render-report"
     ];
     if (validChannels.includes(channel)) {
       ipcRenderer.send(channel, data);
