@@ -82,7 +82,7 @@ const getEssentialData = async () => {
       include: [
         {
           model: db["Class"],
-          attributes: ["ClassId"],
+          attributes: ["ClassId","ClassName"],
         },
         {
           model: db["Category"],
@@ -98,7 +98,7 @@ const getEssentialData = async () => {
     ],
   });
   stagesData = mapToJSON(stagesData);
-  console.log(stagesData[3]["Grades"]);
+  console.log(stagesData[0].Grades.Cleasses);
   //get all jobs
   let jobs = await db["Job"].findAll();
   jobs = mapToJSON(jobs);

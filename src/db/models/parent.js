@@ -40,7 +40,6 @@ module.exports = (sequelize, DataTypes) => {
     ParentNationalId: {
       type: DataTypes.STRING,
       unique: true,
-      allowNull: true,
     },
     ParentPassportId: {
       type: DataTypes.STRING,

@@ -8,6 +8,7 @@ module.exports = {
             model: "Parent",
             key: "ParentId"
           },
+          primaryKey: true,
           allowNull: false
         },
         ParentPhoneNumber: {

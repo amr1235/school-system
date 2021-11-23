@@ -115,7 +115,7 @@ const getAllStudents = () => {
         attributes: ["GradeId", "GradeName"],
         include: {
           model: db["Class"],
-          attributes: ["ClassId"],
+          attributes: ["ClassId","ClassName"],
           include: {
             model: db["StudentClass"],
             attributes: ["StudentId"],
@@ -174,13 +174,11 @@ const addNewStudent = async (
     if (fatherData) {
       let father = await parent.addParent(fatherData, t);
       StudentFatherId = father.ParentId;
-      console.log("father");
     }
     // check if there is a mother
     if (motherData) {
       let mother = await parent.addParent(motherData, t);
       StudentMotherId = mother.ParentId;
-      console.log("mother");
     }
     if (responsibleParentData[0] === "father") {
       StudentResponsibleId = StudentFatherId;
@@ -202,9 +200,10 @@ const addNewStudent = async (
       StudentResponsibleId,
       StudentResponsibleRelation,
     };
-    console.log(studentData);
     // create student
-    let student = await db["Student"].create(studentData, { transaction: t });
+    let student = await db["Student"].create(studentData, { transaction: t }).catch(err => {
+      console.log("");
+    });
     student = student.dataValues;
     let StudentId = student.StudentId;
     // add class info

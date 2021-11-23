@@ -87,14 +87,17 @@ const getParentById = async (ParentId) => {
 const addParent = async (parentData,t) => {
   // check if the parent already exists
   let parentSSn = parentData.ParentData.ParentNationalId ? parentData.ParentData.ParentNationalId : parentData.ParentData.ParentPassportId;
-  let parent = await db["Parent"].findOne({
-    where: {
-      [Op.or]: [
-        { ParentNationalId: parentSSn },
-        { ParentPassportId: parentSSn }
-      ]
-    }
-  });
+  let parent = null;
+  if(parentSSn) {
+    parent = await db["Parent"].findOne({
+      where: {
+        [Op.or]: [
+          { ParentNationalId: parentSSn },
+          { ParentPassportId: parentSSn }
+        ]
+      }
+    });
+  }
 
   if (!parent) {
     parent = await db["Parent"].create(parentData.ParentData, { transaction: t });
@@ -121,8 +124,6 @@ const addParent = async (parentData,t) => {
         ParentJobAddress: job.ParentJobAddress
       }, { transaction: t });
     });
-  } else {
-    throw new Error(`Parent with NationalId ${parent.toJSON().ParentNationalId} already exists!`);
   }
   return parent;
 };

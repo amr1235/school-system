@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
   ParentPhone.init({
     ParentId: {
       type: DataTypes.INTEGER,
+      primaryKey: true,
       allowNull: false
     },
     ParentPhoneNumber: {

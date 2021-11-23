@@ -9,10 +9,7 @@ module.exports = {
       NationalityName: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
-        validate: {
-          isAlpha: true
-        }
+        unique: true
       }
     });
   },

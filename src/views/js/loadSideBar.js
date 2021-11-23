@@ -78,7 +78,7 @@ function loadSideBar(students) {
                 classAccordionItemHeaderButton.setAttribute("data-bs-toggle", "collapse");
                 classAccordionItemHeaderButton.setAttribute("aria-expanded", "false");
                 classAccordionItemHeaderButton.setAttribute("aria-controls", classAccordionItemHeaderId);
-                classAccordionItemHeaderButton.innerText = "class " + clas.ClassId;
+                classAccordionItemHeaderButton.innerText = "فصل " + clas.ClassName;
                 const classAccordionItemContent = document.createElement("div");
                 classAccordionItemContent.classList.add("collapse", "accordion-collapse");
                 classAccordionItemContent.setAttribute("id", classDataBsTarget);

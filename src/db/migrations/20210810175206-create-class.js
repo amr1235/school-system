@@ -1,7 +1,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.sequelize.transaction(async (t) => {
-      
+
       await queryInterface.createTable("Class", {
         ClassId: {
           type: Sequelize.INTEGER,
@@ -15,9 +15,13 @@ module.exports = {
             model: "Grade",
             key: "GradeId"
           }
+        },
+        ClassName: {
+          type: Sequelize.STRING,
+          allowNull: false
         }
       }, { transaction: t });
-      
+
       await queryInterface.addIndex("Class", ["GradeId"], { transaction: t });
     });
   },

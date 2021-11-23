@@ -10,7 +10,6 @@ module.exports = {
         StudentNationalId: {
           type: Sequelize.STRING,
           allowNull: true,
-          unique: true,
         },
         StudentPassportId: {
           type: Sequelize.STRING,

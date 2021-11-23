@@ -18,7 +18,8 @@
     "db:migrate": "sequelize-cli db:migrate",
     "db:seed:generate": "sequelize-cli seed:generate --name",
     "db:seed": "sequelize-cli db:seed:all",
-    "db:clean": "sequelize-cli db:migrate:undo:all"
+    "db:clean": "sequelize-cli db:migrate:undo:all",
+    "db:drop": "sequelize-cli db:drop"
   },
   "keywords": [],
   "author": "zeyad-kay",
