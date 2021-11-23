@@ -55,7 +55,6 @@ module.exports = (sequelize, DataTypes) => {
     StudentNationalId: {
       type: DataTypes.STRING,
       allowNull: true,
-      unique: true,
     },
     StudentPassportId: {
       type: DataTypes.STRING,
