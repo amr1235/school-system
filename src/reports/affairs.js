@@ -522,21 +522,19 @@ const absenceSummary = async (
 
   return db.sequelize.query(query).then((students) => {
     students[0].forEach((student) => {
-      if (!data[student["StageName"]]) {
-        data[student["StageName"]] = {};
-      }
+      // if (!data[student["StageName"]]) {
+      //   data[student["StageName"]] = {};
+      // }
       if (!data[student["StageName"]][student["GradeName"]]) {
-        data[student["StageName"]][student["GradeName"]] = {};
+        data[student["StageName"]][student["GradeName"]] = [];
       }
-      if (
-        !data[student["StageName"]][student["GradeName"]][student["ClassName"]]
-      ) {
-        data[student["StageName"]][student["GradeName"]][student["ClassName"]] =
-          [];
-      }
-      data[student["StageName"]][student["GradeName"]][
-        student["ClassName"]
-      ].push(student);
+      // if (
+      //   !data[student["StageName"]][student["GradeName"]][student["ClassName"]]
+      // ) {
+      //   data[student["StageName"]][student["GradeName"]][student["ClassName"]] =
+      //     [];
+      // }
+      data[student["StageName"]][student["GradeName"]].push(student);
     });
     return data;
   });

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="./scss/exams.css" />
+    <title>تقارير الغياب</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+        <div class="container">
+            <a class="navbar-brand" href="#">معهد الوفاء</a>
+            <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <div class="me-auto">
+                    <button class="d-inline-block btn btn-warning rounded-pill mx-md-3">
+                        <a class="text-decoration-none text-dark"
+                            onclick='window.api.send("getEssentialData", "affairsHome");'>شؤون
+                            الطلاب</a>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container mt-5 pt-5" dir="rtl">
+        <h1 class="text-center">تقارير الغياب</h1>
+        <div class="row mt-5">
+            <div class="col-12 col-md-6">
+                <div class="input-group mb-3 mt-3" dir="rtl">
+                    <span class="input-group-text" id="basic-addon1">
+                        من
+                    </span>
+                    <input id="absentFrom" type="date" class="form-control" placeholder="Username" aria-label="Username"
+                        aria-describedby="basic-addon1" />
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="input-group mb-3 mt-3" dir="rtl">
+                    <span class="input-group-text" id="basic-addon1">
+                        الي
+                    </span>
+                    <input id="absentTo" type="date" class="form-control" placeholder="Username" aria-label="Username"
+                        aria-describedby="basic-addon1" />
+                </div>
+            </div>
+        </div>
+        <div class="row my-3" dir="rtl">
+            <div class="col-md-4 col-12">
+                <select class="form-select" onchange="test()" onchange="" aria-label="Default select example"
+                    id="StageList">
+                    <option value="0">اختار المرحلة</option>
+                    <option value="0">بلا اختيار</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-12">
+                <select class="form-select" disabled aria-label="Default select example" id="GradeList">
+                    <option value="0">اختار الصف</option>
+                    <option value="0">بلا اختيار</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-12">
+                <select class="form-select" disabled aria-label="Default select example" id="ClassList">
+                    <option value="0">بلا اختيار</option>
+                    <option value="0">اختار الفصل</option>
+                </select>
+            </div>
+        </div>
+        <div class="row my-3" dir="rtl">
+            <div class="col-md-4 col-12">
+                <div class="input-group input-group mb-2 col-md-6 col-12">
+                    <span class="input-group-text" id="inputGroup-sizing">عدد مرات الغياب</span>
+                    <input type="number" class="form-control" aria-label="Sizing example input"
+                        aria-describedby="inputGroup-sizing-sm" id="absenceNumber" />
+                </div>
+            </div>
+            <!-- <div class="col-md-4 col-12">
+                <select class="form-select" aria-label="Default select example" id="condition">
+                    <option value="greaterThan">اكبر من او يساوي</option>
+                    <option value="smallerThan">اقل من او يساوي</option>
+                    <option value="equal">يساوي</option>
+                </select>
+            </div> -->
+        </div>
+        <div class="d-flex" dir="rtl">
+            <div class="col-12 my-5 text-center">
+                <button type="submit" class="rounded-pill btn btn-success w-50" onclick="getReport()">
+                    طباعة التقرير
+                </button>
+            </div>
+        </div>
+    </main>
+    <script>
+        function getReport() {
+            const fromDate = document.getElementById("absentFrom");
+            const toDate = document.getElementById("absentTo");
+            const StageId = document.getElementById("StageList").value;
+            const GradeId = document.getElementById("GradeList").value;
+            const ClassId = document.getElementById("ClassList").value;
+            const absenceNumber = document.getElementById("absenceNumber");
+            const condition = document.getElementById("condition");
+            let errors = [];
+            if (!fromDate || !toDate) {
+                errors.push("من فضلك ادخل التواريخ")
+            }
+            if (absenceNumber < 0) {
+                errors.push("عدد مرات الغياب يجب ان تكون اكبر من او تساوي ال 0");
+            }
+
+            if (errors.length() === 0) {
+                window.api.send("getAbsenceReport",{
+                    fromDate,
+                    toDate,
+                    StageId,
+                    GradeId,
+                    ClassId,
+                    absenceNumber
+                });
+            } else {
+                window.api.send("ShowDialogBox", {
+                    messages: errors,
+                    type: "error",
+                    title: "خطأ",
+                });
+            }
+
+        }
+        window.api.receive("sentEssentialData", (stagesData) => {
+            // stages
+            const StageList = document.getElementById("StageList");
+            const GradeList = document.getElementById("GradeList");
+            const ClassList = document.getElementById("ClassList");
+            console.log();
+            //console.log(StageList);
+            stagesData.forEach((stage) => {
+                const option = document.createElement("option");
+                option.setAttribute("value", stage.StageId);
+                option.innerText = stage.StageName;
+                StageList.appendChild(option);
+            });
+
+            StageList.addEventListener("change", function () {
+                let StageId = this.value;
+                stagesData.forEach((stage) => {
+                    if (stage.StageId == StageId) {
+                        // remover all elements in grade list
+                        const GradeList = document.getElementById("GradeList");
+                        for (let i = GradeList.length - 1; i >= 0; i--) {
+                            GradeList.remove(i);
+                        }
+                        // fill Grades
+                        let Grades = stage.Grades;
+                        Grades.forEach((grade) => {
+                            const option = document.createElement("option");
+                            option.setAttribute("value", grade.GradeId);
+                            option.innerText = grade.GradeName;
+                            GradeList.appendChild(option);
+                        });
+                        GradeList.disabled = false;
+                    }
+                });
+            });
+
+            GradeList.addEventListener("change", function (ev) {
+                let StageId = document.getElementById("StageList").value;
+                let GradeId = this.value;
+                stagesData.forEach((stage) => {
+                    if (stage.StageId == StageId) {
+                        stage.Grades.forEach((grade) => {
+                            if (grade.GradeId == GradeId) {
+                                // remover all elements in class list
+                                const ClassList = document.getElementById("ClassList");
+                                for (let i = GradeList.length - 1; i >= 0; i--) {
+                                    ClassList.remove(i);
+                                }
+                                // fill Grades
+                                let Classes = grade.Classes;
+                                let counts = 1;
+                                Classes.forEach((clas) => {
+                                    const option = document.createElement("option");
+                                    option.setAttribute("value", clas.ClassId);
+                                    option.innerText = clas.ClassName;
+                                    counts++;
+                                    ClassList.appendChild(option);
+                                });
+                                ClassList.disabled = false;
+                            }
+                        });
+                    }
+                });
+            });
+        });
+        window.api.send("ScriptLoaded", null);
+    </script>
+    <script src="../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>

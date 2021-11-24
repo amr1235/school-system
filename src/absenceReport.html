@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{{bootstrapcss}}" />
+  <title><%- title %></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  </style>
+</head>
+
+<body dir="rtl">
+  <header class="
+        border-1 border-bottom border-dark
+        d-flex
+        flex-row
+        justify-content-around
+        mt-2
+        mb-5
+        px-2
+      ">
+    <!-- <div class="d-flex flex-column justify-content-center" id="logo">
+        <!---to add the school logo just change the src of the below <img> tag-->
+    <!-- <img src="{{logo}}" width="70%" height="80%" alt="logo" /> -->
+    </div> -->
+    <div class="d-flex flex-column justify-content-center">
+      <h4>{{title}}</h4>
+    </div>
+    <div class="d-flex flex-column justify-content-center">
+      <span>نموذج رقم:١١ ٤٦</span>
+      <span>اصدار رقم:٢</span>
+      <span>تاريخ اﻻصدار: ٢٠١٤/١١/٢٤</span>
+    </div>
+  </header>
+  <main dir="rtl">
+    {{#for rows}}
+    <div class="d-flex mb-4 w-75 flex-row justify-content-evenly">
+      <span>الصف: </span>
+    </div>
+    <div class="px-3 table-responsive">
+      <table class="table table-bordered border border-dark border-3">
+        <thead>
+          <tr>
+            <th scope="col" class="w-50">اﻻسم</th>
+            <th scope="col">ملاحظات</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each rows}}
+          <tr>
+            <td>{{name}}</td>
+            <td>{{description}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+    {{/each}}
+  </main>
+  <script src="{{popper}}"></script>
+  <script src="{{bootstrapjs}}"></script>
+</body>
+
+</html>

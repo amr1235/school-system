@@ -13,6 +13,7 @@ const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
 const seats = require("./queries/seats");
+const { absenceSummary, classList } = require("./reports/affairs");
 const fs = require("fs");
 const url = require("url");
 let CWD = process.cwd();
@@ -46,8 +47,8 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  // mainWindow.loadFile(path.join(__dirname, "views/login.html"));
-  mainWindow.loadFile(path.join(__dirname, "index.html"));
+  mainWindow.loadFile(path.join(__dirname, "views/login.html"));
+  // mainWindow.loadFile(path.join(__dirname, "index.html"));
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 };
@@ -141,9 +142,30 @@ const getEssentialData = async () => {
     stagesData2
   };
 };
+ipcMain.on("getAbsenceReport", async (err, { fromDate,
+  toDate,
+  StageId,
+  GradeId,
+  ClassId,
+  absenceNumber }) => {
+
+  if (StageId === "0") StageId = null;
+  if (GradeId === "0") GradeId = null;
+  if (ClassId === "0") ClassId = null;
+  let rows = await absenceSummary(fromDate,toDate,absenceNumber,StageId,GradeId,ClassId);
+  let columns = ["اسم الطالب","الفصل","عدد أيام الغياب","الصف الدراسي","المرحلة","تليفون ولي الأمر"];
+  let title = "تقرير غياب";
+  let r = [];
+  let subHeaders = []; 
+  for (let [key,value] of Object.entries(rows)) {
+    subHeaders.push(key);
+    r.push(value);
+  }
+  // ipcMain.emit()
+});
+
 // handling action that was generated from renderer process
 ipcMain.on("render-report", async (event, data) => {
-
   try {
     // we defer jsreport initialization on first report render
     // to avoid slowing down the app at start time
@@ -166,10 +188,13 @@ ipcMain.on("render-report", async (event, data) => {
           bootstrapjs: cur + "/node_modules/bootstrap/dist/js/bootstrap.min.js",
           bootstrapcss: cur + "/node_modules/bootstrap/dist/css/bootstrap.min.css",
           logo: cur + "/src/assets/images/index.png",
-          rows: data
+          rows: data.rows,
+          columns : data.columns,
+          subHeaders : data.subHeaders,
+          title : data.title
         }
       });
-      
+
       fs.writeFileSync(path.join(CWD, "report.pdf"), resp.content);
 
       const pdfWindow = new BrowserWindow({
@@ -190,7 +215,6 @@ ipcMain.on("render-report", async (event, data) => {
       DialogBox(["error while rendering jsreport"], "error", "error while starting jsreport");
     }
   } catch (e) {
-    console.log(e);
     DialogBox(["error while starting jsreport"], "error", "error while starting jsreport");
   }
 });
@@ -385,6 +409,14 @@ ipcMain.on("getEssentialData", function (err, destination) {
       );
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("sentEssentialData", grades);
+        ipcMain.removeListener("ScriptLoaded", cb);
+      });
+    });
+  } else if (destination === "studentsAbsentReport") {
+    getEssentialData().then((data) => {
+      mainWindow.loadFile(path.join(__dirname, "views/studentsAbsenceReport.html"));
+      ipcMain.on("ScriptLoaded", function cb() {
+        mainWindow.webContents.send("sentEssentialData", data.stagesData);
         ipcMain.removeListener("ScriptLoaded", cb);
       });
     });
@@ -671,7 +703,7 @@ ipcMain.on("login", function (event, args) {
             ipcMain.removeListener("ScriptLoaded", cb);
           });
         });
-      }else {
+      } else {
         DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
       }
       break;

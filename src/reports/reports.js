@@ -4,7 +4,7 @@ const {
   getAbsenceRatioInAllGrades,
   getTransferredStudents,
   getGradeCapacity,
-  AbsentDays,
+  AbsentDays
 } = require("./affairs");
 
 const {

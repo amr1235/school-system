@@ -67,6 +67,7 @@
     "dotenv": "^10.0.0",
     "electron-squirrel-startup": "^1.0.0",
     "jquery": "^3.6.0",
+    "jsreport": "^2.11.0",
     "pg": "^8.7.1",
     "sequelize": "^6.6.5"
   },
