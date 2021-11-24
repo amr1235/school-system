@@ -327,11 +327,9 @@
     <!--dad section-->
     <section id="dad" class="container tab-pane fade show" role="tabpanel" dir="rtl">
       <h1 class="text-center py-4">بيانات الاب</h1>
-
       <div class="container row">
         <div class="form-check form-switch">
-          <input class="form-check-input" id="DeadDadTrigger" onchange="hideDadData()" type="checkbox"
-            id="flexSwitchCheckDefault" />
+          <input class="form-check-input" id="DeadDadTrigger" type="checkbox" id="flexSwitchCheckDefault" />
           <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفي</label>
         </div>
       </div>
@@ -373,11 +371,12 @@
           <div class="col-12">
             <div class="input-group input-group mb-2 col-md-6 col-12">
               <select id="DadAcademicDegree" class="form-select" aria-label="Default select example">
-                <option selected>شهاده الاب</option>
-                <option value="BACHELOR">بكالريوس</option>
-                <option value="PHD">دكتوراه</option>
-                <option value="MASTERS">ماجيستير</option>
-                <option value="SECONDARY">ثانويه</option>
+                <option value="0" selected>شهاده الاب</option>
+                <option value="تعليم عالي"> تعليم عالي</option>
+                <option value="تعليم متوسط">تعليم متوسط</option>
+                <option value="اعدادية">اعدادية</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بدون مؤهل">بدون مؤهل</option>
               </select>
             </div>
           </div>
@@ -395,7 +394,7 @@
 
       <div class="container row">
         <div class="form-check form-switch">
-          <input class="form-check-input" onchange="hideMumData()" type="checkbox" id="DeadMomTrigger" />
+          <input class="form-check-input" type="checkbox" id="DeadMomTrigger" />
           <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفيه</label>
         </div>
       </div>
@@ -438,11 +437,12 @@
           <div class="col-12">
             <div class="input-group input-group mb-2 col-12">
               <select class="form-select" id="MomAcademicDegree" aria-label="Default select example">
-                <option selected>شهاده الام</option>
-                <option value="BACHELOR">بكالريوس</option>
-                <option value="PHD">دكتوراه</option>
-                <option value="MASTERS">ماجيستير</option>
-                <option value="SECONDARY">ثانويه</option>
+                <option value="0" selected>شهاده الام</option>
+                <option value="تعليم عالي"> تعليم عالي</option>
+                <option value="تعليم متوسط">تعليم متوسط</option>
+                <option value="اعدادية">اعدادية</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بدون مؤهل">بدون مؤهل</option>
               </select>
             </div>
           </div>
@@ -543,11 +543,12 @@
           <div class="col-12">
             <div class="input-group input-group mb-2 col-12">
               <select id="ResAcademicDegree" class="form-select" aria-label="Default select example">
-                <option selected>شهاده ولي اﻻمر</option>
-                <option value="BACHELOR">بكالريوس</option>
-                <option value="PHD">دكتوراه</option>
-                <option value="MASTERS">ماجيستير</option>
-                <option value="SECONDARY">ثانويه</option>
+                <option value="0" selected>شهاده ولي اﻻمر</option>
+                <option value="تعليم عالي"> تعليم عالي</option>
+                <option value="تعليم متوسط">تعليم متوسط</option>
+                <option value="اعدادية">اعدادية</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بدون مؤهل">بدون مؤهل</option>
               </select>
             </div>
           </div>
@@ -561,14 +562,8 @@
     <!--التحويل-->
     <section class="container tab-pane fade show" id="transfer" role="tabpanel" dir="rtl">
       <h1 class="border-3 border-bottom border-dark text-center py-3">
-        تحويل الطلاب
+        تحويل الطالب
       </h1>
-      <div class="row justify-content-center my-5">
-        <div class="input-group input-group mb-2 col-12">
-          <h3>اسم الطالب :</h3>
-          <h3 id="transferredStudentId" class="mx-5 text-center"></h3>
-        </div>
-      </div>
       <div class="row justify-content-center my-5">
         <div class="col-md-6 col-12">
           <div class="input-group input-group mb-2">
@@ -620,7 +615,6 @@
         </div>
       </div>
       <div id="newAbsence"></div>
-
       <div class="container">
         <div hidden id="absentEmptyDiv">لا يوجد غياب للطالب</div>
         <table id="absentTabel" class="table table-hover table-borderless table-striped" dir="rtl">
@@ -799,7 +793,13 @@
       let caretaker = document.getElementById(divId);
       caretaker.hidden = element.value == "other" ? false : true;
     }
+    function test() {
+      let d = document.getElementById("DadAcademicDegree");
+      console.log(d.value);
+    }
     window.api.receive("getStudentDataFromMain", (data) => {
+      // onchange="test()" id="DadAcademicDegree"
+
       loadSideBar(data.students);
       ReportsNav(data);
       window.api.receive("reload", () => {
@@ -891,6 +891,7 @@
       const StageList = document.getElementById("StageList");
       const GradeList = document.getElementById("GradeList");
       const ClassList = document.getElementById("ClassList");
+      console.log();
       //console.log(StageList);
       data.stagesData.forEach((stage) => {
         const option = document.createElement("option");
@@ -939,7 +940,7 @@
                 Classes.forEach((clas) => {
                   const option = document.createElement("option");
                   option.setAttribute("value", clas.ClassId);
-                  option.innerText = "الفصل " + clas.ClassId;
+                  option.innerText = clas.ClassName;
                   counts++;
                   ClassList.appendChild(option);
                 });
@@ -983,6 +984,8 @@
           .setAttribute("value", fatherData.ParentAddress);
         document.getElementById("DadAcademicDegree").value =
           fatherData.ParentAcademicDegree;
+        document.getElementById("DeadDadTrigger").checked =
+          fatherData.IsDead;
         // hundle job data
         let dadJobs = fatherData.jobs;
         const dadJobArea = document.getElementById("DadworkArea");
@@ -1010,6 +1013,7 @@
         addNewPhone("MomPhoneArea", "", false);
         addWorkToDiv("MomWorkArea", 1, "", false);
       } else {
+        console.log(motherData)
         document
           .getElementById("MomName")
           .setAttribute("value", motherData.ParentName);
@@ -1026,6 +1030,9 @@
           .setAttribute("value", motherData.ParentAddress);
         document.getElementById("MomAcademicDegree").value =
           motherData.ParentAcademicDegree;
+        document.getElementById("DeadMomTrigger").checked =
+          motherData.IsDead;
+        
         // hundle mom job
         let momJobs = motherData.jobs;
         momJobs.forEach((job, i) => {

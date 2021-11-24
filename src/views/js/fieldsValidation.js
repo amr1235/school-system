@@ -80,11 +80,10 @@ const checkFatherData = () => {
   let DadAcademicDegree = document.getElementById("DadAcademicDegree").value;
   let DadworkAreaChilds = document.getElementById("DadworkArea").children;
   let dadphoneAreaChilds = document.getElementById("dadphoneArea").children;
-  if (DeadDadTrigger) return { errors, fatherData: null };
   if (
     DadName.length === 0 ||
     DadAddress.length === 0 ||
-    DadAcademicDegree.length === 0
+    DadAcademicDegree.length === 0 || DadAcademicDegree === 0
   ) {
     errors.push("من فضلك ادخل جميع الحقول في بيانات الأب");
   }
@@ -124,6 +123,7 @@ const checkFatherData = () => {
     errors.push("يجب إدخال رقم واحد على الأققل للأب");
   }
   if (errors.length === 0) {
+    console.log("test");
     return {
       errors: [],
       fatherData: {
@@ -134,6 +134,7 @@ const checkFatherData = () => {
           ParentAddress: DadAddress,
           ParentNationalityId: 1,
           ParentAcademicDegree: DadAcademicDegree,
+          IsDead : DeadDadTrigger
         },
         phones,
         jobs,
@@ -156,11 +157,10 @@ const checkMotherData = () => {
   let MomAcademicDegree = document.getElementById("MomAcademicDegree").value;
   let MomWorkAreaChilds = document.getElementById("MomWorkArea").children;
   let MomPhoneAreaChilds = document.getElementById("MomPhoneArea").children;
-  if (DeadMomTrigger) return { errors: [], motherData: null };
   if (
     MomName.length === 0 ||
     MomAddress.length === 0 ||
-    MomAcademicDegree.length === 0
+    MomAcademicDegree.length === 0 || MomAcademicDegree === 0
   ) {
     errors.push("من فضلك ادخل جميع الحقول في بيانات الأب");
   }
@@ -200,6 +200,7 @@ const checkMotherData = () => {
     errors.push("يجب إدخال رقم واحد على الأققل للأم");
   }
   if (errors.length === 0) {
+    console.log(DeadMomTrigger);
     return {
       errors: [],
       motherData: {
@@ -210,6 +211,7 @@ const checkMotherData = () => {
           ParentAddress: MomAddress,
           ParentNationalityId: 1,
           ParentAcademicDegree: MomAcademicDegree,
+          IsDead : DeadMomTrigger
         },
         phones,
         jobs,
@@ -258,7 +260,7 @@ const checkResData = () => {
   if (
     ResName.length === 0 ||
     ResAddress.length === 0 ||
-    ResAcademicDegree.length === 0
+    ResAcademicDegree.length === 0 || ResAcademicDegree === 0
   ) {
     errors.push("من فضلك ادخل جميع الحقول في بيانات ولي الأمر");
   }

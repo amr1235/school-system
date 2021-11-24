@@ -60,8 +60,13 @@ module.exports = (sequelize, DataTypes) => {
     ParentAcademicDegree: {
       type: DataTypes.ENUM,
       allowNull: false,
-      values: ["BACHELOR", "MASTERS", "PHD", "SECONDARY"]
+      values: ["بدون مؤهل","دبلوم","اعدادية","تعليم متوسط","تعليم عالي"]
     },
+    IsDead : {
+      type : DataTypes.BOOLEAN,
+      defaultValue : false,
+      allowNull : false
+    }
   }, {
     sequelize,
     updatedAt: false,

@@ -92,11 +92,10 @@ const getEssentialData = async () => {
       include: [
         {
           model: db["Class"],
-          attributes: ["ClassId","ClassName"],
+          attributes: ["ClassId", "ClassName"],
         },
         {
           model: db["Category"],
-          required: true,
           attributes: ["CategoryName", "GradeId", "CategoryId"],
         },
       ],
@@ -108,7 +107,25 @@ const getEssentialData = async () => {
     ],
   });
   stagesData = mapToJSON(stagesData);
-  console.log(stagesData[0].Grades.Cleasses);
+  let stagesData2 = await db["Stage"].findAll({
+    attributes: ["StageId", "StageName"],
+    include: {
+      model: db["Grade"],
+      attributes: ["GradeId", "GradeName"],
+      include: [
+        {
+          model: db["Class"],
+          attributes: ["ClassId", "ClassName"],
+        }
+      ],
+    },
+    order: [
+      ["StageId", "ASC"],
+      [db["Grade"], "GradeId", "ASC"],
+      [db["Grade"], db["Class"], "ClassId", "ASC"],
+    ],
+  });
+  stagesData2 = mapToJSON(stagesData2);
   //get all jobs
   let jobs = await db["Job"].findAll();
   jobs = mapToJSON(jobs);
@@ -121,6 +138,7 @@ const getEssentialData = async () => {
     jobs,
     nationalities,
     students,
+    stagesData2
   };
 };
 // handling action that was generated from renderer process
@@ -328,6 +346,7 @@ ipcMain.on("GenerateStudentsSeats", function (err, { gradeId, seatStart, seatSte
 });
 // get essintial Data
 ipcMain.on("getEssentialData", function (err, destination) {
+  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   if (destination === "affairsSettings") {
     grade
       .getGrades()
@@ -372,6 +391,7 @@ ipcMain.on("getEssentialData", function (err, destination) {
   } else {
     // get all stages , grades and classes
     getEssentialData().then((data) => {
+      console.log(data.stagesData.Grades);
       if (destination === "addStudent") {
         mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
         ipcMain.on("ScriptLoaded", function cb() {
@@ -581,6 +601,7 @@ ipcMain.on(
     mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
     //update student
     // console.log(studentData);
+    console.log(fatherData);
     student
       .updateStudentByStudentId(
         studentId,
@@ -637,32 +658,37 @@ ipcMain.on(
 let CurrentWindow = null;
 ipcMain.on("login", function (event, args) {
   console.log(args[0], args[1]);
+  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   // load Students
   switch (args[0]) {
-  case "1":
-    if (args[1] === "1234") {
-      CurrentWindow = "expenses";
-      getEssentialData().then((data) => {
-        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
+    case "1":
+      if (args[1] === "1234") {
+        CurrentWindow = "expenses";
+        getEssentialData().then((data) => {
+          mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    }
-    break;
-  case "2":
-    if (args[1] === "2468") {
-      CurrentWindow = "affairs";
-      getEssentialData().then((data) => {
-        console.log(data);
-        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
+      }else {
+        DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
+      }
+      break;
+    case "2":
+      if (args[1] === "2468") {
+        CurrentWindow = "affairs";
+        getEssentialData().then((data) => {
+          console.log(data);
+          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    } else break;
+      } else {
+        DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
+      };
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {

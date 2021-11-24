@@ -144,8 +144,8 @@
   <script>
     window.api.receive("sentEssentialData", (data) => {
       loadSideBar(data.students);
-      console.log(data.students);
       ReportsNav(data);
+      console.log(data);
     });
     window.api.send("ScriptLoaded");
   </script>
