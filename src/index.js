@@ -13,6 +13,15 @@ const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
 const seats = require("./queries/seats");
+const fs = require("fs");
+const url = require("url");
+let CWD = process.cwd();
+
+const rootDir = process.platform === "darwin" ? __dirname : CWD;
+
+const jsreport = require("jsreport")({
+  rootDirectory: rootDir
+});
 // require("electron-reload")(__dirname, {
 //   electron: require("../node_modules/electron"),
 // });
@@ -37,7 +46,8 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "views/login.html"));
+  // mainWindow.loadFile(path.join(__dirname, "views/login.html"));
+  mainWindow.loadFile(path.join(__dirname, "index.html"));
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 };
@@ -82,11 +92,10 @@ const getEssentialData = async () => {
       include: [
         {
           model: db["Class"],
-          attributes: ["ClassId","ClassName"],
+          attributes: ["ClassId", "ClassName"],
         },
         {
           model: db["Category"],
-          required: true,
           attributes: ["CategoryName", "GradeId", "CategoryId"],
         },
       ],
@@ -98,7 +107,25 @@ const getEssentialData = async () => {
     ],
   });
   stagesData = mapToJSON(stagesData);
-  console.log(stagesData[0].Grades.Cleasses);
+  let stagesData2 = await db["Stage"].findAll({
+    attributes: ["StageId", "StageName"],
+    include: {
+      model: db["Grade"],
+      attributes: ["GradeId", "GradeName"],
+      include: [
+        {
+          model: db["Class"],
+          attributes: ["ClassId", "ClassName"],
+        }
+      ],
+    },
+    order: [
+      ["StageId", "ASC"],
+      [db["Grade"], "GradeId", "ASC"],
+      [db["Grade"], db["Class"], "ClassId", "ASC"],
+    ],
+  });
+  stagesData2 = mapToJSON(stagesData2);
   //get all jobs
   let jobs = await db["Job"].findAll();
   jobs = mapToJSON(jobs);
@@ -111,8 +138,63 @@ const getEssentialData = async () => {
     jobs,
     nationalities,
     students,
+    stagesData2
   };
 };
+// handling action that was generated from renderer process
+ipcMain.on("render-report", async (event, data) => {
+
+  try {
+    // we defer jsreport initialization on first report render
+    // to avoid slowing down the app at start time
+    if (!jsreport._initialized) {
+      await jsreport.init();
+    }
+
+    try {
+      let cur = __dirname.split("\\");
+      cur.pop();
+      cur = cur.join("\\");
+      const resp = await jsreport.render({
+        template: {
+          content: fs.readFileSync(path.join(__dirname, "./report.html")).toString(),
+          engine: "handlebars",
+          recipe: "chrome-pdf"
+        },
+        data: {
+          popper: cur + "/node_modules/@popperjs/core/dist/umd/popper.min.js",
+          bootstrapjs: cur + "/node_modules/bootstrap/dist/js/bootstrap.min.js",
+          bootstrapcss: cur + "/node_modules/bootstrap/dist/css/bootstrap.min.css",
+          logo: cur + "/src/assets/images/index.png",
+          rows: data
+        }
+      });
+      
+      fs.writeFileSync(path.join(CWD, "report.pdf"), resp.content);
+
+      const pdfWindow = new BrowserWindow({
+        width: 1024,
+        height: 800,
+        webPreferences: {
+          plugins: true
+        }
+      });
+
+      pdfWindow.loadURL(url.format({
+        pathname: path.join(CWD, "report.pdf"),
+        protocol: "file"
+      }));
+
+      event.sender.send("render-finish", {});
+    } catch (e) {
+      DialogBox(["error while rendering jsreport"], "error", "error while starting jsreport");
+    }
+  } catch (e) {
+    console.log(e);
+    DialogBox(["error while starting jsreport"], "error", "error while starting jsreport");
+  }
+});
+
 // listen for dialogboxes
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
@@ -264,6 +346,7 @@ ipcMain.on("GenerateStudentsSeats", function (err, { gradeId, seatStart, seatSte
 });
 // get essintial Data
 ipcMain.on("getEssentialData", function (err, destination) {
+  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   if (destination === "affairsSettings") {
     grade
       .getGrades()
@@ -308,6 +391,7 @@ ipcMain.on("getEssentialData", function (err, destination) {
   } else {
     // get all stages , grades and classes
     getEssentialData().then((data) => {
+      console.log(data.stagesData.Grades);
       if (destination === "addStudent") {
         mainWindow.loadFile(path.join(__dirname, "views/addNewStudent.html"));
         ipcMain.on("ScriptLoaded", function cb() {
@@ -517,6 +601,7 @@ ipcMain.on(
     mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
     //update student
     // console.log(studentData);
+    console.log(fatherData);
     student
       .updateStudentByStudentId(
         studentId,
@@ -573,32 +658,37 @@ ipcMain.on(
 let CurrentWindow = null;
 ipcMain.on("login", function (event, args) {
   console.log(args[0], args[1]);
+  mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   // load Students
   switch (args[0]) {
-  case "1":
-    if (args[1] === "1234") {
-      CurrentWindow = "expenses";
-      getEssentialData().then((data) => {
-        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
+    case "1":
+      if (args[1] === "1234") {
+        CurrentWindow = "expenses";
+        getEssentialData().then((data) => {
+          mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    }
-    break;
-  case "2":
-    if (args[1] === "2468") {
-      CurrentWindow = "affairs";
-      getEssentialData().then((data) => {
-        console.log(data);
-        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-        ipcMain.on("ScriptLoaded", function cb() {
-          mainWindow.webContents.send("sentEssentialData", data);
-          ipcMain.removeListener("ScriptLoaded", cb);
+      }else {
+        DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
+      }
+      break;
+    case "2":
+      if (args[1] === "2468") {
+        CurrentWindow = "affairs";
+        getEssentialData().then((data) => {
+          console.log(data);
+          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+          ipcMain.on("ScriptLoaded", function cb() {
+            mainWindow.webContents.send("sentEssentialData", data);
+            ipcMain.removeListener("ScriptLoaded", cb);
+          });
         });
-      });
-    } else break;
+      } else {
+        DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
+      };
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {

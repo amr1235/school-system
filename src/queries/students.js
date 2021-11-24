@@ -46,7 +46,7 @@ const getStudentData = async (Id) => {
       attributes: ["GradeId", "GradeName"],
       include: {
         model: db["Class"],
-        attributes: ["ClassId"],
+        attributes: ["ClassId","ClassName"],
       },
     },
   });

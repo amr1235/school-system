@@ -131,7 +131,7 @@
         <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset" data-bs-dismiss="offcanvas"
           aria-label="Close"></button>
       </div>
-      <div id="" class="offcanvas-body justify-content-center" dir="rtl">
+      <div class="offcanvas-body justify-content-center" dir="rtl">
         <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
         <div class="tab-content mt-2" id="pills-tabContent"></div>
       </div>
@@ -258,15 +258,11 @@
         </div>
       </div>
       <div class="row mb-2" dir="rtl">
-        <div class="col">
-          <select class="form-select" id="StudentFamilyStatus" aria-label="Default select example">
-            <option selected>الحاله العائليه</option>
-            <option value="ORPHAN">يتيم</option>
-            <option value="MARRIED">متزوج</option>
-            <option value="DIVORCED">مطلق</option>
-            <option value="DEAD MOTHER">الاب متوفي</option>
-            <option value="DEAD FATHER">اﻻم متوفيه</option>
-          </select>
+        <!-- StudentFamilyStatus -->
+        <div class="input-group input-group mb-2 col">
+          <span class="input-group-text" id="inputGroup-sizing">الحاله الصحيه:</span>
+          <input type="text" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-sm" id="StudentFamilyStatus" />
         </div>
       </div>
 
@@ -289,7 +285,7 @@
 
       <div class="container row">
         <div class="form-check form-switch">
-          <input class="form-check-input" onchange="hideDadData()" type="checkbox" id="DeadDadTrigger" />
+          <input class="form-check-input" type="checkbox" id="DeadDadTrigger" />
           <label class="form-check-label h5" for="flexSwitchCheckDefault">متوفي</label>
         </div>
       </div>
@@ -331,11 +327,12 @@
           <div class="col-12">
             <div class="input-group input-group mb-2 col-md-6 col-12">
               <select id="DadAcademicDegree" class="form-select" aria-label="Default select example">
-                <option selected>شهاده الاب</option>
-                <option value="BACHELOR">بكالريوس</option>
-                <option value="PHD">دكتوراه</option>
-                <option value="MASTERS">ماجيستير</option>
-                <option value="SECONDARY">ثانويه</option>
+                <option value="0" selected>شهاده الاب</option>
+                <option value="تعليم عالي"> تعليم عالي</option>
+                <option value="تعليم متوسط">تعليم متوسط</option>
+                <option value="اعدادية">اعدادية</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بدون مؤهل">بدون مؤهل</option>
               </select>
             </div>
           </div>
@@ -351,7 +348,7 @@
 
       <div class="container row">
         <div class="form-check form-switch">
-          <input class="form-check-input" onchange="hideMumData()" type="checkbox" id="DeadMomTrigger" />
+          <input class="form-check-input" type="checkbox" id="DeadMomTrigger" />
           <label class="form-check-label h5" for="DeadMomTrigger">متوفيه</label>
         </div>
       </div>
@@ -394,11 +391,12 @@
           <div class="col-12">
             <div class="input-group input-group mb-2 col-12">
               <select id="MomAcademicDegree" class="form-select" aria-label="Default select example">
-                <option selected>شهاده الام</option>
-                <option value="BACHELOR">بكالريوس</option>
-                <option value="PHD">دكتوراه</option>
-                <option value="MASTERS">ماجيستير</option>
-                <option value="SECONDARY">ثانويه</option>
+                <option value="0" selected>شهاده الام</option>
+                <option value="تعليم عالي"> تعليم عالي</option>
+                <option value="تعليم متوسط">تعليم متوسط</option>
+                <option value="اعدادية">اعدادية</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بدون مؤهل">بدون مؤهل</option>
               </select>
             </div>
           </div>
@@ -465,11 +463,12 @@
           <div class="col-12">
             <div class="input-group input-group mb-2 col-12">
               <select id="ResAcademicDegree" class="form-select" aria-label="Default select example">
-                <option selected>شهاده ولي اﻻمر</option>
-                <option value="BACHELOR">بكالريوس</option>
-                <option value="PHD">دكتوراه</option>
-                <option value="MASTERS">ماجيستير</option>
-                <option value="SECONDARY">ثانويه</option>
+                <option value="0" selected>شهاده ولي اﻻمر</option>
+                <option value="تعليم عالي"> تعليم عالي</option>
+                <option value="تعليم متوسط">تعليم متوسط</option>
+                <option value="اعدادية">اعدادية</option>
+                <option value="دبلوم">دبلوم</option>
+                <option value="بدون مؤهل">بدون مؤهل</option>
               </select>
             </div>
           </div>
@@ -658,8 +657,9 @@
     const StageList = document.getElementById("StageList");
     const GradeList = document.getElementById("GradeList");
     const ClassList = document.getElementById("ClassList");
+    console.log(data.stagesData);
     //console.log(StageList);
-    data.stagesData.forEach((stage) => {
+    data.stagesData2.forEach((stage) => {
       const option = document.createElement("option");
       option.setAttribute("value", stage.StageId);
       option.innerText = stage.StageName;
@@ -668,7 +668,7 @@
 
     StageList.addEventListener("change", function () {
       let StageId = this.value;
-      data.stagesData.forEach((stage) => {
+      data.stagesData2.forEach((stage) => {
         if (stage.StageId == StageId) {
           // remover all elements in grade list
           const GradeList = document.getElementById("GradeList");
@@ -694,7 +694,7 @@
     GradeList.addEventListener("change", function (ev) {
       let StageId = document.getElementById("StageList").value;
       let GradeId = this.value;
-      data.stagesData.forEach((stage) => {
+      data.stagesData2.forEach((stage) => {
         if (stage.StageId == StageId) {
           stage.Grades.forEach((grade) => {
             if (grade.GradeId == GradeId) {
@@ -709,7 +709,7 @@
               Classes.forEach((clas) => {
                 const option = document.createElement("option");
                 option.setAttribute("value", clas.ClassId);
-                option.innerText = "الفصل " + clas.ClassId;
+                option.innerText = clas.ClassName;
                 counts++;
                 ClassList.appendChild(option);
               });

@@ -18,7 +18,7 @@ function loadSideBar(students) {
         stageButton.setAttribute("data-bs-target", "#" + stageDataBsTarget);
         stageButton.setAttribute("type", "button");
         stageButton.setAttribute("role", "tab");
-        stageButton.setAttribute("aria-controls", stageDataBsTarget);
+        stageButton.setAttribute("aria-controls", "flush-collapseOne");
         if (i === 0) {
             stageButton.setAttribute("aria-selected", "true");
             stageButton.classList.add("active");
@@ -54,17 +54,19 @@ function loadSideBar(students) {
             gradeAccordionItemHeaderButton.setAttribute("data-bs-target", "#" + gradeDataBsTarget);
             gradeAccordionItemHeaderButton.setAttribute("data-bs-toggle", "collapse");
             gradeAccordionItemHeaderButton.setAttribute("aria-expanded", "false");
-            gradeAccordionItemHeaderButton.setAttribute("aria-controls", gradeAccordionItemHeaderId);
+            gradeAccordionItemHeaderButton.setAttribute("aria-controls", "flush-collapseOne");
             gradeAccordionItemHeaderButton.innerText = grade.GradeName;
             const gradeAccordionItemContent = document.createElement("div");
             gradeAccordionItemContent.classList.add("collapse", "accordion-collapse");
             gradeAccordionItemContent.setAttribute("id", gradeDataBsTarget);
             gradeAccordionItemContent.setAttribute("aria-labelledby", gradeAccordionItemHeaderId);
+            gradeAccordionItemContent.setAttribute("data-bs-parent", "accordionFlushExample");
             const gradeAccordionItemInnerContent = document.createElement("div");
             gradeAccordionItemInnerContent.classList.add("accordion-body", "text-center");
             grade.Classes.forEach(clas => {
                 const classAccordion = document.createElement("div");
                 classAccordion.classList.add("accordion", "accordion-flush");
+                classAccordion.setAttribute("id", "accordionFlushExample");
                 const classAccordionItem = document.createElement("div");
                 classAccordionItem.classList.add("accordion-item");
                 const classAccordionItemHeader = document.createElement("h2");
