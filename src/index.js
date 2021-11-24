@@ -13,6 +13,15 @@ const { StartNewYear } = require("./queries/newYear");
 const reports = require("./reports/reports");
 const Bus = require("./queries/BusRoutes");
 const seats = require("./queries/seats");
+const fs = require("fs");
+const url = require("url");
+let CWD = process.cwd();
+
+const rootDir = process.platform === "darwin" ? __dirname : CWD;
+
+const jsreport = require("jsreport")({
+  rootDirectory: rootDir
+});
 // require("electron-reload")(__dirname, {
 //   electron: require("../node_modules/electron"),
 // });
@@ -37,7 +46,8 @@ const createWindow = () => {
   });
 
   // and load the index.html of the app.
-  mainWindow.loadFile(path.join(__dirname, "views/login.html"));
+  // mainWindow.loadFile(path.join(__dirname, "views/login.html"));
+  mainWindow.loadFile(path.join(__dirname, "index.html"));
   // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 };
@@ -131,6 +141,60 @@ const getEssentialData = async () => {
     stagesData2
   };
 };
+// handling action that was generated from renderer process
+ipcMain.on("render-report", async (event, data) => {
+
+  try {
+    // we defer jsreport initialization on first report render
+    // to avoid slowing down the app at start time
+    if (!jsreport._initialized) {
+      await jsreport.init();
+    }
+
+    try {
+      let cur = __dirname.split("\\");
+      cur.pop();
+      cur = cur.join("\\");
+      const resp = await jsreport.render({
+        template: {
+          content: fs.readFileSync(path.join(__dirname, "./report.html")).toString(),
+          engine: "handlebars",
+          recipe: "chrome-pdf"
+        },
+        data: {
+          popper: cur + "/node_modules/@popperjs/core/dist/umd/popper.min.js",
+          bootstrapjs: cur + "/node_modules/bootstrap/dist/js/bootstrap.min.js",
+          bootstrapcss: cur + "/node_modules/bootstrap/dist/css/bootstrap.min.css",
+          logo: cur + "/src/assets/images/index.png",
+          rows: data
+        }
+      });
+      
+      fs.writeFileSync(path.join(CWD, "report.pdf"), resp.content);
+
+      const pdfWindow = new BrowserWindow({
+        width: 1024,
+        height: 800,
+        webPreferences: {
+          plugins: true
+        }
+      });
+
+      pdfWindow.loadURL(url.format({
+        pathname: path.join(CWD, "report.pdf"),
+        protocol: "file"
+      }));
+
+      event.sender.send("render-finish", {});
+    } catch (e) {
+      DialogBox(["error while rendering jsreport"], "error", "error while starting jsreport");
+    }
+  } catch (e) {
+    console.log(e);
+    DialogBox(["error while starting jsreport"], "error", "error while starting jsreport");
+  }
+});
+
 // listen for dialogboxes
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
   DialogBox(messages, type, title);
