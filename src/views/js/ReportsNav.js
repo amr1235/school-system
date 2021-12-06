@@ -48,7 +48,7 @@ const ReportsNav = (data) => {
     for (let grade of stage.Grades) {
       agesDropDown += `
                       <li>
-                        <a class="dropdown-item btn" href="#" onclick='window.api.send("sendAffairsReportData", ["Ages", [${grade.GradeId}]])'>
+                        <a class="dropdown-item btn" href="#" onclick='window.api.send("sendAffairsReportData", ["StudentsAges", [${grade.GradeId}]])'>
                           ${grade.GradeName}
                         </a>
                       </li>

@@ -516,19 +516,19 @@ const absenceSummary = async (
   }
   query +=
     " GROUP BY \"StudentName\", \"Stage\".\"StageId\", \"Grade\".\"GradeId\", \"Class\".\"ClassId\", \"ParentPhoneNumber\"\
-  HAVING COUNT(\"StudentAbsent\".\"AbsentDate\") "
+  HAVING COUNT(\"StudentAbsent\".\"AbsentDate\") ";
   switch (inequality) {
-    case ">=":
-      query += ">=";
-      break;
-    case "<=":
-      query += "<=";
-      break;
-    case "=":
-      query += "=";
-      break;
-    default:
-      query += ">=";
+  case ">=":
+    query += ">=";
+    break;
+  case "<=":
+    query += "<=";
+    break;
+  case "=":
+    query += "=";
+    break;
+  default:
+    query += ">=";
   }
   query += " " + 
     minDays +
@@ -651,7 +651,7 @@ GROUP BY \"Grade\".\"GradeId\", \"Class\".\"ClassId\", \"Student\".\"StudentName
   });
 };
 
-const studentsAges = async () => {
+const studentsAges = async (gradeId) => {
   const query =
     "\
   SELECT \"Student\".\"StudentName\", \"Student\".\"StudentBirthDate\",\
@@ -666,14 +666,46 @@ const studentsAges = async () => {
   JOIN \"Parent\" AS \"Responsible\" ON \"Student\".\"StudentResponsibleId\" = \"Responsible\".\"ParentId\"\
   LEFT JOIN \"ParentJob\" ON \"Responsible\".\"ParentId\" = \"ParentJob\".\"ParentId\"\
   LEFT JOIN \"Job\" ON \"ParentJob\".\"ParentJobId\" = \"Job\".\"JobId\"\
+  WHERE \"Grade\".\"GradeId\" = " + gradeId + " \
   ORDER BY \"Grade\".\"GradeId\", \"Student\".\"StudentName\"\
   ";
   return db.sequelize.query(query).then((students) => {
     return students[0].map((student) => {
+      let age = student["age"]["years"];
+      student["age"]["years"] > 10 ? age += " سنة" : age += " سنوات";
+      if (student["age"]["months"]) {
+        age += " و ";
+        switch (student["age"]["months"]) {
+        case 1:
+          age += "شهر";
+          break;
+        case 2:
+          age += "شهرين";
+          break;
+        case 11:
+          age += "11 شهر";
+          break;
+        default:
+          age += student["age"]["months"] + " أشهر";
+        }
+      }
+      if (student["age"]["days"]) {
+        age += " و ";
+        switch (student["age"]["days"]) {
+        case 1:
+          age += "يوم";
+          break;
+        case 2:
+          age += "يومين";
+          break;
+        default:
+          student["age"]["days"] < 11 ? age += " " + student["age"]["days"] + " أيام" : age += " " + student["age"]["days"] + " يوم";
+        }
+      }
       return [
         student["StudentName"],
         student["StudentBirthDate"],
-        student["age"],
+        age,
         student["NationalityName"],
         student["ParentName"],
         student["JobName"] || "لا يوجد",
@@ -683,7 +715,7 @@ const studentsAges = async () => {
     });
   });
 };
-studentsAges().then(console.log)
+
 module.exports = {
   getSeatsData,
   // getCapacityStats,
