@@ -14,6 +14,91 @@
       href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
     />
     <title>شؤون الطلاب</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // make it as accordion for smaller screens
+        if (window.innerWidth < 992) {
+          // close all inner dropdowns when parent is closed
+          document
+            .querySelectorAll(".navbar .dropdown")
+            .forEach(function (everydropdown) {
+              everydropdown.addEventListener("hidden.bs.dropdown", function () {
+                // after dropdown is hidden, then find all submenus
+                this.querySelectorAll(".submenu").forEach(function (
+                  everysubmenu
+                ) {
+                  // hide every submenu as well
+                  everysubmenu.style.display = "none";
+                });
+              });
+            });
+
+          document
+            .querySelectorAll(".dropdown-menu a")
+            .forEach(function (element) {
+              element.addEventListener("click", function (e) {
+                let nextEl = this.nextElementSibling;
+                if (nextEl && nextEl.classList.contains("submenu")) {
+                  // prevent opening link if link needs to open dropdown
+                  e.preventDefault();
+                  if (nextEl.style.display == "block") {
+                    nextEl.style.display = "none";
+                  } else {
+                    nextEl.style.display = "block";
+                  }
+                }
+              });
+            });
+        }
+        // end if innerWidth
+      });
+      // DOMContentLoaded  end
+    </script>
+    <style>
+      .wide {
+        width: 200px;
+      }
+
+      /* ============ desktop view ============ */
+      @media all and (min-width: 992px) {
+        .dropdown-menu li {
+          position: relative;
+        }
+
+        .nav-item .submenu {
+          display: none;
+          position: absolute;
+          right: 100%;
+          top: -7px;
+        }
+
+        .nav-item .submenu-left {
+          right: 100%;
+          left: auto;
+        }
+
+        .dropdown-menu > li:hover {
+          background-color: #f1f1f1;
+        }
+
+        .dropdown-menu > li:hover > .submenu {
+          display: block;
+        }
+      }
+
+      /* ============ desktop view .end// ============ */
+
+      /* ============ small devices ============ */
+      @media (max-width: 991px) {
+        .dropdown-menu .dropdown-menu {
+          margin-left: 0.7rem;
+          margin-right: 0.7rem;
+          margin-bottom: 0.5rem;
+        }
+      }
+
+      /* ============ small devices .end// ============ */
+    </style>
   </head>
 
   <body>
@@ -41,7 +126,7 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div></div>
+        <!-- <div></div> -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <form class="d-flex me-auto mt-3 mt-md-0">
             <input
@@ -139,6 +224,26 @@
                   أعمار الطلاب &raquo;
                 </a>
                 <ul class="dropdown-menu dropdown-submenu" id="Ages"></ul>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'
+                >
+                  بيانات الأم &raquo;
+                </a>
+                <ul class="dropdown-menu dropdown-submenu" id="MotherData"></ul>
+              </li>
+              <li>
+                <a
+                  class="dropdown-item"
+                  href="#"
+                  onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'
+                >
+                  قائمة الفصول &raquo;
+                </a>
+                <ul class="dropdown-menu dropdown-submenu" id="ClassList"></ul>
               </li>
               <li>
                 <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
@@ -264,7 +369,8 @@
       window.api.receive("sentEssentialData", (data) => {
         loadSideBar(data.students);
         ReportsNav(data);
-        console.log(data);
+        console.log("Here");
+        console.log(data.stagesData[2]["Grades"]);
       });
       window.api.send("ScriptLoaded");
     </script>

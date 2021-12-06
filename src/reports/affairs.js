@@ -596,7 +596,7 @@ HAVING COUNT(\"Student\".\"StudentName\") = " +
 const classList = async (stageId, gradeId, classId) => {
   let query =
     "\
-  SELECT \"Student\".\"StudentName\" FROM \"Student\"\
+  SELECT \"Student\".\"StudentName\", \"ClassName\", \"GradeName\" FROM \"Student\"\
 JOIN \"StudentClass\" ON \"Student\".\"StudentId\" = \"StudentClass\".\"StudentId\"\
 JOIN \"Class\" ON \"StudentClass\".\"ClassId\" = \"Class\".\"ClassId\"\
 JOIN \"Grade\" ON \"Class\".\"GradeId\" = \"Grade\".\"GradeId\"\
@@ -613,12 +613,12 @@ ORDER BY \"Student\".\"StudentName\"\
 
   return db.sequelize.query(query).then((students) => {
     return students[0].map((student) => {
-      return student["StudentName"];
+      return [student["StudentName"], ""];
     });
   });
 };
 
-const motherData = async () => {
+const motherData = async (gradeId) => {
   const query =
     "\
   SELECT \"Student\".\"StudentName\", \"Mother\".\"ParentName\", \"Mother\".\"ParentAcademicDegree\", \"Job\".\"JobName\",\
@@ -630,22 +630,31 @@ JOIN \"Parent\" AS \"Mother\" ON \"Student\".\"StudentMotherId\" = \"Mother\".\"
 LEFT JOIN \"ParentJob\" ON \"Mother\".\"ParentId\" = \"ParentJob\".\"ParentId\"\
 LEFT JOIN \"Job\" ON \"ParentJob\".\"ParentJobId\" = \"Job\".\"JobId\"\
 LEFT JOIN \"ParentPhone\" ON \"Mother\".\"ParentId\" = \"ParentPhone\".\"ParentId\"\
+WHERE \"Grade\".\"GradeId\" = " + gradeId + " \
 GROUP BY \"Grade\".\"GradeId\", \"Class\".\"ClassId\", \"Student\".\"StudentName\", \"Mother\".\"ParentName\",\
          \"Mother\".\"ParentAcademicDegree\", \"Job\".\"JobName\", \"Student\".\"StudentFamilyStatus\",\
          \"ParentPhone\".\"ParentPhoneNumber\", \"Student\".\"StudentAddress\"\
   ";
+  const data = [];
   return db.sequelize.query(query).then((students) => {
-    return students[0].map((student) => {
-      return [
-        student["StudentName"],
-        student["ParentName"],
-        student["ParentAcademicDegree"],
-        student["JobName"] || "لا يوجد",
-        student["StudentFamilyStatus"],
-        student["ParentPhoneNumber"] || "لا يوجد",
-        student["StudentAddress"],
-      ];
+    students[0].map((student) => {
+      const index = data.findIndex(s => s["StudentName"] === student["StudentName"]);
+      if (index === -1) {
+        data.push([
+          student["StudentName"],
+          student["ParentName"],
+          student["ParentAcademicDegree"],
+          student["JobName"] || "لا يوجد",
+          student["StudentFamilyStatus"],
+          student["ParentPhoneNumber"] || "لا يوجد",
+          student["StudentAddress"],
+        ]);
+      } else {
+        data[index] += `, ${student["ParentPhoneNumber"]}`;
+        data[student["GradeName"]].push(student);
+      }
     });
+    return data;
   });
 };
 

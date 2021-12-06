@@ -6,7 +6,9 @@ const {
   getGradeCapacity,
   AbsentDays,
   studentsAges,
-  siblings
+  siblings,
+  motherData,
+  classList,
 } = require("./affairs");
 
 const {
@@ -74,6 +76,16 @@ const Reports = {
       query: siblings,
       headers: ["اسم الطالب", "الصف", "الفصل"],
       title: "الأشقاء"
+    },
+    motherData: {
+      query: motherData,
+      headers: ["اسم الطالب", "اسم الأم", "المؤهل", "الوظيفة", "حالة الأسرة", "الهاتف", "العنوان"],
+      title: "بيانات الأم",
+    },
+    classList: {
+      query: classList,
+      headers: ["اسم الطالب", "ملاحظات"],
+      title: "قائمة الطلاب",
     }
   },
   Expanses: {
