@@ -56,8 +56,7 @@
         </div>
         <div class="row my-3" dir="rtl">
             <div class="col-md-4 col-12">
-                <select class="form-select" aria-label="Default select example"
-                    id="StageList">
+                <select class="form-select" aria-label="Default select example" id="StageList">
                     <option value="0">اختار المرحلة</option>
                     <option value="0">بلا اختيار</option>
                 </select>
@@ -76,6 +75,16 @@
             </div>
         </div>
         <div class="row my-3" dir="rtl">
+            <div class="col-md-4 col-12">
+                <div class="input-group input-group mb-2 col-md-6 col-12">
+                    <span class="input-group-text" id="inputGroup-sizing">المعيار</span>
+                    <select class="form-select" aria-label="Default select example" id="criteria">
+                        <option value=">=" default>أكبر من أو يساوي</option>
+                        <option value="<=">أقل من أو يساوي</option>
+                        <option value="=">يساوي</option>
+                    </select>
+                </div>
+            </div>
             <div class="col-md-4 col-12">
                 <div class="input-group input-group mb-2 col-md-6 col-12">
                     <span class="input-group-text" id="inputGroup-sizing">عدد مرات الغياب</span>
@@ -108,6 +117,7 @@
             const ClassId = document.getElementById("ClassList").value;
             const absenceNumber = document.getElementById("absenceNumber").value;
             const condition = document.getElementById("condition");
+            const criteria = document.getElementById("criteria").value;
             let errors = [];
             console.log("Before");
             if (!fromDate || !toDate) {
@@ -116,16 +126,17 @@
             if (!absenceNumber || absenceNumber <= 0) {
                 errors.push("عدد مرات الغياب يجب ان تكون اكبر من او تساوي ال 0");
             }
-            
+
             if (errors.length === 0) {
                 console.log("all good");
-                window.api.send("getAbsenceReport",{
+                window.api.send("getAbsenceReport", {
                     fromDate,
                     toDate,
                     StageId,
                     GradeId,
                     ClassId,
-                    absenceNumber
+                    absenceNumber,
+                    criteria
                 });
             } else {
                 console.log("shit");

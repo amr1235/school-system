@@ -480,9 +480,11 @@ const absenceSummary = async (
   stageId,
   gradeId,
   classId,
+  inequality
 ) => {
   let query =
-    "SELECT \"StudentName\", \"ClassName\", COUNT(\"StudentAbsent\".\"AbsentDate\") AS \"TotalAbsentDays\", \"GradeName\", \"StageName\", \"ParentPhoneNumber\"  FROM \"Student\"\
+    "SELECT \"StudentName\", \"ClassName\", COUNT(\"StudentAbsent\".\"AbsentDate\") AS \"TotalAbsentDays\", \"GradeName\", \"StageName\", \"ParentPhoneNumber\"\
+      FROM \"Student\"\
   JOIN \"StudentAbsent\" ON \"Student\".\"StudentId\" = \"StudentAbsent\".\"StudentId\"\
   JOIN \"StudentClass\" ON \"Student\".\"StudentId\" = \"StudentClass\".\"StudentId\"\
   JOIN \"Class\" ON \"StudentClass\".\"ClassId\" = \"Class\".\"ClassId\"\
@@ -514,7 +516,21 @@ const absenceSummary = async (
   }
   query +=
     " GROUP BY \"StudentName\", \"Stage\".\"StageId\", \"Grade\".\"GradeId\", \"Class\".\"ClassId\", \"ParentPhoneNumber\"\
-  HAVING COUNT(\"StudentAbsent\".\"AbsentDate\") >= " +
+  HAVING COUNT(\"StudentAbsent\".\"AbsentDate\") "
+  switch (inequality) {
+    case ">=":
+      query += ">=";
+      break;
+    case "<=":
+      query += "<=";
+      break;
+    case "=":
+      query += "=";
+      break;
+    default:
+      query += ">=";
+  }
+  query += " " + 
     minDays +
     " ORDER BY \"Stage\".\"StageId\", \"Grade\".\"GradeId\", \"Class\".\"ClassId\", \"StudentName\"";
 
@@ -525,10 +541,16 @@ const absenceSummary = async (
       // if (!data[student["StageName"]]) {
       //   data[student["StageName"]] = {};
       // }
+
       if (!data[student["GradeName"]]) {
         data[student["GradeName"]] = [student];
       } else {
-        data[student["GradeName"]].push(student);
+        const index = data[student["GradeName"]].findIndex(s => student["StudentName"] === s["StudentName"]);
+        if (index !== -1) {
+          data[student["GradeName"]][index]["ParentPhoneNumber"] += `, ${student["ParentPhoneNumber"]}`;
+        } else {
+          data[student["GradeName"]].push(student);
+        }
       }
       
       // if (
@@ -538,6 +560,7 @@ const absenceSummary = async (
       //     [];
       // }
     });
+    console.log(data);
     return data;
   });
 };

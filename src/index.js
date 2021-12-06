@@ -145,12 +145,13 @@ ipcMain.on("getAbsenceReport", async (err, { fromDate,
   StageId,
   GradeId,
   ClassId,
-  absenceNumber }) => {
+  absenceNumber, criteria }) => {
   
   if (StageId === "0") StageId = null;
   if (GradeId === "0") GradeId = null;
   if (ClassId === "0") ClassId = null;
-  let rows = await absenceSummary(fromDate,toDate,absenceNumber,StageId,GradeId,ClassId);
+  console.log({criteria});
+  let rows = await absenceSummary(fromDate,toDate,absenceNumber,StageId,GradeId,ClassId, criteria);
   let title = "تقرير غياب";
   let r = [];
   let subHeaders = []; 
