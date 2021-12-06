@@ -144,6 +144,35 @@
                 <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
                 <ul class="dropdown-menu dropdown-submenu" id="SeatsId"></ul>
               </li>
+              <li>
+                <a class="dropdown-item btn" href="#"> الأشقاء&raquo;</a>
+                <ul class="dropdown-menu dropdown-submenu">
+                  <li class="mx-1">
+                    <div class="input-group mb-3 mt-3" dir="rtl">
+                      <span class="input-group-text" id="basic-addon1">
+                        من
+                      </span>
+                      <input
+                        id="siblings"
+                        type="number"
+                        min="2"
+                        step="1"
+                        class="form-control"
+                        placeholder="Username"
+                        aria-label="Username"
+                        aria-describedby="basic-addon1"
+                      />
+                    </div>
+                    <a
+                      href="#"
+                      class="btn btn-warning rounded-pill"
+                      onclick='window.api.send("sendAffairsReportData", ["siblings", [document.querySelector("#siblings").value]])'
+                    >
+                      الذهاب للتقرير
+                    </a>
+                  </li>
+                </ul>
+              </li>
             </ul>
           </div>
           <div class="mx-5 nav">

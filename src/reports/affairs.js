@@ -586,8 +586,6 @@ HAVING COUNT(\"Student\".\"StudentName\") = " +
     return students[0].map((student) => {
       return [
         student["StudentName"],
-        student["ParentName"],
-        student["StageName"],
         student["GradeName"],
         student["ClassName"],
       ];

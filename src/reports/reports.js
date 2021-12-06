@@ -5,7 +5,8 @@ const {
   getTransferredStudents,
   getGradeCapacity,
   AbsentDays,
-  studentsAges
+  studentsAges,
+  siblings
 } = require("./affairs");
 
 const {
@@ -69,6 +70,11 @@ const Reports = {
       ],
       title: "أعمار الطلاب",
     },
+    siblings: {
+      query: siblings,
+      headers: ["اسم الطالب", "الصف", "الفصل"],
+      title: "الأشقاء"
+    }
   },
   Expanses: {
     DailyExpanses: {
