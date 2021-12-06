@@ -19,7 +19,7 @@ const ReportsNav = (data) => {
     classListDropDown += "<li>";
     classListDropDown += `
           <a class="dropdown-item" href="#"> ${stage.StageName} &raquo; </a>
-          <ul class="dropdown-menu dropdown-submenu">
+          <ul class="submenu dropdown-menu">
           `;
     for (let grade of stage.Grades) {
       seatsDropDown += `
@@ -31,20 +31,19 @@ const ReportsNav = (data) => {
             `;
       classListDropDown += `
                       <li>
-                        <a class="dropdown-item btn" href="#">
-                          ${grade.GradeName}
-                        </a>
-                      </li>
+                        <a class="dropdown-item" href="#"> ${grade.GradeName} &raquo; </a>
+                        <ul class="submenu dropdown-menu">
             `;
       for(let clas of grade.Classes) {
         classListDropDown += `
                       <li>
-                        <a class="dropdown-item btn" href="#" onclick='window.api.send("sendAffairsReportData", ["classList", [${stage.StageId}, ${grade.GradeId},${clas.ClassId}]])'>
+                        <a class="dropdown-item" href="#" onclick='window.api.send("sendAffairsReportData", ["classList", [${stage.StageId}, ${grade.GradeId},${clas.ClassId}]])'>
                           ${clas.ClassName}
                         </a>
                       </li>
             `;
       }
+      classListDropDown += "</ul></li>";
     }
     seatsDropDown += `</ul>
           </li>`;

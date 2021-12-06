@@ -1,383 +1,292 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="./scss/affairs.css" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-    <title>شؤون الطلاب</title>
-    <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        // make it as accordion for smaller screens
-        if (window.innerWidth < 992) {
-          // close all inner dropdowns when parent is closed
-          document
-            .querySelectorAll(".navbar .dropdown")
-            .forEach(function (everydropdown) {
-              everydropdown.addEventListener("hidden.bs.dropdown", function () {
-                // after dropdown is hidden, then find all submenus
-                this.querySelectorAll(".submenu").forEach(function (
-                  everysubmenu
-                ) {
-                  // hide every submenu as well
-                  everysubmenu.style.display = "none";
-                });
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="./scss/affairs.css" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+  <title>شؤون الطلاب</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // make it as accordion for smaller screens
+      if (window.innerWidth < 992) {
+        // close all inner dropdowns when parent is closed
+        document
+          .querySelectorAll(".navbar .dropdown")
+          .forEach(function (everydropdown) {
+            everydropdown.addEventListener("hidden.bs.dropdown", function () {
+              // after dropdown is hidden, then find all submenus
+              this.querySelectorAll(".submenu").forEach(function (
+                everysubmenu
+              ) {
+                // hide every submenu as well
+                everysubmenu.style.display = "none";
               });
             });
+          });
 
-          document
-            .querySelectorAll(".dropdown-menu a")
-            .forEach(function (element) {
-              element.addEventListener("click", function (e) {
-                let nextEl = this.nextElementSibling;
-                if (nextEl && nextEl.classList.contains("submenu")) {
-                  // prevent opening link if link needs to open dropdown
-                  e.preventDefault();
-                  if (nextEl.style.display == "block") {
-                    nextEl.style.display = "none";
-                  } else {
-                    nextEl.style.display = "block";
-                  }
+        document
+          .querySelectorAll(".dropdown-menu a")
+          .forEach(function (element) {
+            element.addEventListener("click", function (e) {
+              let nextEl = this.nextElementSibling;
+              if (nextEl && nextEl.classList.contains("submenu")) {
+                // prevent opening link if link needs to open dropdown
+                e.preventDefault();
+                if (nextEl.style.display == "block") {
+                  nextEl.style.display = "none";
+                } else {
+                  nextEl.style.display = "block";
                 }
-              });
+              }
             });
-        }
-        // end if innerWidth
-      });
+          });
+      }
+      // end if innerWidth
+    });
       // DOMContentLoaded  end
-    </script>
-    <style>
-      .wide {
-        width: 200px;
+  </script>
+  <style>
+    .wide {
+      width: 200px;
+    }
+
+    /* ============ desktop view ============ */
+    @media all and (min-width: 992px) {
+      .dropdown-menu li {
+        position: relative;
       }
 
-      /* ============ desktop view ============ */
-      @media all and (min-width: 992px) {
-        .dropdown-menu li {
-          position: relative;
-        }
-
-        .nav-item .submenu {
-          display: none;
-          position: absolute;
-          right: 100%;
-          top: -7px;
-        }
-
-        .nav-item .submenu-left {
-          right: 100%;
-          left: auto;
-        }
-
-        .dropdown-menu > li:hover {
-          background-color: #f1f1f1;
-        }
-
-        .dropdown-menu > li:hover > .submenu {
-          display: block;
-        }
+      .nav-item .submenu {
+        display: none;
+        position: absolute;
+        right: 100%;
+        top: -7px;
       }
 
-      /* ============ desktop view .end// ============ */
-
-      /* ============ small devices ============ */
-      @media (max-width: 991px) {
-        .dropdown-menu .dropdown-menu {
-          margin-left: 0.7rem;
-          margin-right: 0.7rem;
-          margin-bottom: 0.5rem;
-        }
+      .nav-item .submenu-left {
+        right: 100%;
+        left: auto;
       }
 
-      /* ============ small devices .end// ============ */
-    </style>
-  </head>
+      .dropdown-menu>li:hover {
+        background-color: #f1f1f1;
+      }
 
-  <body>
-    <!--start of navbar-->
-    <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">معهد الوفاء</a>
-        <button
-          class="navbar-toggler rounded-pill text-warning me-auto"
-          type="button"
-          data-bs-toggle="offcanvas"
-          data-bs-target="#sidebar"
-          aria-controls="sidebar"
-        >
-          <i class="bi bi-arrow-right-circle"></i>
-        </button>
-        <button
-          class="navbar-toggler me-auto"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <!-- <div></div> -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <form class="d-flex me-auto mt-3 mt-md-0">
-            <input
-              class="text-center form-control mx-3 rounded-pill"
-              id="Search"
-              placeholder="ابحث"
-            />
-            <datalist id="StudentListForSearch"> </datalist>
-          </form>
-          <div class="dropdown mx-5">
-            <button
-              class="btn btn-warning rounded-pill dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton1"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-            >
-              التقارير
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-              <li>
-                <a class="dropdown-item btn" href="#"> نسبه الغياب&raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu">
-                  <li class="mx-1">
-                    <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1">
-                        من
-                      </span>
-                      <input
-                        id="absentFrom"
-                        type="date"
-                        class="form-control"
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1">
-                        الي
-                      </span>
-                      <input
-                        id="absentTo"
-                        type="date"
-                        class="form-control"
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <a
-                      href="#"
-                      class="btn btn-warning rounded-pill"
-                      onclick='window.api.send("sendAffairsReportData", ["AbsenceRate", [document.querySelector("#absentFrom").value, document.querySelector("#absentTo").value]])'
-                    >
-                      تاكيد التاريخ و الذهاب للتقرير
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item btn"
-                  href="#"
-                  onclick='window.api.send("sendAffairsReportData", ["TransferredStudents", []])'
-                >
-                  المحذوفين
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item btn"
-                  href="#"
-                  onclick='window.api.send("sendAffairsReportData", ["StudentsOfColleagues", []])'
-                >
-                  طﻻب العاملين
-                </a>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendAffairsReportData", ["GradeCapacity", [1]])'
-                >
-                  كثافة الفصول &raquo;
-                </a>
-                <ul class="dropdown-menu dropdown-submenu" id="Capacities"></ul>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'
-                >
-                  أعمار الطلاب &raquo;
-                </a>
-                <ul class="dropdown-menu dropdown-submenu" id="Ages"></ul>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'
-                >
-                  بيانات الأم &raquo;
-                </a>
-                <ul class="dropdown-menu dropdown-submenu" id="MotherData"></ul>
-              </li>
-              <li>
-                <a
-                  class="dropdown-item"
-                  href="#"
-                  onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'
-                >
-                  قائمة الفصول &raquo;
-                </a>
-                <ul class="dropdown-menu dropdown-submenu" id="ClassList"></ul>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu" id="SeatsId"></ul>
-              </li>
-              <li>
-                <a class="dropdown-item btn" href="#"> الأشقاء&raquo;</a>
-                <ul class="dropdown-menu dropdown-submenu">
-                  <li class="mx-1">
-                    <div class="input-group mb-3 mt-3" dir="rtl">
-                      <span class="input-group-text" id="basic-addon1">
-                        من
-                      </span>
-                      <input
-                        id="siblings"
-                        type="number"
-                        min="2"
-                        step="1"
-                        class="form-control"
-                        placeholder="Username"
-                        aria-label="Username"
-                        aria-describedby="basic-addon1"
-                      />
-                    </div>
-                    <a
-                      href="#"
-                      class="btn btn-warning rounded-pill"
-                      onclick='window.api.send("sendAffairsReportData", ["siblings", [document.querySelector("#siblings").value]])'
-                    >
-                      الذهاب للتقرير
-                    </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-          <div class="mx-5 nav">
-            <button
-              class="
+      .dropdown-menu>li:hover>.submenu {
+        display: block;
+      }
+    }
+
+    /* ============ desktop view .end// ============ */
+
+    /* ============ small devices ============ */
+    @media (max-width: 991px) {
+      .dropdown-menu .dropdown-menu {
+        margin-left: 0.7rem;
+        margin-right: 0.7rem;
+        margin-bottom: 0.5rem;
+      }
+    }
+
+    /* ============ small devices .end// ============ */
+  </style>
+</head>
+
+<body>
+  <!--start of navbar-->
+  <nav class="navbar navbar-expand-lg fixed-top navbar-dark" dir="rtl">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">معهد الوفاء</a>
+      <button class="navbar-toggler rounded-pill text-warning me-auto" type="button" data-bs-toggle="offcanvas"
+        data-bs-target="#sidebar" aria-controls="sidebar">
+        <i class="bi bi-arrow-right-circle"></i>
+      </button>
+      <button class="navbar-toggler me-auto" type="button" data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+        aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div></div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <form class="d-flex me-auto mt-3 mt-md-0">
+          <input class="text-center form-control mx-3 rounded-pill" id="Search" placeholder="ابحث" />
+          <datalist id="StudentListForSearch"> </datalist>
+        </form>
+        <div class="collapse navbar-collapse" id="main_nav">
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown" id="myDropdown">
+              <a class="nav-link dropdown-toggle btn btn-warning mx-2 rounded-pill text-black" href="#"
+                data-bs-toggle="dropdown"><span class="mx-1">التقارير</span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <a class="dropdown-item btn" href="#"> نسبه الغياب&raquo;</a>
+                  <ul class="dropdown-menu dropdown-submenu">
+                    <li class="mx-1">
+                      <div class="input-group mb-3 mt-3" dir="rtl">
+                        <span class="input-group-text" id="basic-addon1">
+                          من
+                        </span>
+                        <input id="absentFrom" type="date" class="form-control" placeholder="Username"
+                          aria-label="Username" aria-describedby="basic-addon1" />
+                      </div>
+                      <div class="input-group mb-3 mt-3" dir="rtl">
+                        <span class="input-group-text" id="basic-addon1">
+                          الي
+                        </span>
+                        <input id="absentTo" type="date" class="form-control" placeholder="Username"
+                          aria-label="Username" aria-describedby="basic-addon1" />
+                      </div>
+                      <a href="#" class="btn btn-warning rounded-pill"
+                        onclick='window.api.send("sendAffairsReportData", ["AbsenceRate", [document.querySelector("#absentFrom").value, document.querySelector("#absentTo").value]])'>
+                        تاكيد التاريخ و الذهاب للتقرير
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <a class="dropdown-item btn" href="#"
+                    onclick='window.api.send("sendAffairsReportData", ["TransferredStudents", []])'>
+                    المحذوفين
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item btn" href="#"
+                    onclick='window.api.send("sendAffairsReportData", ["StudentsOfColleagues", []])'>
+                    طﻻب العاملين
+                  </a>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    onclick='window.api.send("sendAffairsReportData", ["GradeCapacity", [1]])'>
+                    كثافة الفصول &raquo;
+                  </a>
+                  <ul class="dropdown-menu dropdown-submenu" id="Capacities"></ul>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'>
+                    أعمار الطلاب &raquo;
+                  </a>
+                  <ul class="dropdown-menu dropdown-submenu" id="Ages"></ul>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'>
+                    بيانات الأم &raquo;
+                  </a>
+                  <ul class="dropdown-menu dropdown-submenu" id="MotherData"></ul>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"
+                    onclick='window.api.send("sendAffairsReportData", ["StudentsAges", []])'>
+                    قائمة الفصول &raquo;
+                  </a>
+                  <ul class="submenu dropdown-menu" id="ClassList"></ul>
+                </li>
+                <li>
+                  <a class="dropdown-item" href="#"> ارقام الجلوس &raquo;</a>
+                  <ul class="dropdown-menu dropdown-submenu" id="SeatsId"></ul>
+                </li>
+                <li>
+                  <a class="dropdown-item btn" href="#"> الأشقاء&raquo;</a>
+                  <ul class="dropdown-menu dropdown-submenu">
+                    <li class="mx-1">
+                      <div class="input-group mb-3 mt-3" dir="rtl">
+                        <span class="input-group-text" id="basic-addon1">
+                          من
+                        </span>
+                        <input id="siblings" type="number" min="2" step="1" class="form-control" placeholder="Username"
+                          aria-label="Username" aria-describedby="basic-addon1" />
+                      </div>
+                      <a href="#" class="btn btn-warning rounded-pill"
+                        onclick='window.api.send("sendAffairsReportData", ["siblings", [document.querySelector("#siblings").value]])'>
+                        الذهاب للتقرير
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+        </div>
+        <div class="mx-5 nav">
+          <button class="
                 btn btn-warning
                 mx-md-3 mx-4
                 my-2
                 d-inline-block
                 rounded-pill
-              "
-              onclick='window.api.send("getEssentialData", "studentsSeats")'
-            >
-              ارقام الجلوس
-            </button>
-            <button
-              class="
+              " onclick='window.api.send("getEssentialData", "studentsSeats")'>
+            ارقام الجلوس
+          </button>
+          <button class="
                 btn btn-warning
                 mx-md-3 mx-4
                 my-2
                 d-inline-block
                 rounded-pill
-              "
-              onclick='window.api.send("getEssentialData", "studentsAbsentReport")'
-            >
-              تقارير الغياب
-            </button>
-            <button
-              class="
+              " onclick='window.api.send("getEssentialData", "studentsAbsentReport")'>
+            تقارير الغياب
+          </button>
+          <button class="
                 btn btn-warning
                 mx-md-3 mx-4
                 my-2
                 d-inline-block
                 rounded-pill
-              "
-              type="button"
-              onclick='window.api.send("getEssentialData", "addStudent");'
-            >
-              تسجيل طالب جديد
-            </button>
-            <div class="nav">
-              <button
-                onclick='window.api.send("getEssentialData", "affairsSettings");'
-                class="
+              " type="button" onclick='window.api.send("getEssentialData", "addStudent");'>
+            تسجيل طالب جديد
+          </button>
+          <div class="nav">
+            <button onclick='window.api.send("getEssentialData", "affairsSettings");' class="
                   btn btn-warning
                   mx-md-3 mx-4
                   my-2
                   d-inline-block
                   rounded-pill
-                "
-              >
-                <a class="text-decoration-none text-dark">اعدادات الشؤون</a>
-              </button>
-            </div>
+                ">
+              <a class="text-decoration-none text-dark">اعدادات الشؤون</a>
+            </button>
           </div>
         </div>
       </div>
-    </nav>
-    <!--end of navbar-->
+    </div>
+  </nav>
+  <!--end of navbar-->
 
-    <!--start of side bar-->
-    <aside>
-      <div
-        class="offcanvas offcanvas-start container sidebar-nav me-auto"
-        data-bs-scroll="true"
-        data-bs-backdrop="false"
-        tabindex="-1"
-        id="sidebar"
-        aria-labelledby="sidebarLabel"
-      >
-        <div class="offcanvas-header justify-content-center">
-          <button
-            type="button"
-            class="btn-close btn-close-white d-md-none me-auto text-reset"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
-        </div>
-        <div id="" class="offcanvas-body justify-content-center" dir="rtl">
-          <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
-          <div class="tab-content mt-2" id="pills-tabContent"></div>
-        </div>
+  <!--start of side bar-->
+  <aside>
+    <div class="offcanvas offcanvas-start container sidebar-nav me-auto" data-bs-scroll="true" data-bs-backdrop="false"
+      tabindex="-1" id="sidebar" aria-labelledby="sidebarLabel">
+      <div class="offcanvas-header justify-content-center">
+        <button type="button" class="btn-close btn-close-white d-md-none me-auto text-reset" data-bs-dismiss="offcanvas"
+          aria-label="Close"></button>
       </div>
-    </aside>
-    <!--end of side bar-->
-    <!--register section-->
-    <main class="mt-5 pt-3 tab-content" id="register"></main>
-    <script>
-      window.api.receive("sentEssentialData", (data) => {
-        loadSideBar(data.students);
-        ReportsNav(data);
-        console.log("Here");
-        console.log(data.stagesData[2]["Grades"]);
-      });
-      window.api.send("ScriptLoaded");
-    </script>
-    <script src="../views/js/loadSideBar.js"></script>
-    <script src="../views/js/ReportsNav.js"></script>
-    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="./js/main.js"></script>
-  </body>
+      <div id="" class="offcanvas-body justify-content-center" dir="rtl">
+        <ul class="nav nav-pills" id="pills-tab" role="tablist"></ul>
+        <div class="tab-content mt-2" id="pills-tabContent"></div>
+      </div>
+    </div>
+  </aside>
+  <!--end of side bar-->
+  <!--register section-->
+  <main class="mt-5 pt-3 tab-content" id="register"></main>
+  <script>
+    window.api.receive("sentEssentialData", (data) => {
+      loadSideBar(data.students);
+      ReportsNav(data);
+      console.log("Here");
+      console.log(data.stagesData[2]["Grades"]);
+    });
+    window.api.send("ScriptLoaded");
+  </script>
+  <script src="../views/js/loadSideBar.js"></script>
+  <script src="../views/js/ReportsNav.js"></script>
+  <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="./js/main.js"></script>
+</body>
+
 </html>
