@@ -407,7 +407,7 @@ const upgradeStudentsToNextGrade = async () => {
     return "Students have been upgraded";
   });
 };
-const transferStudent = (StudentId, SchoolName) => {
+const transferStudent = (StudentId, SchoolName, SchoolType, TransferType) => {
   return db.sequelize.transaction((t) => {
     // delete student from student class
     let proms = [];
@@ -461,6 +461,8 @@ const transferStudent = (StudentId, SchoolName) => {
         {
           StudentId,
           SchoolName,
+          SchoolType,
+          TransferType,
           TransferDate: currentDate.toISOString(),
         },
         {

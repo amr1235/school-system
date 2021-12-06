@@ -458,11 +458,12 @@ ipcMain.on("getEssentialData", function (err, destination) {
     });
   }
 });
+
 // transferStudent
-ipcMain.on("transferStudent", (err, { studentId, SchoolName }) => {
+ipcMain.on("transferStudent", (err, { studentId, SchoolName, SchoolType, TransferType }) => {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   student
-    .transferStudent(studentId, SchoolName)
+    .transferStudent(studentId, SchoolName, SchoolType, TransferType)
     .then(() => {
       student.getAllStudents().then((students) => {
         mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));

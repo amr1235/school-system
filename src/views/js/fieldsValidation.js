@@ -355,14 +355,28 @@ const checkTransferStudentData = () => {
   const transferredSchoolName = document.getElementById(
     "transferredSchoolName",
   ).value;
+  const transferredSchoolType = document.getElementById(
+    "transferredSchoolType",
+  ).value;
+  const transferType = document.getElementById(
+    "transferType",
+  ).value;
   if (transferredSchoolName.length === 0) {
-    errors.push("يجب ادخال اسم المدرسه المحول إليها");
+    errors.push("يجب ادخال اسم المدرسة المحول إليها");
+  }
+  if (transferredSchoolType.length === 0) {
+    errors.push("يجب ادخال نوع المدرسة المحول إليها");
+  }
+  if (transferType.length === 0) {
+    errors.push("يجب ادخال نوع التحويل");
   }
   if (errors.length === 0) {
     return {
       errors: [],
       data: {
         transferredSchoolName,
+        transferredSchoolType,
+        transferType,
       },
     };
   } else {

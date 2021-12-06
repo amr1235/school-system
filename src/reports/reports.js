@@ -45,7 +45,7 @@ const Reports = {
     },
     TransferredStudents: {
       query: getTransferredStudents,
-      headers: ["اسم الطالب", "اسم المدرسة المحول لها", "تاريخ التحويل"],
+      headers: ["اسم الطالب", "اسم المدرسة المحول لها", "نوع المدرسة", "نوع التحويل", "تاريخ التحويل"],
       title: "المحولين من المدرسة",
     },
     GradeCapacity: {

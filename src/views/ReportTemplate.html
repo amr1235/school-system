@@ -1,93 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css"
-    />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"
-    />
-    <link rel="stylesheet" href="scss/Reports/Reports.css" />
-    <link
-      rel="stylesheet"
-      href="../../node_modules/datatables.net-dt/css/jquery.dataTables.css"
-    />
-    <title>تقرير</title>
-  </head>
-  <body>
-    <main dir="rtl" class="mx-5 mt-2 mb-5" id="Expenses-general">
-      <section class="my-5 py-3">
-        <h1
-          class="text-center py-2 border-bottom border-3 mb-5 border-dark"
-        ></h1>
-        <table id="mytable" class="display table-striped"></table>
-      </section>
 
-      <div class="row mt-5">
-        <button type="submit" class="btn btn-success text-center rounded-pill">
-          تحويل لملف اكسيل
-        </button>
-      </div>
-    </main>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap-icons/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="scss/Reports/Reports.css" />
+  <link rel="stylesheet" href="../../node_modules/datatables.net-dt/css/jquery.dataTables.css" />
+  <title>تقرير</title>
+</head>
 
-    <script>
-      window.api.receive("getReportDataFromMain", (data) => {
-        const h1 = document.querySelector("h1");
-        const table = document.querySelector("table");
-        const thead = document.createElement("thead");
-        const tbody = document.createElement("tbody");
+<body>
+  <main dir="rtl" class="mx-5 mt-2 mb-5" id="Expenses-general">
+    <section class="my-5 py-3">
+      <h1 class="text-center py-2 border-bottom border-3 mb-5 border-dark"></h1>
+      <table id="mytable" class="display table-striped"></table>
+    </section>
 
-        h1.innerText = data["title"];
+    <div class="row mt-5">
+      <button type="submit" class="col-6 btn btn-success text-center rounded-pill">
+        تحويل لملف اكسيل
+      </button>
+      <button type="submit" class="col-6 btn btn-success text-center rounded-pill">
+        طباعة
+      </button>
+    </div>
+  </main>
 
-        let tableHeader = `<tr>`;
-        data["headers"].forEach((header) => {
-          tableHeader += `<td>${header}</td>`;
-        });
-        tableHeader += `</tr>`;
-        thead.innerHTML = tableHeader;
-        console.log(tableHeader);
-        let tableData = "";
-        data["rows"].forEach((row) => {
-          tableData += `<tr>`;
-          row.forEach((el) => {
-            tableData += `<td>${el}</td>`;
-          });
-          tableData += `</tr>`;
-        });
-        tbody.innerHTML = tableData;
+  <script>
+    window.api.receive("getReportDataFromMain", (data) => {
+      const h1 = document.querySelector("h1");
+      const table = document.querySelector("table");
+      const thead = document.createElement("thead");
+      const tbody = document.createElement("tbody");
 
-        table.appendChild(thead);
-        table.appendChild(tbody);
+      h1.innerText = data["title"];
+
+      let tableHeader = `<tr>`;
+      data["headers"].forEach((header) => {
+        tableHeader += `<td>${header}</td>`;
       });
-      window.api.send("ScriptLoaded", null);
-    </script>
-    <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
-    <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
-    <script src="../../node_modules/datatables.net/js/jquery.dataTables.js"></script>
-    <script src="js/lib/jquery.table2excel.min.js"></script>
-    <script>
-      $(document).ready(function () {
-        $("#mytable").DataTable({
-          searching: true,
-          ordering: true,
+      tableHeader += `</tr>`;
+      thead.innerHTML = tableHeader;
+      console.log(tableHeader);
+      let tableData = "";
+      data["rows"].forEach((row) => {
+        tableData += `<tr>`;
+        row.forEach((el) => {
+          tableData += `<td>${el}</td>`;
         });
+        tableData += `</tr>`;
       });
-      $("button").click(function () {
-        console.log("clicked");
-        $("#mytable").table2excel({
-          // exclude CSS class
-          exclude: ".noExl",
-          name: "Student Test",
-          filename: "SomeFile",
-          fileext: ".xls",
-        });
+      tbody.innerHTML = tableData;
+
+      table.appendChild(thead);
+      table.appendChild(tbody);
+    });
+    window.api.send("ScriptLoaded", null);
+  </script>
+  <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>
+  <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+  <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+  <script src="../../node_modules/datatables.net/js/jquery.dataTables.js"></script>
+  <script src="js/lib/jquery.table2excel.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#mytable").DataTable({
+        searching: true,
+        ordering: true,
       });
-    </script>
-  </body>
+    });
+    $("button").click(function () {
+      console.log("clicked");
+      $("#mytable").table2excel({
+        // exclude CSS class
+        exclude: ".noExl",
+        name: "Student Test",
+        filename: "SomeFile",
+        fileext: ".xls",
+      });
+    });
+  </script>
+</body>
+
 </html>

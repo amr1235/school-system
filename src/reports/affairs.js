@@ -401,7 +401,7 @@ const getTransferredStudents = async (notBefore) => {
   }
   return db["TransferredStudent"]
     .findAll({
-      attributes: ["TransferDate", "SchoolName"],
+      attributes: ["TransferDate", "SchoolName", "SchoolType", "TransferType"],
       include: {
         model: db["Student"],
         attributes: ["StudentName"],
@@ -420,6 +420,8 @@ const getTransferredStudents = async (notBefore) => {
         return [
           s["Student"]["StudentName"],
           s["SchoolName"],
+          s["SchoolType"],
+          s["TransferType"],
           s["TransferDate"],
         ];
       }),

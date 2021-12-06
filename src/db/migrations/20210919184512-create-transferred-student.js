@@ -15,6 +15,12 @@ module.exports = {
       },
       SchoolName: {
         type: Sequelize.STRING,
+      },
+      SchoolType: {
+        type: Sequelize.STRING,
+      },
+      TransferType: {
+        type: Sequelize.STRING,
       }
     });
   },

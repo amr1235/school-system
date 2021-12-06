@@ -24,6 +24,12 @@ module.exports = (sequelize, DataTypes) => {
     },
     SchoolName: {
       type: DataTypes.STRING,
+    },
+    SchoolType: {
+      type: DataTypes.STRING,
+    },
+    TransferType: {
+      type: DataTypes.STRING,
     }
   }, {
     sequelize,

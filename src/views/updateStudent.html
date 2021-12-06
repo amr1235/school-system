@@ -561,15 +561,26 @@
 
     <!--التحويل-->
     <section class="container tab-pane fade show" id="transfer" role="tabpanel" dir="rtl">
-      <h1 class="border-3 border-bottom border-dark text-center py-3">
-        تحويل الطالب
-      </h1>
       <div class="row justify-content-center my-5">
-        <div class="col-md-6 col-12">
+        <div class="col-md-4 col-12">
           <div class="input-group input-group mb-2">
             <span class="input-group-text" id="inputGroup-sizing">اسم المدرسه :</span>
             <input type="text" class="form-control" aria-label="Sizing example input"
               aria-describedby="inputGroup-sizing-sm" id="transferredSchoolName" />
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="input-group input-group mb-2">
+            <span class="input-group-text" id="inputGroup-sizing">نوع المدرسة :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" id="transferredSchoolType" />
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="input-group input-group mb-2">
+            <span class="input-group-text" id="inputGroup-sizing">نوع التحويل :</span>
+            <input type="text" class="form-control" aria-label="Sizing example input"
+              aria-describedby="inputGroup-sizing-sm" id="transferType" />
           </div>
         </div>
       </div>
@@ -1032,7 +1043,7 @@
           motherData.ParentAcademicDegree;
         document.getElementById("DeadMomTrigger").checked =
           motherData.IsDead;
-        
+
         // hundle mom job
         let momJobs = motherData.jobs;
         momJobs.forEach((job, i) => {
@@ -1193,6 +1204,8 @@
             window.api.send("transferStudent", {
               studentId,
               SchoolName: transferredSchoolName,
+              SchoolType: TransferStudentData.data.transferredSchoolType,
+              TransferType: TransferStudentData.data.transferType
             });
           } else {
             window.api.send("ShowDialogBox", {
