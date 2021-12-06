@@ -56,7 +56,7 @@
         </div>
         <div class="row my-3" dir="rtl">
             <div class="col-md-4 col-12">
-                <select class="form-select" onchange="test()" onchange="" aria-label="Default select example"
+                <select class="form-select" aria-label="Default select example"
                     id="StageList">
                     <option value="0">اختار المرحلة</option>
                     <option value="0">بلا اختيار</option>
@@ -101,22 +101,24 @@
     </main>
     <script>
         function getReport() {
-            const fromDate = document.getElementById("absentFrom");
-            const toDate = document.getElementById("absentTo");
+            const fromDate = document.getElementById("absentFrom").value;
+            const toDate = document.getElementById("absentTo").value;
             const StageId = document.getElementById("StageList").value;
             const GradeId = document.getElementById("GradeList").value;
             const ClassId = document.getElementById("ClassList").value;
-            const absenceNumber = document.getElementById("absenceNumber");
+            const absenceNumber = document.getElementById("absenceNumber").value;
             const condition = document.getElementById("condition");
             let errors = [];
+            console.log("Before");
             if (!fromDate || !toDate) {
                 errors.push("من فضلك ادخل التواريخ")
             }
-            if (absenceNumber < 0) {
+            if (!absenceNumber || absenceNumber <= 0) {
                 errors.push("عدد مرات الغياب يجب ان تكون اكبر من او تساوي ال 0");
             }
-
-            if (errors.length() === 0) {
+            
+            if (errors.length === 0) {
+                console.log("all good");
                 window.api.send("getAbsenceReport",{
                     fromDate,
                     toDate,
@@ -126,6 +128,7 @@
                     absenceNumber
                 });
             } else {
+                console.log("shit");
                 window.api.send("ShowDialogBox", {
                     messages: errors,
                     type: "error",

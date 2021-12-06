@@ -525,16 +525,18 @@ const absenceSummary = async (
       // if (!data[student["StageName"]]) {
       //   data[student["StageName"]] = {};
       // }
-      if (!data[student["StageName"]][student["GradeName"]]) {
-        data[student["StageName"]][student["GradeName"]] = [];
+      if (!data[student["GradeName"]]) {
+        data[student["GradeName"]] = [student];
+      } else {
+        data[student["GradeName"]].push(student);
       }
+      
       // if (
       //   !data[student["StageName"]][student["GradeName"]][student["ClassName"]]
       // ) {
       //   data[student["StageName"]][student["GradeName"]][student["ClassName"]] =
       //     [];
       // }
-      data[student["StageName"]][student["GradeName"]].push(student);
     });
     return data;
   });
@@ -632,7 +634,7 @@ const studentsAges = async () => {
   SELECT \"Student\".\"StudentName\", \"Student\".\"StudentBirthDate\",\
        age((date_part('year', now()) || '-10-01')::date, \"Student\".\"StudentBirthDate\"),\
        \"Nationality\".\"NationalityName\", \"Responsible\".\"ParentName\", \"Job\".\"JobName\", \"Responsible\".\"ParentAddress\",\
-    \"Grade\".\"GradeName\", \"Class\".\"ClassName\"\
+    \"Grade\".\"GradeName\"\
   FROM \"Student\"\
   JOIN \"Nationality\" ON \"Student\".\"StudentNationalityId\" = \"Nationality\".\"NationalityId\"\
   JOIN \"StudentClass\" ON \"Student\".\"StudentId\" = \"StudentClass\".\"StudentId\"\
@@ -641,7 +643,7 @@ const studentsAges = async () => {
   JOIN \"Parent\" AS \"Responsible\" ON \"Student\".\"StudentResponsibleId\" = \"Responsible\".\"ParentId\"\
   LEFT JOIN \"ParentJob\" ON \"Responsible\".\"ParentId\" = \"ParentJob\".\"ParentId\"\
   LEFT JOIN \"Job\" ON \"ParentJob\".\"ParentJobId\" = \"Job\".\"JobId\"\
-  ORDER BY \"Grade\".\"GradeId\", \"Class\".\"ClassId\", \"Student\".\"StudentName\"\
+  ORDER BY \"Grade\".\"GradeId\", \"Student\".\"StudentName\"\
   ";
   return db.sequelize.query(query).then((students) => {
     return students[0].map((student) => {
@@ -654,12 +656,11 @@ const studentsAges = async () => {
         student["JobName"] || "لا يوجد",
         student["ParentAddress"],
         student["GradeName"],
-        student["ClassName"],
       ];
     });
   });
 };
-
+studentsAges().then(console.log)
 module.exports = {
   getSeatsData,
   // getCapacityStats,

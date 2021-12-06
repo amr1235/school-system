@@ -4,7 +4,8 @@ const {
   getAbsenceRatioInAllGrades,
   getTransferredStudents,
   getGradeCapacity,
-  AbsentDays
+  AbsentDays,
+  studentsAges
 } = require("./affairs");
 
 const {
@@ -54,6 +55,11 @@ const Reports = {
       headers: ["الصف", "الفصل", "اسم الطالب", "سبب الغياب", "تاريخ الغياب"],
       title: "الغياب",
     },
+    GradeAges: {
+      query: studentsAges,
+      headers: [],
+      title: "أعمار الطلاب"
+    }
   },
   Expanses: {
     DailyExpanses: {

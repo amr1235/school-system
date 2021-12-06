@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="{{bootstrapcss}}" />
-  <title><%- title %></title>
+  <title>{{title}}</title>
   <style>
     * {
       margin: 0;
@@ -27,9 +27,9 @@
         px-2
       ">
     <!-- <div class="d-flex flex-column justify-content-center" id="logo">
-        <!---to add the school logo just change the src of the below <img> tag-->
+        -to add the school logo just change the src of the below <img> tag-->
     <!-- <img src="{{logo}}" width="70%" height="80%" alt="logo" /> -->
-    </div> -->
+    </div>
     <div class="d-flex flex-column justify-content-center">
       <h4>{{title}}</h4>
     </div>
@@ -39,8 +39,9 @@
       <span>تاريخ اﻻصدار: ٢٠١٤/١١/٢٤</span>
     </div>
   </header>
+
   <main dir="rtl">
-    {{#for rows}}
+    {{#each rows}}
     <div class="d-flex mb-4 w-75 flex-row justify-content-evenly">
       <span>الصف: </span>
     </div>
@@ -48,15 +49,20 @@
       <table class="table table-bordered border border-dark border-3">
         <thead>
           <tr>
-            <th scope="col" class="w-50">اﻻسم</th>
-            <th scope="col">ملاحظات</th>
+            <th scope="col">اسم الطالب</th>
+            <th scope="col">الفصل</th>
+            <th scope="col">عدد أيام الغياب</th>
+            <th scope="col">الصف الدراسي</th>
+            <th scope="col">المرحلة</th>
+            <th scope="col">تليفون ولي الأمر</th>
           </tr>
         </thead>
         <tbody>
-          {{#each rows}}
+          {{#each this}}
           <tr>
-            <td>{{name}}</td>
-            <td>{{description}}</td>
+            {{#each this}}
+            <td>{{this}}</td>
+            {{/each}}
           </tr>
           {{/each}}
         </tbody>

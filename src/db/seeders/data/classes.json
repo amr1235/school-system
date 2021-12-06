@@ -1,50 +1,66 @@
 [
   {
-    "GradeId": 1
+    "GradeId": 1,
+    "ClassName":1
   },
   {
-    "GradeId": 1
+    "GradeId": 1,
+    "ClassName":1
   },
   {
-    "GradeId": 2
+    "GradeId": 2,
+    "ClassName":2
   },
   {
-    "GradeId": 1
+    "GradeId": 1,
+    "ClassName":1
   },
   {
-    "GradeId": 2
+    "GradeId": 2,
+    "ClassName":2
   },
   {
-    "GradeId": 3
+    "GradeId": 3,
+    "ClassName":3
   },
   {
-    "GradeId": 4
+    "GradeId": 4,
+    "ClassName":4
   },
   {
-    "GradeId": 4
+    "GradeId": 4,
+    "ClassName":4
   },
   {
-    "GradeId": 5
+    "GradeId": 5,
+    "ClassName":5
   },
   {
-    "GradeId": 6
+    "GradeId": 6,
+    "ClassName":6
   },
   {
-    "GradeId": 1
+    "GradeId": 1,
+    "ClassName":1
   },
   {
-    "GradeId": 1
+    "GradeId": 1,
+    "ClassName":1
   },
   {
-    "GradeId": 2
+    "GradeId": 2,
+    "ClassName":2
   },
   {
-    "GradeId": 2
+    "GradeId": 2,
+    "ClassName":2
   },
   {
-    "GradeId": 3
+    "GradeId": 3,
+    "ClassName":3
   },
   {
-    "GradeId": 1
+    "GradeId": 1,
+    "ClassName":1
   }
 ]

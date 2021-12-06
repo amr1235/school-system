@@ -5,12 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <title>قائمة الفصل</title>
+    <title>{{title}}</title>
     <style>
         *{
             margin:0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Times New Roman', Times, serif;
+        }
+        h4 {
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
 
@@ -19,22 +24,25 @@
 <body dir="rtl">
     <header class="border-1 border-bottom border-dark d-flex flex-row justify-content-around mt-2 mb-5 px-2">
         <div class="d-flex flex-column justify-content-center" id="logo">
-            <!---to add the school logo just change the src of the below <img> tag-->
-            <img src="../assets/images/index.png" width="70%" height="80%" alt="logo">
+            <h4>محافظة القاهرة</h4>
+            <h4>منطقة القاهرة اﻻثرية</h4>
+            <h4>معهد الوفاء اﻻزهري الخاص</h4>
         </div>
         <div class="d-flex flex-column justify-content-center">
-            <h4>قائمة فصل للعام الجديد ٢٠٢١/٢٠٢٢ م</h4>
-        </div>
-        <div class="d-flex flex-column justify-content-center">
-            <span>نموذج رقم:١١   ٤٦</span>
-            <span>اصدار رقم:٢</span>
-            <span>تاريخ اﻻصدار: ٢٠١٤/١١/٢٤</span>
+            <h4>{{title}}</h4>
         </div>
     </header>
     <main dir="rtl">
         <div class="d-flex mb-4 w-75 flex-row justify-content-evenly" >
-            <span>فصل:</span>
-            <span >الصف:</span>
+            {{#if class}}
+            <b><span>فصل: {{class}}</span></b>
+            {{/if}}
+            {{#if grade}}
+            <b><span >الصف: {{grade}}</span></b>
+            {{/if}}
+            {{#if stage}}
+            <b><span >المرحلة: {{stage}}</span></b>
+            {{/if}}
         </div>
         <div class="px-3 table-responsive">
             <table class="table table-bordered border  border-dark border-3">
@@ -72,21 +80,7 @@
                 </tfoot> -->
               </table>
         </div>
-        <div id="footer" class="py-5 border  border-dark border-3 mx-3 d-flex flex-row justify-content-between px-5">
-            <div class="d-flex flex-column justify-content-center" >
-                <div class="border border-dark border-3">
-                    <h5 class="d-block text-center py-2 border-bottom border-3 border-dark">عدد الطلاب</h5>
-                    <h5 class="d-block text-center">٣٠</h5>
-                </div>
-                <div class="mt-3">
-                    <h4>اعداد مسئول شوؤن الطلاب</h4>
-                </div>
-            </div>
-            <div class="d-flex flex-column justify-content-end">
-                <h4>  اعتماد وكيله المرحلة </h4>
-            </div>
-            
-        </div>
+        
 
     </main>
     <script src="../../node_modules/@popperjs/core/dist/umd/popper.min.js"></script>

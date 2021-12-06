@@ -16,6 +16,7 @@ const seats = require("./queries/seats");
 const { absenceSummary, classList } = require("./reports/affairs");
 const fs = require("fs");
 const url = require("url");
+const { data } = require("jquery");
 let CWD = process.cwd();
 
 const rootDir = process.platform === "darwin" ? __dirname : CWD;
@@ -23,9 +24,6 @@ const rootDir = process.platform === "darwin" ? __dirname : CWD;
 const jsreport = require("jsreport")({
   rootDirectory: rootDir
 });
-// require("electron-reload")(__dirname, {
-//   electron: require("../node_modules/electron"),
-// });
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require("electron-squirrel-startup")) {
@@ -148,12 +146,11 @@ ipcMain.on("getAbsenceReport", async (err, { fromDate,
   GradeId,
   ClassId,
   absenceNumber }) => {
-
+  
   if (StageId === "0") StageId = null;
   if (GradeId === "0") GradeId = null;
   if (ClassId === "0") ClassId = null;
   let rows = await absenceSummary(fromDate,toDate,absenceNumber,StageId,GradeId,ClassId);
-  let columns = ["اسم الطالب","الفصل","عدد أيام الغياب","الصف الدراسي","المرحلة","تليفون ولي الأمر"];
   let title = "تقرير غياب";
   let r = [];
   let subHeaders = []; 
@@ -161,25 +158,24 @@ ipcMain.on("getAbsenceReport", async (err, { fromDate,
     subHeaders.push(key);
     r.push(value);
   }
-  // ipcMain.emit()
+  console.log(subHeaders);
+  renderReport({title,rows:r,subHeaders});
 });
 
-// handling action that was generated from renderer process
-ipcMain.on("render-report", async (event, data) => {
+async function renderReport(data, ) {
   try {
     // we defer jsreport initialization on first report render
     // to avoid slowing down the app at start time
     if (!jsreport._initialized) {
       await jsreport.init();
     }
-
     try {
       let cur = __dirname.split("\\");
       cur.pop();
       cur = cur.join("\\");
       const resp = await jsreport.render({
         template: {
-          content: fs.readFileSync(path.join(__dirname, "./report.html")).toString(),
+          content: fs.readFileSync(path.join(__dirname, "./PDFAbsenceReport.html")).toString(),
           engine: "handlebars",
           recipe: "chrome-pdf"
         },
@@ -189,7 +185,6 @@ ipcMain.on("render-report", async (event, data) => {
           bootstrapcss: cur + "/node_modules/bootstrap/dist/css/bootstrap.min.css",
           logo: cur + "/src/assets/images/index.png",
           rows: data.rows,
-          columns : data.columns,
           subHeaders : data.subHeaders,
           title : data.title
         }
@@ -210,14 +205,14 @@ ipcMain.on("render-report", async (event, data) => {
         protocol: "file"
       }));
 
-      event.sender.send("render-finish", {});
     } catch (e) {
+      console.log(e);
       DialogBox(["error while rendering jsreport"], "error", "error while starting jsreport");
     }
   } catch (e) {
     DialogBox(["error while starting jsreport"], "error", "error while starting jsreport");
   }
-});
+}
 
 // listen for dialogboxes
 ipcMain.on("ShowDialogBox", (err, { messages, type, title }) => {
@@ -368,6 +363,9 @@ ipcMain.on("GenerateStudentsSeats", function (err, { gradeId, seatStart, seatSte
     DialogBox(["حدث خطأ برجاء المحاولة مجددا"], "error", "خطأ");
   });
 });
+// ipcMain.on("render-pdf-report", () = {
+  
+// })
 // get essintial Data
 ipcMain.on("getEssentialData", function (err, destination) {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
@@ -414,7 +412,7 @@ ipcMain.on("getEssentialData", function (err, destination) {
     });
   } else if (destination === "studentsAbsentReport") {
     getEssentialData().then((data) => {
-      mainWindow.loadFile(path.join(__dirname, "views/studentsAbsenceReport.html"));
+      mainWindow.loadFile(path.join(__dirname, "views/AbsenceReportSettings.html"));
       ipcMain.on("ScriptLoaded", function cb() {
         mainWindow.webContents.send("sentEssentialData", data.stagesData);
         ipcMain.removeListener("ScriptLoaded", cb);
@@ -693,34 +691,34 @@ ipcMain.on("login", function (event, args) {
   mainWindow.loadFile(path.join(__dirname, "views/loading.html"));
   // load Students
   switch (args[0]) {
-    case "1":
-      if (args[1] === "1234") {
-        CurrentWindow = "expenses";
-        getEssentialData().then((data) => {
-          mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", data);
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
+  case "1":
+    if (args[1] === "1234") {
+      CurrentWindow = "expenses";
+      getEssentialData().then((data) => {
+        mainWindow.loadFile(path.join(__dirname, "views/Expenses.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
         });
-      } else {
-        DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
-      }
-      break;
-    case "2":
-      if (args[1] === "2468") {
-        CurrentWindow = "affairs";
-        getEssentialData().then((data) => {
-          console.log(data);
-          mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
-          ipcMain.on("ScriptLoaded", function cb() {
-            mainWindow.webContents.send("sentEssentialData", data);
-            ipcMain.removeListener("ScriptLoaded", cb);
-          });
+      });
+    } else {
+      DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
+    }
+    break;
+  case "2":
+    if (args[1] === "2468") {
+      CurrentWindow = "affairs";
+      getEssentialData().then((data) => {
+        console.log(data);
+        mainWindow.loadFile(path.join(__dirname, "views/affairsHome.html"));
+        ipcMain.on("ScriptLoaded", function cb() {
+          mainWindow.webContents.send("sentEssentialData", data);
+          ipcMain.removeListener("ScriptLoaded", cb);
         });
-      } else {
-        DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
-      };
+      });
+    } else {
+      DialogBox(["تاكد من كلمة السر"], "error", "خطأ");
+    };
   }
 });
 ipcMain.on("sendStudentIdToMain", (err, studentId) => {
